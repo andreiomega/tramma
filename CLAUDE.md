@@ -186,3 +186,10 @@ Use apenas como inspiração de estrutura, navegação e padrões. **Nunca copie
 - **Aurum Fashion** (themes.laborator.co/aurum/fashion): header com logo, categorias, busca e sacola com contador; home com hero, blocos de categoria, vitrines e faixa promocional; listagem com ordenação, contagem e paginação numerada; produto com breadcrumb, galeria com miniaturas, bloco de compra, informações em seções, avaliações e relacionados.
 - **Hering Super Cotton:** referência de produto (básico premium com página própria) e dos atributos e filtros (tamanho, cor, modelagem, preço).
 - **Monograme** (loja brasileira de camisetas, c. 2012, via Wayback Machine): análise pendente, porque o acesso a web.archive.org está bloqueado neste ambiente.
+
+## Publicação
+
+- Repositório público: https://github.com/andreiomega/tramma (branch `main`).
+- GitHub Pages, publicando a branch `main` na raiz: https://andreiomega.github.io/tramma/ (site em `/site/`, app em `/app/`).
+- Para atualizar: faça o commit e depois `git push`. O Pages republica sozinho em 1 ou 2 minutos.
+- Este repositório usa `http.sslBackend=schannel` (config local), por causa do erro de certificado SSL do Git neste computador.
