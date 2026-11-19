@@ -26,6 +26,8 @@ Estas regras valem para todas as sessões. Em caso de dúvida, pergunte antes de
 ```
 tramma/
 ├── CLAUDE.md
+├── design-system/
+│   └── tokens.md      # fonte da verdade dos tokens (Figma e CSS derivam daqui)
 ├── site/              # site responsivo
 │   ├── index.html     # home
 │   ├── categoria.html
