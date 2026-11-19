@@ -143,6 +143,9 @@ Não crie componentes fora deste inventário sem aprovação.
 - Componentes com variantes e propriedades nomeadas de forma consistente com as classes CSS. Visual sempre ligado a variáveis, nunca a valores fixos.
 - **Nomenclatura de componentes em português**, igual no Figma e no CSS (BEM): componente `Botão primário` ↔ `.botao.botao--primario`; propriedades `Tamanho=P|M|G` (32/48/56) ↔ `.botao--p|m|g`; `Estado=padrão|hover|pressionado|foco|desabilitado` (no CSS viram `:hover`, `:active`, `:focus-visible`, `:disabled`). Tokens seguem em inglês (`strong/weak`), como decidido.
 - Átomos no Figma (página Átomos): Ícone (22 componentes `ícone/nome`), Botão primário/secundário/terciário (3 × 15 variantes, com propriedades Rótulo, Mostrar ícone e Ícone por instance swap), Link, Input, Checkbox, Radio, Badge (tons marca, neutro, sucesso, aviso, erro, info), Tag, Divisor e Estrela (cheia, meia, vazia).
+- Moléculas (página Moléculas): Campo de formulário (padrão/erro), Busca, Stepper, Preço (normal/promoção), Rating, Seletor de cor, Seletor de tamanho, Breadcrumb, Paginação, Alerta (4 tons), Toast.
+- Organismos (página Organismos): Header (desktop/mobile), Footer, Card de produto, Galeria, Filtros, Item da sacola, Resumo do pedido, Drawer da sacola, Etapas do checkout, Modal, Bottom nav, Bottom sheet. Versão básica: ajustes finos virão depois.
+- Ilustração de produto: `design-system/camiseta.svg` (silhueta própria; a cor muda por variação).
 - Uso dos badges na loja: Novo = marca; Mais vendido e Esgotado = neutro; Promoção = sucesso; Últimas unidades = aviso.
 
 ## Marca
