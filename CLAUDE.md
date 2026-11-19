@@ -136,8 +136,11 @@ Não crie componentes fora deste inventário sem aprovação.
 
 ### Figma
 
-- O design system é criado no Figma via MCP, organizado em páginas: **Fundamentos, Átomos, Moléculas, Organismos, Templates**.
-- Coleções de variáveis: primitivos; cores semânticas (modos Light/Dark); tipografia (modos Desktop/Mobile); espaçamento; raios. Componentes com variantes e propriedades nomeadas de forma consistente com as classes CSS.
+- Arquivo: **Tramma — Design System** — https://www.figma.com/design/EHwsPG0mKqBczxQ6r0rtbU (equipe "Experimental"). Criado e editado via MCP.
+- Páginas: **Capa, Fundamentos, Átomos, Moléculas, Organismos, Templates**.
+- Coleções de variáveis: **Primitivos** (modo Valor, ocultas dos seletores); **Cores** (Light/Dark, aliases dos primitivos); **Tipografia** (Desktop/Mobile); **Espaçamento**; **Forma** (raios, bordas, tamanhos de controle e ícone); **Layout** (Mobile/Tablet/Desktop); **Movimento**. Toda variável tem escopo definido e code syntax WEB `var(--nome)`.
+- Text styles (`display`, `heading-1`…`heading-3`, `body-lg`, `body/regular`, `body/semibold`, `small/regular`, `small/semibold`) ligados às variáveis de Tipografia. Effect styles: `shadow/raised` e `shadow/overlay`.
+- Componentes com variantes e propriedades nomeadas de forma consistente com as classes CSS. Visual sempre ligado a variáveis, nunca a valores fixos.
 
 ## Marca
 
