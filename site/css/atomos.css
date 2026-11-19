@@ -1,0 +1,292 @@
+/* =========================================================================
+   TRAMMA — ÁTOMOS
+   Mesmos componentes da página "Átomos" do Figma, com os mesmos nomes:
+   Botão primário ↔ .botao.botao--primario | Tamanho=P/M/G ↔ .botao--p / (padrão) / .botao--g
+   Estado=hover/pressionado/foco/desabilitado ↔ :hover / :active / :focus-visible / :disabled
+   ========================================================================= */
+
+
+/* -------------------------------------------------------------------------
+   BOTÃO
+   Hover e pressionado são CAMADAS: um gradiente de cor única (fill-hover ou
+   fill-press) pintado por cima do background-color. A cor base nunca muda,
+   então um único token serve para todas as hierarquias e para os dois temas.
+   ------------------------------------------------------------------------- */
+.botao {
+  --camada: transparent; /* camada de estado; muda no hover e no active */
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-8);
+  min-height: var(--size-control-md);          /* M = 48px, alvo de toque mínimo */
+  padding: 0 var(--space-24);
+  border: var(--border-width-1) solid transparent;
+  border-radius: var(--radius-8);
+  background-image: linear-gradient(var(--camada), var(--camada));
+  font-size: var(--font-size-body);
+  line-height: var(--font-line-height-body);
+  font-weight: var(--font-weight-semibold);
+  text-decoration: none;
+  cursor: pointer;
+  transition: box-shadow var(--motion-duration-fast) var(--motion-easing-standard);
+}
+.botao:hover { --camada: var(--color-fill-hover); }
+.botao:active { --camada: var(--color-fill-press); }
+
+/* Tamanhos */
+.botao--p {
+  min-height: var(--size-control-sm);          /* 32px: só onde o espaço é curto */
+  padding: 0 var(--space-16);
+  font-size: var(--font-size-small);
+  line-height: var(--font-line-height-small);
+}
+.botao--p .icone { width: var(--size-icon-sm); height: var(--size-icon-sm); }
+.botao .icone { width: var(--size-icon-md); height: var(--size-icon-md); }
+.botao--g {
+  min-height: var(--size-control-lg);          /* 56px: ação de compra */
+  padding: 0 var(--space-32);
+}
+.botao--g .icone { width: var(--size-icon-lg); height: var(--size-icon-lg); }
+.botao--largura-total { width: 100%; }
+
+/* Hierarquias */
+.botao--primario {
+  background-color: var(--color-fill-brand-strong);
+  color: var(--color-text-inverse);
+  box-shadow: var(--shadow-raised);
+}
+.botao--secundario {
+  background-color: transparent;
+  border-color: var(--color-text-brand);
+  color: var(--color-text-brand);
+}
+.botao--terciario {
+  background-color: transparent;
+  color: var(--color-text-brand);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+.botao--terciario:hover { text-decoration: none; }
+
+/* Desabilitado: evite! Prefira manter habilitado e explicar o que falta.
+   Quando necessário, usa os tokens -disabled e perde a sombra. */
+.botao:disabled,
+.botao[aria-disabled="true"] {
+  --camada: transparent;
+  background-color: var(--color-fill-disabled);
+  border-color: transparent;
+  color: var(--color-text-disabled);
+  box-shadow: none;
+  text-decoration: none;
+  cursor: not-allowed;
+}
+.botao--terciario:disabled { background-color: transparent; }
+
+/* Botão só com ícone (fechar, menu, sacola): 48×48 e SEMPRE com nome acessível
+   (aria-label ou texto .visualmente-oculto dentro dele). */
+.botao-icone {
+  --camada: transparent;
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: var(--size-control-md);
+  height: var(--size-control-md);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-8);
+  background: linear-gradient(var(--camada), var(--camada)) transparent;
+  color: var(--color-text-strong);
+  cursor: pointer;
+}
+.botao-icone:hover { --camada: var(--color-fill-hover); }
+.botao-icone:active { --camada: var(--color-fill-press); }
+
+
+/* -------------------------------------------------------------------------
+   INPUT
+   Borda stroke-strong (≥ 3:1). Erro: borda de 2px + fundo + ícone (na molécula).
+   ------------------------------------------------------------------------- */
+.input {
+  width: 100%;
+  min-height: var(--size-control-md);
+  padding: 0 var(--space-16);
+  border: var(--border-width-1) solid var(--color-stroke-strong);
+  border-radius: var(--radius-8);
+  background-color: var(--color-background-raised);
+  color: var(--color-text-strong);
+}
+.input:hover {
+  background-image: linear-gradient(var(--color-fill-hover), var(--color-fill-hover));
+}
+.input::placeholder {
+  color: var(--color-text-weak); /* placeholder só na busca, e com contraste ≥ 4,5:1 */
+}
+.input[aria-invalid="true"] {
+  border: var(--border-width-2) solid var(--color-status-error-strong);
+  background-color: var(--color-status-error-weak);
+}
+.input:disabled {
+  background-color: var(--color-fill-disabled);
+  border-color: var(--color-fill-disabled);
+  color: var(--color-text-disabled);
+}
+/* O anel de foco aparece por fora, mesmo com a borda vermelha de erro. */
+.input:focus-visible {
+  outline: var(--border-width-2) solid var(--color-stroke-focus);
+  outline-offset: 2px;
+}
+
+
+/* -------------------------------------------------------------------------
+   CHECKBOX e RADIO
+   Usamos o <input> nativo (acessível de graça: teclado, leitor de tela,
+   formulário) e só trocamos a aparência com appearance: none.
+   O <label class="opcao"> envolve input + texto: a linha inteira de 48px é clicável.
+   ------------------------------------------------------------------------- */
+.opcao {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  min-height: var(--size-control-md);
+  cursor: pointer;
+}
+
+.checkbox,
+.radio {
+  appearance: none;
+  -webkit-appearance: none;
+  display: inline-grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: var(--size-icon-lg);
+  height: var(--size-icon-lg);
+  border: var(--border-width-2) solid var(--color-stroke-strong);
+  background-color: var(--color-background-raised);
+  cursor: pointer;
+}
+.checkbox { border-radius: var(--radius-4); }
+.radio { border-radius: var(--radius-full); }
+
+.opcao:hover .checkbox,
+.opcao:hover .radio {
+  border-color: var(--color-text-strong);
+}
+
+/* Marcado: preenchimento da marca + check desenhado por máscara SVG
+   (a máscara deixa a cor vir de um token, inclusive no dark mode). */
+.checkbox:checked {
+  border-color: var(--color-fill-brand-strong);
+  background-color: var(--color-fill-brand-strong);
+}
+.checkbox:checked::after {
+  content: "";
+  width: var(--size-icon-md);
+  height: var(--size-icon-md);
+  background-color: var(--color-text-inverse);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+.radio:checked {
+  border-color: var(--color-fill-brand-strong);
+}
+.radio:checked::after {
+  content: "";
+  width: 12px;
+  height: 12px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-fill-brand-strong);
+}
+
+.checkbox:disabled,
+.radio:disabled {
+  border-color: var(--color-fill-disabled);
+  background-color: var(--color-fill-disabled);
+  cursor: not-allowed;
+}
+.opcao:has(:disabled) {
+  color: var(--color-text-disabled);
+  cursor: not-allowed;
+}
+
+
+/* -------------------------------------------------------------------------
+   BADGE — rótulo NÃO interativo (por isso nada de hover ou cursor).
+   Novo = marca; Mais vendido/Esgotado = neutro; Promoção = sucesso;
+   Últimas unidades = aviso.
+   ------------------------------------------------------------------------- */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-4) var(--space-8);
+  border-radius: var(--radius-4);
+  font-size: var(--font-size-small);
+  line-height: var(--font-line-height-small);
+  font-weight: var(--font-weight-semibold);
+  background-color: var(--color-fill-weak);
+  color: var(--color-text-strong);
+}
+.badge--marca   { background-color: var(--color-fill-brand-weak);     color: var(--color-text-brand); }
+.badge--sucesso { background-color: var(--color-status-success-weak); color: var(--color-status-success-strong); }
+.badge--aviso   { background-color: var(--color-status-warning-weak); color: var(--color-status-warning-strong); }
+.badge--erro    { background-color: var(--color-status-error-weak);   color: var(--color-status-error-strong); }
+.badge--info    { background-color: var(--color-status-info-weak);    color: var(--color-status-info-strong); }
+
+
+/* -------------------------------------------------------------------------
+   TAG — pílula de 32px (filtro ativo, opção compacta). É um <button>.
+   ------------------------------------------------------------------------- */
+.tag {
+  --camada: transparent;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-8);
+  min-height: var(--size-control-sm);
+  padding: 0 var(--space-16);
+  border: var(--border-width-1) solid transparent;
+  border-radius: var(--radius-full);
+  background: linear-gradient(var(--camada), var(--camada)) var(--color-fill-weak);
+  color: var(--color-text-strong);
+  font-size: var(--font-size-small);
+  line-height: var(--font-line-height-small);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+}
+.tag:hover { --camada: var(--color-fill-hover); }
+.tag[aria-pressed="true"],
+.tag--selecionada {
+  background-color: var(--color-fill-brand-weak);
+  border-color: var(--color-text-brand);
+  color: var(--color-text-brand);
+}
+.tag .icone { width: var(--size-icon-sm); height: var(--size-icon-sm); }
+
+
+/* -------------------------------------------------------------------------
+   DIVISOR — prefira espaço; use a linha só quando ajudar a separar blocos.
+   ------------------------------------------------------------------------- */
+.divisor {
+  border: 0;
+  border-top: var(--border-width-1) solid var(--color-stroke-weak);
+}
+.divisor--forte {
+  border-top-color: var(--color-stroke-strong);
+}
+
+
+/* -------------------------------------------------------------------------
+   ESTRELA — decorativa (aria-hidden); a nota sempre aparece em texto.
+   A meia estrela usa um gradiente que pinta só a metade esquerda.
+   ------------------------------------------------------------------------- */
+.estrela {
+  width: var(--size-icon-md);
+  height: var(--size-icon-md);
+  color: var(--color-rating-star);
+  fill: currentColor;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+}
+.estrela--vazia { fill: none; }
+.estrela--meia { fill: url(#meia-estrela); }
