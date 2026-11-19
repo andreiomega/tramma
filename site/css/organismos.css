@@ -29,6 +29,11 @@
   font-weight: var(--font-weight-semibold);
   text-decoration: none;
 }
+.header__esquerda {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+}
 .header__nav {
   display: none; /* no mobile, as categorias ficam no menu lateral */
 }
@@ -132,6 +137,7 @@
   display: grid;
   place-items: center;
   aspect-ratio: 4 / 5;
+  overflow: hidden; /* as vistas com zoom não vazam para fora */
   background-color: var(--color-background-sunken);
 }
 .ilustracao svg {

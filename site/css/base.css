@@ -15,6 +15,12 @@
   margin: 0;
 }
 
+/* O atributo hidden sempre vence: sem isso, uma classe com display:flex
+   (como .pilha) faria um elemento "escondido" continuar aparecendo. */
+[hidden] {
+  display: none !important;
+}
+
 img,
 svg {
   display: block;
@@ -85,6 +91,10 @@ body {
 .body-lg {
   font-size: var(--font-size-body-lg);
   line-height: var(--font-line-height-body-lg);
+}
+.body {
+  font-size: var(--font-size-body);
+  line-height: var(--font-line-height-body);
 }
 .small {
   font-size: var(--font-size-small);

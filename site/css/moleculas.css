@@ -94,6 +94,7 @@
    ------------------------------------------------------------------------- */
 .stepper {
   display: inline-flex;
+  align-self: flex-start; /* não estica dentro de uma coluna flex */
   align-items: center;
   border: var(--border-width-1) solid var(--color-stroke-strong);
   border-radius: var(--radius-8);

@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Finalizar compra | Tramma</title>
+  <meta name="description" content="Entrega, pagamento e revisão do pedido.">
+  <!-- Ordem das camadas do CSS = ordem do atomic design -->
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/atomos.css">
+  <link rel="stylesheet" href="css/moleculas.css">
+  <link rel="stylesheet" href="css/organismos.css">
+  <link rel="stylesheet" href="css/paginas.css">
+</head>
+<body>
+  <!-- Primeiro item focável: pula o header direto para o conteúdo -->
+  <a class="pular-link" href="#conteudo">Pular para o conteúdo</a>
+
+  <!-- ORGANISMO: header -->
+  <header class="header">
+    <div class="container">
+      <div class="header__barra">
+        <div class="header__esquerda">
+          <button class="botao-icone header__menu" type="button" data-abrir="drawer-menu" aria-label="Abrir menu">
+            <svg class="icone" aria-hidden="true"><use href="#icone-menu"></use></svg>
+          </button>
+          <a class="header__logo" href="index.html">Tramma</a>
+          <nav class="header__nav" aria-label="Categorias">
+            <ul>
+              <li><a href="categoria.html?categoria=essenciais">Essenciais</a></li>
+              <li><a href="categoria.html?categoria=pesadas">Pesadas</a></li>
+              <li><a href="categoria.html?categoria=manga-longa">Manga longa</a></li>
+              <li><a href="categoria.html?categoria=kits">Kits</a></li>
+            </ul>
+          </nav>
+        </div>
+        <div class="header__acoes">
+          <button class="botao-icone" type="button" data-acao="busca" aria-expanded="false" aria-controls="header-busca" aria-label="Buscar">
+            <svg class="icone" aria-hidden="true"><use href="#icone-busca"></use></svg>
+          </button>
+          <button class="botao-icone" type="button" data-acao="tema" aria-label="Usar tema escuro">
+            <svg class="icone" aria-hidden="true"><use href="#icone-lua"></use></svg>
+          </button>
+          <button class="botao-icone" type="button" data-abrir="drawer-sacola">
+            <svg class="icone" aria-hidden="true"><use href="#icone-sacola"></use></svg>
+            <span class="visualmente-oculto" data-rotulo-sacola>Sacola, 0 itens</span>
+            <span class="header__contador" data-contador-sacola aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>
+      <!-- MOLÉCULA: busca (aberta pelo botão de lupa) -->
+      <div class="header__busca" id="header-busca" hidden>
+        <form class="busca" action="categoria.html" role="search">
+          <label class="visualmente-oculto" for="campo-busca">Buscar camisetas</label>
+          <div class="busca__campo">
+            <svg class="icone" aria-hidden="true"><use href="#icone-busca"></use></svg>
+            <input class="input" id="campo-busca" name="busca" type="search" placeholder="Buscar camisetas" autocomplete="off">
+          </div>
+          <button class="botao botao--primario" type="submit">Buscar</button>
+        </form>
+      </div>
+    </div>
+  </header>
+
+  <main id="conteudo" class="container secao">
+    <!-- TEMPLATE: checkout em 3 etapas. Uma etapa visível por vez. -->
+    <h1 id="titulo-checkout">Finalizar compra</h1>
+
+    <!-- ORGANISMO: etapas do checkout -->
+    <ol class="etapas" id="etapas" aria-label="Etapas da compra">
+      <li aria-current="step">Entrega</li>
+      <li>Pagamento</li>
+      <li>Revisão</li>
+    </ol>
+
+    <div class="alerta alerta--info">
+      <svg class="icone" aria-hidden="true"><use href="#icone-info"></use></svg>
+      <div>
+        <p class="alerta__titulo">Esta é uma loja fictícia</p>
+        <p class="alerta__texto">Nenhum pagamento é processado e nenhum dado sai do seu navegador. Use dados inventados.</p>
+      </div>
+    </div>
+
+    <div class="checkout">
+      <form class="checkout__form" id="form-checkout" novalidate>
+        <!-- Resumo de erros: aparece quando há mais de um erro, com links para cada campo -->
+        <div class="alerta alerta--erro" id="resumo-erros" tabindex="-1" hidden>
+          <svg class="icone" aria-hidden="true"><use href="#icone-erro"></use></svg>
+          <div>
+            <p class="alerta__titulo" id="resumo-erros-titulo"></p>
+            <ul class="alerta__texto" id="resumo-erros-lista"></ul>
+          </div>
+        </div>
+
+        <!-- ETAPA 1: ENTREGA -->
+        <section class="pilha pilha--24" data-etapa="1" aria-labelledby="etapa1-titulo">
+          <h2 id="etapa1-titulo">Entrega</h2>
+
+          <div class="campo">
+            <label class="campo__label" for="nome">Nome completo</label>
+            <p class="campo__erro" id="nome-erro" hidden></p>
+            <input class="input" id="nome" name="nome" autocomplete="name" data-validar="obrigatorio" aria-describedby="nome-erro">
+          </div>
+          <div class="campo">
+            <label class="campo__label" for="email">E-mail</label>
+            <p class="campo__dica" id="email-dica">Enviamos a confirmação do pedido para este endereço.</p>
+            <p class="campo__erro" id="email-erro" hidden></p>
+            <input class="input" id="email" name="email" type="email" autocomplete="email" data-validar="email" aria-describedby="email-dica email-erro">
+          </div>
+          <div class="campo campo--curto">
+            <label class="campo__label" for="cep">CEP</label>
+            <p class="campo__dica" id="cep-dica">Somente números</p>
+            <p class="campo__erro" id="cep-erro" hidden></p>
+            <input class="input" id="cep" name="cep" inputmode="numeric" autocomplete="postal-code" maxlength="9" data-validar="cep" aria-describedby="cep-dica cep-erro">
+          </div>
+          <div class="campo">
+            <label class="campo__label" for="endereco">Endereço</label>
+            <p class="campo__erro" id="endereco-erro" hidden></p>
+            <input class="input" id="endereco" name="endereco" autocomplete="address-line1" data-validar="obrigatorio" aria-describedby="endereco-erro">
+          </div>
+          <div class="campo campo--curto">
+            <label class="campo__label" for="numero">Número</label>
+            <p class="campo__erro" id="numero-erro" hidden></p>
+            <input class="input" id="numero" name="numero" inputmode="numeric" data-validar="obrigatorio" aria-describedby="numero-erro">
+          </div>
+          <div class="campo">
+            <label class="campo__label" for="complemento">Complemento <span class="campo__opcional">(opcional)</span></label>
+            <input class="input" id="complemento" name="complemento" autocomplete="address-line2">
+          </div>
+          <div class="campo">
+            <label class="campo__label" for="cidade">Cidade</label>
+            <p class="campo__erro" id="cidade-erro" hidden></p>
+            <input class="input" id="cidade" name="cidade" autocomplete="address-level2" data-validar="obrigatorio" aria-describedby="cidade-erro">
+          </div>
+          <div class="campo campo--curto">
+            <label class="campo__label" for="uf">Estado (sigla)</label>
+            <p class="campo__erro" id="uf-erro" hidden></p>
+            <input class="input" id="uf" name="uf" autocomplete="address-level1" maxlength="2" data-validar="uf" aria-describedby="uf-erro">
+          </div>
+
+          <fieldset class="grupo">
+            <legend class="grupo__titulo">Tipo de frete</legend>
+            <label class="opcao"><input class="radio" type="radio" name="frete" value="normal" checked> <span>Normal, de 5 a 8 dias úteis <span class="texto-fraco" id="preco-frete-normal"></span></span></label>
+            <label class="opcao"><input class="radio" type="radio" name="frete" value="expresso"> <span>Expresso, de 2 a 3 dias úteis <span class="texto-fraco">R$ 34,90</span></span></label>
+          </fieldset>
+
+          <div class="checkout__botoes">
+            <button class="botao botao--primario botao--g" type="submit">Continuar para pagamento</button>
+          </div>
+        </section>
+
+        <!-- ETAPA 2: PAGAMENTO -->
+        <section class="pilha pilha--24" data-etapa="2" aria-labelledby="etapa2-titulo" hidden>
+          <h2 id="etapa2-titulo">Pagamento</h2>
+          <fieldset class="grupo">
+            <legend class="grupo__titulo">Forma de pagamento</legend>
+            <label class="opcao"><input class="radio" type="radio" name="pagamento" value="pix" checked> Pix</label>
+            <label class="opcao"><input class="radio" type="radio" name="pagamento" value="cartao"> Cartão de crédito</label>
+          </fieldset>
+
+          <p class="texto-fraco leitura" id="info-pix">O código Pix aparece depois que você confirmar o pedido.</p>
+
+          <div class="pilha pilha--24" id="campos-cartao" hidden>
+            <div class="campo">
+              <label class="campo__label" for="cartao-nome">Nome impresso no cartão</label>
+              <p class="campo__erro" id="cartao-nome-erro" hidden></p>
+              <input class="input" id="cartao-nome" autocomplete="off" data-validar="obrigatorio" aria-describedby="cartao-nome-erro">
+            </div>
+            <div class="campo">
+              <label class="campo__label" for="cartao-numero">Número do cartão</label>
+              <p class="campo__dica" id="cartao-numero-dica">Use um número inventado: nada é cobrado.</p>
+              <p class="campo__erro" id="cartao-numero-erro" hidden></p>
+              <input class="input" id="cartao-numero" inputmode="numeric" autocomplete="off" maxlength="23" data-validar="cartao" aria-describedby="cartao-numero-dica cartao-numero-erro">
+            </div>
+            <!-- Campos curtos e relacionados podem ficar lado a lado, dentro da largura da coluna -->
+            <div class="checkout__lado-a-lado">
+              <div class="campo">
+                <label class="campo__label" for="cartao-validade">Validade</label>
+                <p class="campo__dica" id="cartao-validade-dica">MM/AA</p>
+                <p class="campo__erro" id="cartao-validade-erro" hidden></p>
+                <input class="input" id="cartao-validade" inputmode="numeric" autocomplete="off" maxlength="5" data-validar="validade" aria-describedby="cartao-validade-dica cartao-validade-erro">
+              </div>
+              <div class="campo">
+                <label class="campo__label" for="cartao-cvv">Código de segurança</label>
+                <p class="campo__dica" id="cartao-cvv-dica">3 ou 4 números</p>
+                <p class="campo__erro" id="cartao-cvv-erro" hidden></p>
+                <input class="input" id="cartao-cvv" inputmode="numeric" autocomplete="off" maxlength="4" data-validar="cvv" aria-describedby="cartao-cvv-dica cartao-cvv-erro">
+              </div>
+            </div>
+          </div>
+
+          <div class="checkout__botoes">
+            <button class="botao botao--primario botao--g" type="submit">Revisar pedido</button>
+            <button class="botao botao--secundario botao--g" type="button" data-voltar>Voltar para entrega</button>
+          </div>
+        </section>
+
+        <!-- ETAPA 3: REVISÃO -->
+        <section class="pilha pilha--24" data-etapa="3" aria-labelledby="etapa3-titulo" hidden>
+          <h2 id="etapa3-titulo">Revisão</h2>
+          <dl class="ficha" id="revisao"></dl>
+          <div class="checkout__botoes">
+            <button class="botao botao--primario botao--g" type="submit">Confirmar pedido</button>
+            <button class="botao botao--secundario botao--g" type="button" data-voltar>Voltar para pagamento</button>
+          </div>
+        </section>
+      </form>
+
+      <!-- Confirmação (estado final) -->
+      <section class="pilha pilha--24" id="confirmado" tabindex="-1" hidden aria-labelledby="confirmado-titulo">
+        <div class="alerta alerta--sucesso">
+          <svg class="icone" aria-hidden="true"><use href="#icone-sucesso"></use></svg>
+          <div>
+            <h2 class="alerta__titulo body" id="confirmado-titulo">Pedido confirmado</h2>
+            <p class="alerta__texto">Obrigado! Em uma loja real, você receberia a confirmação por e-mail.</p>
+          </div>
+        </div>
+        <div><a class="botao botao--secundario" href="index.html">Voltar para a loja</a></div>
+      </section>
+
+      <!-- ORGANISMO: resumo do pedido -->
+      <aside class="resumo-pedido" aria-labelledby="resumo-titulo">
+        <h2 class="heading-3" id="resumo-titulo">Resumo do pedido</h2>
+        <ul class="lista-resumo" id="resumo-itens"></ul>
+        <dl>
+          <div class="resumo-pedido__linha"><dt>Subtotal</dt><dd id="resumo-subtotal">R$ 0,00</dd></div>
+          <div class="resumo-pedido__linha"><dt>Frete</dt><dd id="resumo-frete">—</dd></div>
+        </dl>
+        <hr class="divisor divisor--forte">
+        <p class="resumo-pedido__linha resumo-pedido__total"><span>Total</span><span id="resumo-total">R$ 0,00</span></p>
+      </aside>
+    </div>
+  </main>
+
+  <!-- ORGANISMO: footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__colunas">
+        <section>
+          <h2>Tramma</h2>
+          <ul>
+            <li><a href="categoria.html">Todas as camisetas</a></li>
+            <li><a href="categoria.html?categoria=essenciais">Essenciais</a></li>
+            <li><a href="categoria.html?categoria=pesadas">Pesadas</a></li>
+          </ul>
+        </section>
+        <section>
+          <h2>Ajuda</h2>
+          <ul>
+            <li><a href="sacola.html">Sua sacola</a></li>
+            <li><a href="produto.html?id=essencial-gola-careca#medidas">Tabela de medidas</a></li>
+            <li><a href="checkout.html">Finalizar compra</a></li>
+          </ul>
+        </section>
+        <section>
+          <h2>Atendimento</h2>
+          <ul>
+            <li class="texto-fraco">Segunda a sexta, das 9h às 18h</li>
+            <li class="texto-fraco">contato@tramma.exemplo</li>
+          </ul>
+        </section>
+      </div>
+      <p class="footer__legal">© 2026 Tramma. Loja fictícia criada para fins didáticos: nenhum produto é vendido de verdade.</p>
+    </div>
+  </footer>
+
+  <!-- ORGANISMO: drawer do menu (mobile). <dialog> nativo: foco preso, Esc fecha. -->
+  <dialog class="drawer drawer--esquerda" id="drawer-menu" aria-labelledby="drawer-menu-titulo">
+    <div class="drawer__cabecalho">
+      <h2 class="heading-3" id="drawer-menu-titulo">Menu</h2>
+      <button class="botao-icone" type="button" data-fechar aria-label="Fechar menu">
+        <svg class="icone" aria-hidden="true"><use href="#icone-fechar"></use></svg>
+      </button>
+    </div>
+    <nav class="drawer__corpo drawer__nav" aria-label="Categorias">
+      <ul>
+        <li><a href="categoria.html">Todas as camisetas</a></li>
+        <li><a href="categoria.html?categoria=essenciais">Essenciais</a></li>
+        <li><a href="categoria.html?categoria=pesadas">Pesadas</a></li>
+        <li><a href="categoria.html?categoria=manga-longa">Manga longa</a></li>
+        <li><a href="categoria.html?categoria=kits">Kits</a></li>
+      </ul>
+    </nav>
+  </dialog>
+
+  <!-- ORGANISMO: drawer da sacola (conteúdo desenhado por js/comum.js) -->
+  <dialog class="drawer" id="drawer-sacola" aria-labelledby="drawer-sacola-titulo">
+    <div class="drawer__cabecalho">
+      <h2 class="heading-3" id="drawer-sacola-titulo">Sacola</h2>
+      <button class="botao-icone" type="button" data-fechar aria-label="Fechar sacola">
+        <svg class="icone" aria-hidden="true"><use href="#icone-fechar"></use></svg>
+      </button>
+    </div>
+    <div class="drawer__corpo" id="drawer-sacola-corpo"></div>
+    <div class="drawer__rodape" id="drawer-sacola-rodape">
+      <p class="resumo-pedido__linha semibold"><span>Subtotal</span><span id="drawer-sacola-subtotal">R$ 0,00</span></p>
+      <p class="small texto-fraco">Frete calculado na finalização da compra.</p>
+      <a class="botao botao--primario botao--g botao--largura-total" href="checkout.html">Finalizar compra</a>
+      <a class="botao botao--secundario botao--g botao--largura-total" href="sacola.html">Ver sacola</a>
+    </div>
+  </dialog>
+
+  <!-- MOLÉCULA: toast. role="status" = aria-live="polite": anuncia sem roubar o foco. -->
+  <div class="toast" id="toast" role="status"></div>
+
+  <!-- Scripts no fim do body: o HTML já existe quando eles rodam -->
+  <script src="js/icones.js"></script>
+  <script src="js/produtos.js"></script>
+  <script src="js/comum.js"></script>
+  <script src="js/checkout.js"></script>
+</body>
+</html>
