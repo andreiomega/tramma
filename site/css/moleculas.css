@@ -329,6 +329,7 @@ input:disabled + .seletor-tamanho__caixa {
   display: flex;
   align-items: center;
   gap: var(--space-16);
+  width: max-content; /* a largura acompanha o texto, sem quebrar à toa */
   max-width: calc(100% - 2 * var(--space-16));
   padding: var(--space-16);
   border-radius: var(--radius-8);

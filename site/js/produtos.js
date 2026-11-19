@@ -110,6 +110,13 @@ var PRODUTOS = [
 
 /* ---------- Funções de apoio (usadas por todas as páginas) ---------- */
 
+/* Endereço da página de um produto. O site usa produto.html?id=…;
+   a versão app substitui esta função para usar as telas internas (#produto/…).
+   Assim, este arquivo pode ser idêntico nas duas pastas. */
+var linkProduto = function (id) {
+  return 'produto.html?id=' + id;
+};
+
 /* Procura um produto pelo id. */
 function buscarProduto(id) {
   for (var i = 0; i < PRODUTOS.length; i++) {
@@ -173,7 +180,7 @@ function cardProdutoHTML(produto) {
       '<div class="ilustracao" style="--cor-produto:' + corInicial + '">' + ilustracaoSVG() + '</div>' +
       badge +
       '<div class="card-produto__conteudo">' +
-        '<h3 class="card-produto__nome body semibold"><a href="produto.html?id=' + produto.id + '">' + produto.nome + '</a></h3>' +
+        '<h3 class="card-produto__nome body semibold"><a href="' + linkProduto(produto.id) + '">' + produto.nome + '</a></h3>' +
         '<p class="small texto-fraco">' + produto.tecido + ' ' + produto.gramatura + ' g/m²</p>' +
         '<p class="card-produto__cores">' + bolinhas +
           '<span>' + extra + '</span>' +

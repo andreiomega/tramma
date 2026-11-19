@@ -46,6 +46,9 @@ tramma/
     └── fonts/
 ```
 
+- As imagens de produto são SVG gerado por JS (`ilustracaoSVG()`), então `img/` só existe quando houver arquivo de imagem.
+- **Arquivos compartilhados idênticos** em `site/` e `app/`: `css/tokens.css`, `base.css`, `atomos.css`, `moleculas.css`, `organismos.css`, `js/icones.js`, `produtos.js`, `comum.js`, `fonts/`. Edite em `site/` e copie para `app/`; confira com `cmp`. O que é só do site fica em `css/paginas.css` e nos scripts de página; o que é só do app fica em `app/css/app.css` e `app/js/app.js`.
+- App: página única com telas por `#hash` (`#inicio`, `#buscar`, `#produto/id`, `#sacola`, `#checkout`, `#confirmado`, `#conta`). `linkProduto()` é sobrescrito no app.
 - `site/` e `app/` são independentes: cada uma tem sua cópia de `css/tokens.css`, fontes e dados, para abrir sozinha via `file://`. O arquivo de tokens deve ser **idêntico** nas duas pastas.
 - Organização do CSS em camadas que espelham o atomic design: `tokens.css` → `base.css` (reset e elementos HTML) → `atomos.css` → `moleculas.css` → `organismos.css` → `paginas.css` (ou `app.css`).
 

@@ -84,9 +84,13 @@ document.addEventListener('click', function (evento) {
     fechar.closest('dialog').close();
     return;
   }
-  /* Clique no overlay (fora do painel) também fecha */
+  /* Clique no overlay (fora do painel) também fecha. O clique no ::backdrop
+     chega como clique no próprio <dialog>; conferimos se foi fora da área dele. */
   if (evento.target.tagName === 'DIALOG') {
-    evento.target.close();
+    var area = evento.target.getBoundingClientRect();
+    var fora = evento.clientX < area.left || evento.clientX > area.right ||
+               evento.clientY < area.top || evento.clientY > area.bottom;
+    if (fora) evento.target.close();
   }
 });
 
@@ -182,7 +186,7 @@ function itemSacolaHTML(item, indice) {
     '<div class="ilustracao" style="--cor-produto:' + cor.hex + '">' + ilustracaoSVG() + '</div>' +
     '<div class="item-sacola__detalhes">' +
       '<div class="item-sacola__topo">' +
-        '<div><p class="item-sacola__nome semibold"><a href="produto.html?id=' + produto.id + '">' + produto.nome + '</a></p>' +
+        '<div><p class="item-sacola__nome semibold"><a href="' + linkProduto(produto.id) + '">' + produto.nome + '</a></p>' +
         '<p class="small texto-fraco">' + cor.nome + ' · ' + item.tamanho + '</p></div>' +
         '<p class="semibold">' + formatarPreco(produto.preco * item.quantidade) + '</p>' +
       '</div>' +
