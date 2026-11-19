@@ -1,0 +1,308 @@
+/* =========================================================================
+   TRAMMA — TOKENS
+   Fonte da verdade: design-system/tokens.md (os mesmos nomes do Figma).
+   Variável do Figma "color/text/strong"  →  custom property "--color-text-strong".
+
+   Duas camadas:
+   1. PRIMITIVOS: a paleta bruta. Só os tokens semânticos usam estes valores.
+   2. SEMÂNTICOS: o que a interface consome. Componentes NUNCA usam primitivos
+      nem valores fixos; assim, trocar o tema é só trocar o primitivo apontado.
+
+   Este arquivo é idêntico em /site/css e /app/css.
+   ========================================================================= */
+
+
+/* -------------------------------------------------------------------------
+   0. Fonte Inter servida localmente (funciona via file://, sem internet).
+   Só dois pesos: 400 (regular) e 600 (semibold). Licença OFL: fonts/LICENSE.txt
+   font-display: swap mostra o texto com a fonte do sistema enquanto a Inter carrega.
+   ------------------------------------------------------------------------- */
+@font-face {
+  font-family: "Inter";
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url("../fonts/inter-latin-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Inter";
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+  src: url("../fonts/inter-latin-600.woff2") format("woff2");
+}
+
+
+/* -------------------------------------------------------------------------
+   1. PRIMITIVOS (não usar direto nos componentes)
+   ------------------------------------------------------------------------- */
+:root {
+  /* Neutros: cinza quente, que lembra algodão cru */
+  --neutro-0: #FFFFFF;
+  --neutro-50: #FAF9F7;
+  --neutro-100: #F2F0EC;
+  --neutro-200: #E4E1DB;
+  --neutro-300: #CBC7BF;
+  --neutro-400: #A29D94;
+  --neutro-500: #7A756C;
+  --neutro-600: #5C5850;
+  --neutro-700: #44413B;
+  --neutro-800: #2E2C29;
+  --neutro-900: #1F1E1C;
+  --neutro-950: #141414;
+  --neutro-1000: #0B0B0A;
+
+  /* Marca: Anil */
+  --anil-50: #EEF1FB;
+  --anil-300: #9DB0EE;
+  --anil-700: #2E4699;
+  --anil-900: #1C2440;
+
+  /* Status (100 e 700 no light; 300 e 900 no dark) */
+  --vermelho-100: #FDECEA;
+  --vermelho-300: #F4A39B;
+  --vermelho-700: #B42318;
+  --vermelho-900: #3D1512;
+  --ambar-100: #FDF3DC;
+  --ambar-300: #E8C26B;
+  --ambar-700: #8A5A00;
+  --ambar-900: #33240A;
+  --verde-100: #E6F4EA;
+  --verde-300: #8FD3A3;
+  --verde-700: #1E7A3C;
+  --verde-900: #12301B;
+  --petroleo-100: #E2F4F6;
+  --petroleo-300: #7FD0DA;
+  --petroleo-700: #0E6E7A;
+  --petroleo-900: #0F2E33;
+
+  /* Estrela de avaliação */
+  --ouro-300: #F5C451;
+  --ouro-500: #B7791F;
+
+  /* Transparências (camadas de hover, press e overlay) */
+  --alfa-escuro-06: rgba(20, 20, 20, 0.06);
+  --alfa-escuro-12: rgba(20, 20, 20, 0.12);
+  --alfa-escuro-50: rgba(20, 20, 20, 0.50);
+  --alfa-claro-08: rgba(255, 255, 255, 0.08);
+  --alfa-claro-16: rgba(255, 255, 255, 0.16);
+  --alfa-preto-64: rgba(0, 0, 0, 0.64);
+}
+
+
+/* -------------------------------------------------------------------------
+   2. SEMÂNTICOS — TEMA LIGHT (padrão)
+   Contrastes calculados (WCAG 2.1) estão em design-system/tokens.md.
+   ------------------------------------------------------------------------- */
+:root {
+  color-scheme: light;
+
+  /* Fundos: sunken < base < raised */
+  --color-background-base: var(--neutro-50);
+  --color-background-raised: var(--neutro-0);
+  --color-background-sunken: var(--neutro-100);
+  --color-background-inverse: var(--neutro-900);
+
+  /* Texto */
+  --color-text-strong: var(--neutro-900);      /* ≥ 14,63:1 */
+  --color-text-weak: var(--neutro-600);        /* ≥ 6,22:1 */
+  --color-text-brand: var(--anil-700);         /* ≥ 7,52:1 — só links e botão terciário */
+  --color-text-inverse: var(--neutro-0);       /* sobre a marca: 8,56:1 */
+  --color-text-disabled: var(--neutro-400);    /* isento de contraste; nunca para conteúdo */
+
+  /* Bordas */
+  --color-stroke-strong: var(--neutro-500);    /* ≥ 4,02:1 — borda de controles */
+  --color-stroke-weak: var(--neutro-200);      /* decorativo (divisores) */
+  --color-stroke-focus: var(--anil-700);       /* anel de foco */
+
+  /* Preenchimentos */
+  --color-fill-brand-strong: var(--anil-700);
+  --color-fill-brand-weak: var(--anil-50);
+  --color-fill-weak: var(--neutro-100);
+  --color-fill-hover: var(--alfa-escuro-06);   /* camada sobre o preenchimento */
+  --color-fill-press: var(--alfa-escuro-12);
+  --color-fill-disabled: var(--neutro-200);
+  --color-fill-overlay: var(--alfa-escuro-50);
+
+  /* Status: strong = texto, ícone e borda; weak = fundo */
+  --color-status-error-strong: var(--vermelho-700);
+  --color-status-error-weak: var(--vermelho-100);
+  --color-status-warning-strong: var(--ambar-700);
+  --color-status-warning-weak: var(--ambar-100);
+  --color-status-success-strong: var(--verde-700);
+  --color-status-success-weak: var(--verde-100);
+  --color-status-info-strong: var(--petroleo-700);
+  --color-status-info-weak: var(--petroleo-100);
+
+  /* Avaliação */
+  --color-rating-star: var(--ouro-500);
+
+  /* Sombras (no light, a sombra é o que mostra a elevação) */
+  --shadow-raised: 0 1px 2px rgba(20, 20, 20, 0.06), 0 2px 8px rgba(20, 20, 20, 0.08);
+  --shadow-overlay: 0 8px 16px rgba(20, 20, 20, 0.10), 0 24px 48px rgba(20, 20, 20, 0.16);
+}
+
+
+/* -------------------------------------------------------------------------
+   3. SEMÂNTICOS — TEMA DARK
+   O mesmo bloco aparece duas vezes:
+   a) quando o sistema do usuário prefere dark E ele não escolheu light na página;
+   b) quando ele escolheu dark pelo botão de tema (data-theme="dark" no <html>).
+   ------------------------------------------------------------------------- */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --color-background-base: var(--neutro-950);
+    --color-background-raised: var(--neutro-900);   /* mais alto = mais claro */
+    --color-background-sunken: var(--neutro-1000);
+    --color-background-inverse: var(--neutro-100);
+    --color-text-strong: var(--neutro-100);
+    --color-text-weak: var(--neutro-400);
+    --color-text-brand: var(--anil-300);
+    --color-text-inverse: var(--neutro-950);
+    --color-text-disabled: var(--neutro-600);
+    --color-stroke-strong: var(--neutro-500);
+    --color-stroke-weak: var(--neutro-800);
+    --color-stroke-focus: var(--anil-300);
+    --color-fill-brand-strong: var(--anil-300);
+    --color-fill-brand-weak: var(--anil-900);
+    --color-fill-weak: var(--neutro-800);
+    --color-fill-hover: var(--alfa-claro-08);
+    --color-fill-press: var(--alfa-claro-16);
+    --color-fill-disabled: var(--neutro-800);
+    --color-fill-overlay: var(--alfa-preto-64);
+    --color-status-error-strong: var(--vermelho-300);
+    --color-status-error-weak: var(--vermelho-900);
+    --color-status-warning-strong: var(--ambar-300);
+    --color-status-warning-weak: var(--ambar-900);
+    --color-status-success-strong: var(--verde-300);
+    --color-status-success-weak: var(--verde-900);
+    --color-status-info-strong: var(--petroleo-300);
+    --color-status-info-weak: var(--petroleo-900);
+    --color-rating-star: var(--ouro-300);
+    --shadow-raised: 0 1px 2px rgba(0, 0, 0, 0.40), 0 2px 8px rgba(0, 0, 0, 0.40);
+    --shadow-overlay: 0 8px 16px rgba(0, 0, 0, 0.50), 0 24px 48px rgba(0, 0, 0, 0.60);
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --color-background-base: var(--neutro-950);
+  --color-background-raised: var(--neutro-900);
+  --color-background-sunken: var(--neutro-1000);
+  --color-background-inverse: var(--neutro-100);
+  --color-text-strong: var(--neutro-100);
+  --color-text-weak: var(--neutro-400);
+  --color-text-brand: var(--anil-300);
+  --color-text-inverse: var(--neutro-950);
+  --color-text-disabled: var(--neutro-600);
+  --color-stroke-strong: var(--neutro-500);
+  --color-stroke-weak: var(--neutro-800);
+  --color-stroke-focus: var(--anil-300);
+  --color-fill-brand-strong: var(--anil-300);
+  --color-fill-brand-weak: var(--anil-900);
+  --color-fill-weak: var(--neutro-800);
+  --color-fill-hover: var(--alfa-claro-08);
+  --color-fill-press: var(--alfa-claro-16);
+  --color-fill-disabled: var(--neutro-800);
+  --color-fill-overlay: var(--alfa-preto-64);
+  --color-status-error-strong: var(--vermelho-300);
+  --color-status-error-weak: var(--vermelho-900);
+  --color-status-warning-strong: var(--ambar-300);
+  --color-status-warning-weak: var(--ambar-900);
+  --color-status-success-strong: var(--verde-300);
+  --color-status-success-weak: var(--verde-900);
+  --color-status-info-strong: var(--petroleo-300);
+  --color-status-info-weak: var(--petroleo-900);
+  --color-rating-star: var(--ouro-300);
+  --shadow-raised: 0 1px 2px rgba(0, 0, 0, 0.40), 0 2px 8px rgba(0, 0, 0, 0.40);
+  --shadow-overlay: 0 8px 16px rgba(0, 0, 0, 0.50), 0 24px 48px rgba(0, 0, 0, 0.60);
+}
+
+
+/* -------------------------------------------------------------------------
+   4. TIPOGRAFIA
+   Mobile-first: os valores abaixo são os de MOBILE; a partir de 600px
+   entram os de DESKTOP (o tablet usa os de desktop, como no Figma).
+   Alturas de linha sempre múltiplas de 4.
+   ------------------------------------------------------------------------- */
+:root {
+  --font-family-base: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-weight-regular: 400;
+  --font-weight-semibold: 600;
+
+  --font-size-display: 36px;      --font-line-height-display: 44px;    --font-letter-spacing-display: -0.5px;
+  --font-size-heading-1: 28px;    --font-line-height-heading-1: 36px;  --font-letter-spacing-heading-1: -0.25px;
+  --font-size-heading-2: 24px;    --font-line-height-heading-2: 32px;  --font-letter-spacing-heading-2: 0;
+  --font-size-heading-3: 20px;    --font-line-height-heading-3: 28px;  --font-letter-spacing-heading-3: 0;
+  --font-size-body-lg: 18px;      --font-line-height-body-lg: 28px;    --font-letter-spacing-body-lg: 0;
+  --font-size-body: 16px;         --font-line-height-body: 24px;       --font-letter-spacing-body: 0;
+  --font-size-small: 14px;        --font-line-height-small: 20px;      --font-letter-spacing-small: 0;
+}
+
+@media (min-width: 600px) {
+  :root {
+    --font-size-display: 48px;    --font-line-height-display: 56px;
+    --font-size-heading-1: 36px;  --font-line-height-heading-1: 44px;
+    --font-size-heading-2: 28px;  --font-line-height-heading-2: 36px;
+  }
+}
+
+
+/* -------------------------------------------------------------------------
+   5. ESPAÇAMENTO, FORMA, LAYOUT E MOVIMENTO
+   ------------------------------------------------------------------------- */
+:root {
+  /* Grade de 8px (o 4 só para ajustes finos) */
+  --space-4: 4px;
+  --space-8: 8px;
+  --space-16: 16px;
+  --space-24: 24px;
+  --space-32: 32px;
+  --space-40: 40px;
+  --space-48: 48px;
+  --space-64: 64px;
+  --space-80: 80px;
+  --space-96: 96px;
+  --space-128: 128px;
+
+  /* Raios: componentes maiores, raios maiores */
+  --radius-4: 4px;
+  --radius-8: 8px;
+  --radius-16: 16px;
+  --radius-full: 9999px;
+
+  /* Bordas e tamanhos */
+  --border-width-1: 1px;
+  --border-width-2: 2px;
+  --size-control-sm: 32px;
+  --size-control-md: 48px;   /* alvo de toque mínimo */
+  --size-control-lg: 56px;
+  --size-icon-sm: 16px;
+  --size-icon-md: 20px;
+  --size-icon-lg: 24px;
+
+  /* Grid: 4 colunas (mobile), 8 (tablet ≥ 600px), 12 (desktop ≥ 1024px).
+     Os breakpoints ficam nas media queries: custom properties não funcionam dentro de @media. */
+  --layout-columns: 4;
+  --layout-gutter: 16px;
+  --layout-margin: 16px;
+  --layout-max-width: 1280px;
+
+  /* Movimento */
+  --motion-duration-fast: 150ms;
+  --motion-duration-base: 250ms;
+  --motion-easing-standard: cubic-bezier(0.2, 0, 0, 1);
+}
+
+@media (min-width: 600px) {
+  :root { --layout-columns: 8; --layout-gutter: 24px; --layout-margin: 32px; }
+}
+@media (min-width: 1024px) {
+  :root { --layout-columns: 12; --layout-margin: 40px; }
+}
+
+/* Quem pede menos movimento no sistema operacional recebe transições instantâneas. */
+@media (prefers-reduced-motion: reduce) {
+  :root { --motion-duration-fast: 0ms; --motion-duration-base: 0ms; }
+}
