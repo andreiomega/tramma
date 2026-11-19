@@ -121,7 +121,7 @@ Exemplos: `--color-text-strong`, `--color-fill-brand-strong`, `--color-backgroun
 
 ### Ícones e imagens
 
-- Ícones em **SVG inline desenhados para o projeto** (outline, grade de 24px, traço de 2px, `currentColor`), reunidos em um sprite `<symbol>` no próprio HTML. Nada de bibliotecas externas. Botão só com ícone exige nome acessível.
+- Ícones em **SVG inline desenhados para o projeto** (outline, grade de 24px, traço de 2px, `currentColor`), reunidos em um sprite `<symbol>` no próprio HTML. A fonte da verdade é `design-system/icones.svg`; o mesmo desenho está nos componentes `ícone/*` do Figma. Nada de bibliotecas externas. Botão só com ícone exige nome acessível.
 - Imagens de produto: **ilustrações SVG próprias** da camiseta (silhuetas por modelagem, coloridas por variação de cor), para não depender de fotos de terceiros. Nunca usar imagens, textos ou marcas das referências.
 
 ### Inventário (só o que o e-commerce usa)
@@ -141,6 +141,9 @@ Não crie componentes fora deste inventário sem aprovação.
 - Coleções de variáveis: **Primitivos** (modo Valor, ocultas dos seletores); **Cores** (Light/Dark, aliases dos primitivos); **Tipografia** (Desktop/Mobile); **Espaçamento**; **Forma** (raios, bordas, tamanhos de controle e ícone); **Layout** (Mobile/Tablet/Desktop); **Movimento**. Toda variável tem escopo definido e code syntax WEB `var(--nome)`.
 - Text styles (`display`, `heading-1`…`heading-3`, `body-lg`, `body/regular`, `body/semibold`, `small/regular`, `small/semibold`) ligados às variáveis de Tipografia. Effect styles: `shadow/raised` e `shadow/overlay`.
 - Componentes com variantes e propriedades nomeadas de forma consistente com as classes CSS. Visual sempre ligado a variáveis, nunca a valores fixos.
+- **Nomenclatura de componentes em português**, igual no Figma e no CSS (BEM): componente `Botão primário` ↔ `.botao.botao--primario`; propriedades `Tamanho=P|M|G` (32/48/56) ↔ `.botao--p|m|g`; `Estado=padrão|hover|pressionado|foco|desabilitado` (no CSS viram `:hover`, `:active`, `:focus-visible`, `:disabled`). Tokens seguem em inglês (`strong/weak`), como decidido.
+- Átomos no Figma (página Átomos): Ícone (22 componentes `ícone/nome`), Botão primário/secundário/terciário (3 × 15 variantes, com propriedades Rótulo, Mostrar ícone e Ícone por instance swap), Link, Input, Checkbox, Radio, Badge (tons marca, neutro, sucesso, aviso, erro, info), Tag, Divisor e Estrela (cheia, meia, vazia).
+- Uso dos badges na loja: Novo = marca; Mais vendido e Esgotado = neutro; Promoção = sucesso; Últimas unidades = aviso.
 
 ## Marca
 
