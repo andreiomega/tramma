@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tramma | Camisetas básicas premium</title>
+  <meta name="description" content="Camisetas básicas de algodão Pima e egípcio, com gramatura e composição informadas. Loja fictícia, criada para aulas.">
+
+  <!-- Ordem dos estilos: tokens → base → componentes → página.
+       Cada arquivo só usa o que veio antes dele. -->
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/home.css">
+</head>
+<body>
+  <!-- Sprite de ícones: Lucide (lucide.dev), licença ISC.
+       Copyright (c) Lucide Contributors 2022; partes (c) Cole Bemis 2013-2022 (Feather, MIT).
+       Fica dentro do HTML porque <use> com arquivo externo não funciona em file://. -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+    <symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+    <symbol id="i-chevron-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+    <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+    <symbol id="i-circle-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24"><rect x="14" y="4" width="4" height="16" rx="1"/><rect x="6" y="4" width="4" height="16" rx="1"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+    <symbol id="i-shopping-bag" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
+  </svg>
+
+  <!-- Primeiro item da página: quem navega pelo teclado pula o cabeçalho. -->
+  <a class="skip-link" href="#main">Pular para o conteúdo</a>
+
+  <!-- ===== Faixa de aviso ===== -->
+  <div class="announcement-bar" id="announcement-bar">
+    <p class="announcement-bar__text">Até 6x sem juros e primeira troca grátis</p>
+    <button type="button" class="button" data-variant="ghost" data-size="icon" data-close aria-label="Fechar aviso">
+      <svg class="icon" data-size="sm" aria-hidden="true" focusable="false"><use href="#i-x"></use></svg>
+    </button>
+  </div>
+
+  <!-- ===== Cabeçalho =====
+       Um HTML só para todas as telas. Abaixo de 1024px: compacto (menu
+       lateral, logo, favoritos e sacola). A partir de 1024px: completo
+       (logo, busca, conta, favoritos, sacola e a navegação com mega menu).
+       Quem some numa largura usa display: none, que também tira o
+       elemento do leitor de tela e do Tab. -->
+  <header class="site-header">
+    <div class="site-header__bar">
+      <div class="site-header__start">
+        <!-- aria-expanded diz ao leitor de tela se o menu está aberto. -->
+        <button type="button" class="button" data-variant="ghost" data-size="icon" id="site-menu-open"
+                aria-label="Abrir menu" aria-haspopup="dialog" aria-expanded="false" aria-controls="site-menu">
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-menu"></use></svg>
+        </button>
+      </div>
+
+      <a class="logo" href="index.html" aria-label="Tramma, página inicial">tramma</a>
+
+      <!-- Busca do cabeçalho: só no desktop. No celular, a busca fica no topo do conteúdo. -->
+      <form class="search site-header__search" role="search" action="busca.html" method="get">
+        <label class="sr-only" for="header-search">Buscar produtos</label>
+        <input class="input" id="header-search" name="q" type="search" placeholder="Buscar camisetas" autocomplete="off">
+        <button type="submit" class="button search__submit" data-variant="ghost" data-size="icon" aria-label="Buscar">
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-search"></use></svg>
+        </button>
+      </form>
+
+      <nav class="site-header__end" aria-label="Atalhos">
+        <!-- Conta: só no desktop. guest = "Entrar" · logged = "Olá, Ana". Texto preenchido pelo JS. -->
+        <a class="button site-header__account" data-variant="ghost" href="entrar.html" id="header-account">
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-user"></use></svg>
+          <span>Entrar</span>
+        </a>
+        <a class="button" data-variant="ghost" data-size="icon" href="favoritos.html" aria-label="Favoritos">
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-heart"></use></svg>
+        </a>
+        <!-- O aria-label com o número de itens é atualizado pelo JS. -->
+        <a class="button counter-anchor" data-variant="ghost" data-size="icon" href="sacola.html" data-bag-link aria-label="Sacola, vazia">
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-shopping-bag"></use></svg>
+          <span class="counter" aria-hidden="true" hidden>0</span>
+        </a>
+      </nav>
+    </div>
+
+    <!-- Navegação principal com mega menu (navigation-menu): só no desktop.
+         Padrão "disclosure navigation" do WAI-ARIA: "Camisetas" é um botão
+         que abre e fecha o painel (aria-expanded); os itens do painel são
+         links comuns, na ordem natural do Tab. Abre no clique, não no
+         hover: hover não existe no toque e abre menus sem querer. -->
+    <nav class="navigation-menu" id="navigation-menu" aria-label="Principal">
+      <ul class="navigation-menu__list" role="list">
+        <li><a class="navigation-menu__link" href="loja.html">Todos os produtos</a></li>
+        <li><a class="navigation-menu__link" href="loja.html?ordem=novidades">Novidades</a></li>
+        <li>
+          <button type="button" class="navigation-menu__trigger" aria-expanded="false" aria-controls="mega-camisetas">
+            Camisetas
+            <svg class="icon" data-size="sm" aria-hidden="true" focusable="false"><use href="#i-chevron-down"></use></svg>
+          </button>
+          <div class="navigation-menu__content" id="mega-camisetas" hidden>
+            <div class="navigation-menu__group">
+              <h2 class="navigation-menu__heading">Por modelo</h2>
+              <ul role="list">
+                <li><a href="categoria.html?c=gola-careca">Gola careca</a></li>
+                <li><a href="categoria.html?c=gola-v">Gola V</a></li>
+                <li><a href="categoria.html?c=henley">Henley</a></li>
+                <li><a href="categoria.html?c=manga-longa">Manga longa</a></li>
+                <li><a href="categoria.html?c=oversized">Oversized</a></li>
+              </ul>
+            </div>
+            <div class="navigation-menu__group">
+              <h2 class="navigation-menu__heading">Por gramatura</h2>
+              <ul role="list">
+                <li><a href="loja.html?gramatura=leve">Leve, até 160 g/m²</a></li>
+                <li><a href="loja.html?gramatura=media">Média, de 180 a 200 g/m²</a></li>
+                <li><a href="loja.html?gramatura=pesada">Pesada, 220 g/m² ou mais</a></li>
+              </ul>
+            </div>
+            <div class="navigation-menu__group">
+              <h2 class="navigation-menu__heading">Destaques</h2>
+              <ul role="list">
+                <li><a href="loja.html?ordem=mais-vendidos">Mais vendidos</a></li>
+                <li><a href="loja.html?promocao=1">Em promoção</a></li>
+                <li><a href="loja.html">Ver todas as camisetas</a></li>
+              </ul>
+            </div>
+          </div>
+        </li>
+        <li><a class="navigation-menu__link" href="loja.html?ordem=mais-vendidos">Mais vendidos</a></li>
+        <li><a class="navigation-menu__link" href="sobre.html">Sobre a Tramma</a></li>
+        <li><a class="navigation-menu__link" href="blog.html">Blog</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ===== Menu do site (sheet) ===== -->
+  <dialog class="sheet" id="site-menu" aria-labelledby="site-menu-title">
+    <div class="sheet__header">
+      <h2 class="sheet__title" id="site-menu-title">Menu</h2>
+      <button type="button" class="button" data-variant="ghost" data-size="icon" data-sheet-close aria-label="Fechar menu">
+        <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-x"></use></svg>
+      </button>
+    </div>
+    <div class="sheet__body">
+      <nav class="sheet__nav" aria-label="Principal">
+        <a class="sheet__link" href="loja.html">Todos os produtos</a>
+        <a class="sheet__link" href="loja.html?ordem=novidades">Novidades</a>
+        <details class="accordion__item">
+          <summary class="accordion__trigger">Categorias
+            <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-chevron-down"></use></svg>
+          </summary>
+          <div class="accordion__content">
+            <a class="sheet__link sheet__sublink" href="categoria.html?c=gola-careca">Gola careca</a>
+            <a class="sheet__link sheet__sublink" href="categoria.html?c=gola-v">Gola V</a>
+            <a class="sheet__link sheet__sublink" href="categoria.html?c=henley">Henley</a>
+            <a class="sheet__link sheet__sublink" href="categoria.html?c=manga-longa">Manga longa</a>
+            <a class="sheet__link sheet__sublink" href="categoria.html?c=oversized">Oversized</a>
+          </div>
+        </details>
+        <a class="sheet__link" href="loja.html?ordem=mais-vendidos">Mais vendidos</a>
+        <a class="sheet__link" href="sobre.html">Sobre a Tramma</a>
+        <a class="sheet__link" href="blog.html">Blog</a>
+      </nav>
+      <!-- Preenchido pelo JS: guest (entrar, criar conta) ou logged (saudação, conta, sair). -->
+      <div class="sheet__account" id="site-menu-account"></div>
+    </div>
+  </dialog>
+
+  <!-- ===== Conteúdo ===== -->
+  <!-- tabindex="-1": permite mandar o foco para cá por JS, sem entrar na ordem do Tab. -->
+  <main id="main" class="container home" tabindex="-1">
+    <!-- O h1 existe para o leitor de tela e para a hierarquia de títulos.
+         Visualmente, a marca já está no cabeçalho. -->
+    <h1 class="sr-only">Tramma, camisetas básicas premium</h1>
+
+    <!-- Região que anuncia "Carregando produtos…" ao leitor de tela. -->
+    <p class="sr-only" id="loading-status" role="status"></p>
+
+    <div class="home-top">
+      <form class="search" role="search" action="busca.html" method="get">
+        <label class="sr-only" for="home-search">Buscar produtos</label>
+        <input class="input" id="home-search" name="q" type="search" placeholder="Buscar camisetas" autocomplete="off">
+        <button type="submit" class="button search__submit" data-variant="ghost" data-size="icon" aria-label="Buscar">
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-search"></use></svg>
+        </button>
+      </form>
+
+      <p class="home-greeting" id="greeting" hidden>Olá, <span data-name></span></p>
+
+      <!-- Slider principal (carousel). Montado pelo home.js a partir dos dados. -->
+      <section class="carousel" id="hero" aria-roledescription="carrossel" aria-label="Destaques"></section>
+    </div>
+
+    <section aria-labelledby="categories-title">
+      <div class="section-head">
+        <h2 id="categories-title">Categorias</h2>
+      </div>
+      <ul class="rail chips" id="categories-list" role="list"></ul>
+    </section>
+
+    <!-- Estado error-load: aparece no lugar das seções de produto. -->
+    <div class="alert home-error" data-variant="destructive" id="home-error" role="alert" hidden>
+      <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-circle-alert"></use></svg>
+      <p class="alert__title">Não foi possível carregar os produtos</p>
+      <div class="alert__body">
+        <p>Verifique sua conexão e tente de novo.</p>
+        <button type="button" class="button" data-variant="outline" id="home-retry">Tentar de novo</button>
+      </div>
+    </div>
+
+    <section id="new-arrivals" aria-labelledby="new-arrivals-title">
+      <div class="section-head">
+        <h2 id="new-arrivals-title">Novidades</h2>
+        <a href="loja.html?ordem=novidades">Ver todas<span class="sr-only"> as novidades</span></a>
+      </div>
+      <ul class="rail" role="list"></ul>
+    </section>
+
+    <!-- Bloco "Ficha técnica": conteúdo fixo, não depende da carga. -->
+    <section class="spec-block" aria-labelledby="spec-title">
+      <div class="spec-block__media">
+        <img src="img/placeholder.svg" alt="Detalhe aproximado da malha de algodão Pima, com a costura dupla da barra" width="800" height="600" loading="lazy">
+      </div>
+      <div class="spec-block__content">
+        <p class="spec-block__eyebrow">Ficha técnica</p>
+        <h2 id="spec-title">O que faz uma camiseta durar</h2>
+        <p>Toda peça mostra gramatura e composição. Você compara antes de comprar, como faria com qualquer produto técnico.</p>
+        <dl class="spec-list">
+          <dt>Gramatura</dt><dd>140 a 280 g/m²</dd>
+          <dt>Fio</dt><dd>Algodão Pima e egípcio, fio longo</dd>
+          <dt>Costura</dt><dd>Dupla na barra e nas mangas</dd>
+          <dt>Gola</dt><dd>Ribana com elastano, não abre</dd>
+        </dl>
+        <a href="sobre.html">Conheça nossos tecidos</a>
+      </div>
+    </section>
+
+    <section id="best-sellers" aria-labelledby="best-sellers-title">
+      <div class="section-head">
+        <h2 id="best-sellers-title">Mais vendidos</h2>
+        <a href="loja.html?ordem=mais-vendidos">Ver todos<span class="sr-only"> os mais vendidos</span></a>
+      </div>
+      <ul class="rail" role="list"></ul>
+    </section>
+
+    <!-- Só logged. -->
+    <section id="recommended" aria-labelledby="recommended-title" hidden>
+      <div class="section-head">
+        <h2 id="recommended-title">Recomendados para você</h2>
+      </div>
+      <ul class="rail" role="list"></ul>
+    </section>
+
+    <!-- Só aparece se houver produtos vistos. -->
+    <section id="recently-viewed" aria-labelledby="recently-viewed-title" hidden>
+      <div class="section-head">
+        <h2 id="recently-viewed-title">Vistos recentemente</h2>
+      </div>
+      <ul class="rail" role="list"></ul>
+    </section>
+  </main>
+
+  <!-- ===== Rodapé ===== -->
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+
+      <!-- Newsletter: estados empty, error-empty, error-invalid, submitting, success, já inscrito. -->
+      <section class="newsletter" id="newsletter" aria-labelledby="newsletter-title">
+        <h2 class="newsletter__title" id="newsletter-title">Receba novidades e ofertas</h2>
+        <!-- novalidate: a validação é nossa, com mensagens em português e no padrão do DS. -->
+        <form class="newsletter__form" novalidate>
+          <div class="field">
+            <label class="label" for="newsletter-email">E-mail</label>
+            <input class="input" id="newsletter-email" name="email" type="email" autocomplete="email" inputmode="email" aria-describedby="newsletter-error">
+            <p class="field__error" id="newsletter-error" hidden>
+              <svg class="icon" data-size="sm" aria-hidden="true" focusable="false"><use href="#i-circle-alert"></use></svg>
+              <span></span>
+            </p>
+          </div>
+          <button type="submit" class="button" data-variant="secondary" data-width="full">Assinar a newsletter</button>
+        </form>
+        <!-- tabindex="-1": recebe o foco depois do envio, para o leitor de tela ler a confirmação. -->
+        <div class="newsletter__done" tabindex="-1" hidden>
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-check"></use></svg>
+          <p></p>
+        </div>
+      </section>
+
+      <nav aria-label="Rodapé">
+        <details class="accordion__item">
+          <summary class="accordion__trigger">Ajuda
+            <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-chevron-down"></use></svg>
+          </summary>
+          <div class="accordion__content site-footer__links">
+            <a href="entrega.html">Entrega e prazos</a>
+            <a href="trocas.html">Trocas e devoluções</a>
+            <a href="rastrear.html">Rastrear pedido</a>
+            <a href="perguntas.html">Perguntas frequentes</a>
+          </div>
+        </details>
+        <details class="accordion__item">
+          <summary class="accordion__trigger">A Tramma
+            <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-chevron-down"></use></svg>
+          </summary>
+          <div class="accordion__content site-footer__links">
+            <a href="sobre.html">Sobre a Tramma</a>
+            <a href="blog.html">Blog</a>
+            <a href="medidas.html">Tabela de medidas</a>
+          </div>
+        </details>
+        <details class="accordion__item">
+          <summary class="accordion__trigger">Minha conta
+            <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-chevron-down"></use></svg>
+          </summary>
+          <div class="accordion__content site-footer__links">
+            <a href="conta.html">Minha conta</a>
+            <a href="pedidos.html">Meus pedidos</a>
+            <a href="favoritos.html">Favoritos</a>
+            <a href="cookies.html">Preferências de cookies</a>
+          </div>
+        </details>
+      </nav>
+
+      <div class="site-footer__meta">
+        <!-- Perfis fictícios: a marca não existe, então os links não levam a lugar nenhum. -->
+        <div class="site-footer__social">
+          <a href="#">Instagram</a>
+          <a href="#">Pinterest</a>
+        </div>
+        <p>Pagamento: Pix, boleto ou cartão de crédito em até 6x sem juros.</p>
+        <p>Tramma é uma loja fictícia, criada para aulas de design de interfaces.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== Avisos (toast) ===== -->
+  <div class="toast-region" id="toast-region" aria-live="polite"></div>
+
+  <!-- ===== Consentimento de cookies (E4) ===== -->
+  <section class="cookie-banner" id="cookie-banner" aria-labelledby="cookie-title" hidden>
+    <h2 class="cookie-banner__title" id="cookie-title">Cookies</h2>
+    <p class="cookie-banner__text">Usamos cookies essenciais para a loja funcionar. Os outros nos ajudam a melhorar o site, e você escolhe se aceita.</p>
+    <div class="cookie-banner__actions">
+      <button type="button" class="button" data-variant="outline" data-consent="all">Aceitar todos</button>
+      <button type="button" class="button" data-variant="outline" data-consent="essential">Só os essenciais</button>
+      <a class="button" data-variant="link" href="cookies.html">Personalizar cookies</a>
+    </div>
+  </section>
+
+  <!-- Scripts: dados → persistência → componentes → página. Sem módulos,
+       para funcionar direto do arquivo (file://). -->
+  <script src="js/data.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/components.js"></script>
+  <script src="js/home.js"></script>
+</body>
+</html>

@@ -1,0 +1,199 @@
+/* =====================================================================
+   Tramma — tokens do design system
+   ---------------------------------------------------------------------
+   Duas camadas:
+   1. PRIMITIVOS: a paleta bruta, com nomes de cor e degrau (--neutral-50).
+      Nenhum componente usa primitivo direto.
+   2. SEMÂNTICOS: o papel na interface (--background, --primary...).
+      Os nomes seguem o shadcn/ui e são os mesmos no Figma.
+   Trocar o tema = trocar só os semânticos. Os componentes nem percebem.
+
+   Arquivo compartilhado: é idêntico em site/ e app/.
+   ===================================================================== */
+
+:root {
+  /* ---------- Primitivos: neutros levemente frios ---------- */
+  --neutral-0:   #FFFFFF;
+  --neutral-50:  #F3F4F1;
+  --neutral-75:  #ECEDEA;
+  --neutral-100: #E6E8E4;
+  --neutral-200: #CDD0CC;
+  --neutral-300: #A3A8AE;
+  --neutral-400: #84898F;
+  --neutral-500: #63686F;
+  --neutral-600: #5A5F66;
+  --neutral-800: #23262A;
+  --neutral-850: #1A1D20;
+  --neutral-900: #15171A;
+  --neutral-950: #111315;
+
+  /* ---------- Primitivos: cobalto (a única cor de marca) ---------- */
+  --cobalt-300: #8FA2FF;
+  --cobalt-600: #2340C8;
+  --cobalt-700: #1A31A0;
+  --cobalt-950: #0B0D12;
+
+  /* ---------- Primitivos: status ---------- */
+  --red-300:   #FF8A80;
+  --red-600:   #C62828;
+  --green-300: #6FD08C;
+  --green-700: #1E7A3C;
+
+  /* ---------- Tipografia ---------- */
+  /* Só Inter, só dois pesos. A hierarquia vem de tamanho e peso, não de fontes diferentes. */
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-weight-regular: 400;
+  --font-weight-semibold: 600;
+
+  /* Escala em rem: respeita o tamanho de fonte que a pessoa escolheu no navegador.
+     O menor tamanho é 14px; nada menor, por legibilidade. */
+  --text-sm:   0.875rem; /* 14px */
+  --text-base: 1rem;     /* 16px */
+  --text-lg:   1.25rem;  /* 20px */
+  --text-xl:   1.5rem;   /* 24px */
+  --text-2xl:  2rem;     /* 32px */
+  --text-3xl:  2.5rem;   /* 40px: só no título do slider no desktop */
+
+  --leading-tight: 1.2;  /* títulos */
+  --leading-normal: 1.5; /* texto corrido */
+
+  /* ---------- Espaço: grade de 8px (o 4 é só para ajustes finos) ---------- */
+  --space-1: 0.25rem; /* 4  */
+  --space-2: 0.5rem;  /* 8  */
+  --space-3: 1rem;    /* 16 */
+  --space-4: 1.5rem;  /* 24 */
+  --space-5: 2rem;    /* 32 */
+  --space-6: 2.5rem;  /* 40 */
+  --space-7: 3rem;    /* 48 */
+  --space-8: 4rem;    /* 64 */
+
+  /* ---------- Forma ---------- */
+  --radius: 4px;          /* direção "Ficha técnica": cantos pequenos, precisos */
+  --radius-full: 999px;   /* contador da sacola e indicadores do slider */
+
+  /* ---------- Movimento ---------- */
+  --duration: 200ms;
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+
+  /* ---------- Camadas (z-index) ---------- */
+  /* Nomeadas para ninguém inventar "z-index: 9999" no meio do código. */
+  --z-header: 10;
+  --z-sheet: 20;
+  --z-toast: 30;
+
+  /* ---------- Layout ---------- */
+  --container-max: 80rem;  /* 1280px: largura máxima do conteúdo */
+  --target-min: 48px;      /* alvo de toque mínimo (regra do projeto) */
+  /* Quebras usadas nos @media (CSS não aceita variável ali):
+     768px = tablet · 1024px = desktop */
+}
+
+/* =====================================================================
+   SEMÂNTICOS — tema claro (padrão)
+   Contraste verificado (WCAG 2.1), no fundo onde cada par aparece:
+   foreground/background 16,27 · foreground/card 17,96
+   muted-foreground/card 6,43 · muted-foreground/muted 5,22
+   primary/card 7,96 · primary/muted 6,45 · primary-foreground/primary 7,96
+   destructive/background 5,09 · destructive-foreground/destructive 5,62
+   success/background 4,87 · success-foreground/success 5,38
+   border/card 3,53 (bordas de controle pedem 3:1)
+   ===================================================================== */
+:root {
+  color-scheme: light;
+
+  --background: var(--neutral-50);
+  --foreground: var(--neutral-900);
+
+  --card: var(--neutral-0);
+  --card-foreground: var(--neutral-900);
+
+  --muted: var(--neutral-100);
+  --muted-foreground: var(--neutral-600);
+
+  --primary: var(--cobalt-600);
+  --primary-hover: var(--cobalt-700);
+  --primary-foreground: var(--neutral-0);
+
+  --secondary: var(--neutral-100);
+  --secondary-hover: var(--neutral-200);
+  --secondary-foreground: var(--neutral-900);
+
+  --destructive: var(--red-600);
+  --destructive-foreground: var(--neutral-0);
+
+  --success: var(--green-700);
+  --success-foreground: var(--neutral-0);
+
+  --border: var(--neutral-400);
+  --input: var(--neutral-400);
+  --ring: var(--cobalt-600);
+
+  --shadow: 0 8px 24px rgb(21 23 26 / 0.16);
+}
+
+/* =====================================================================
+   SEMÂNTICOS — tema escuro
+   Vale quando o sistema pede escuro, a menos que a pessoa tenha
+   escolhido claro (data-theme="light" no <html>), e sempre que
+   data-theme="dark".
+   Contraste verificado:
+   foreground/card 14,40 · muted-foreground/card 7,07 · muted-foreground/muted 6,34
+   primary/card 7,08 · primary/muted 6,35 · primary-foreground/primary 8,13
+   destructive/background 8,16 · destructive-foreground/destructive 8,51
+   success/background 9,82 · success-foreground/success 10,25 · border/card 3,02
+   ===================================================================== */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --background: var(--neutral-950);
+    --foreground: var(--neutral-75);
+    --card: var(--neutral-850);
+    --card-foreground: var(--neutral-75);
+    --muted: var(--neutral-800);
+    --muted-foreground: var(--neutral-300);
+    --primary: var(--cobalt-300);
+    --primary-hover: var(--neutral-75);
+    --primary-foreground: var(--cobalt-950);
+    --secondary: var(--neutral-800);
+    --secondary-hover: var(--neutral-500);
+    --secondary-foreground: var(--neutral-75);
+    --destructive: var(--red-300);
+    --destructive-foreground: var(--cobalt-950);
+    --success: var(--green-300);
+    --success-foreground: var(--cobalt-950);
+    --border: var(--neutral-500);
+    --input: var(--neutral-500);
+    --ring: var(--cobalt-300);
+    --shadow: 0 8px 24px rgb(0 0 0 / 0.5);
+  }
+}
+
+/* Mesmo bloco, para quem escolhe o escuro manualmente. */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --background: var(--neutral-950);
+  --foreground: var(--neutral-75);
+  --card: var(--neutral-850);
+  --card-foreground: var(--neutral-75);
+  --muted: var(--neutral-800);
+  --muted-foreground: var(--neutral-300);
+  --primary: var(--cobalt-300);
+  --primary-hover: var(--neutral-75);
+  --primary-foreground: var(--cobalt-950);
+  --secondary: var(--neutral-800);
+  --secondary-hover: var(--neutral-500);
+  --secondary-foreground: var(--neutral-75);
+  --destructive: var(--red-300);
+  --destructive-foreground: var(--cobalt-950);
+  --success: var(--green-300);
+  --success-foreground: var(--cobalt-950);
+  --border: var(--neutral-500);
+  --input: var(--neutral-500);
+  --ring: var(--cobalt-300);
+  --shadow: 0 8px 24px rgb(0 0 0 / 0.5);
+}
+
+/* Movimento reduzido: as transições somem para quem pediu isso ao sistema. */
+@media (prefers-reduced-motion: reduce) {
+  :root { --duration: 0ms; }
+}
