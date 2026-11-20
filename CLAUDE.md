@@ -85,8 +85,22 @@ O código vem antes do Figma, para não gastar esforço desenhando o que depois 
   - validação no envio, com a lista de erros no topo quando forem vários;
   - espaço dentro de um grupo sempre menor que o espaço entre grupos;
   - texto alinhado à esquerda, em sentence case.
+- **Direção visual: "Ficha técnica"** (escolhida em 20/11/2026). A camiseta é tratada como produto de precisão, e os dados do tecido (gramatura, composição) aparecem na interface.
+  - **Tipografia:** Inter, só os pesos 400 e 600, servida localmente. Nada de outras fontes.
+  - **Cores:** neutros levemente frios e uma cor de marca, azul-cobalto. Valores de partida, todos com contraste verificado:
+
+    | Token | Claro | Escuro |
+    |---|---|---|
+    | `background` | `#F3F4F1` | `#111315` |
+    | `foreground` | `#15171A` | `#ECEDEA` |
+    | `muted-foreground` | `#5A5F66` | `#A3A8AE` |
+    | `primary` | `#2340C8` | `#8FA2FF` |
+    | `primary-foreground` | `#FFFFFF` | `#0B0D12` |
+    | `border` | `#84898F` | `#63686F` |
+
+  - **Cantos:** raio pequeno (4px).
+  - **Fotografia:** estúdio com fundo liso cinza-claro e luz difusa; produto dobrado, pendurado e vestido, sempre no mesmo enquadramento; macros do tecido e da costura.
 - **A definir nas próximas etapas:**
-  - identidade visual: tipografia, cor e estilo de imagem, na etapa de direção visual;
   - nomenclatura dos componentes no código e no Figma, no mapeamento da home;
   - catálogo de produtos.
 
