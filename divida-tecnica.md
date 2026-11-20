@@ -13,6 +13,7 @@ Pontos conhecidos e adiados de propósito. Cada item diz o problema, a proposta 
   - a escolha fica no `localStorage`, e o `lang` do `<html>` acompanha o idioma;
   - preço continua em reais.
 - **Afeta:** todas as páginas. Quanto antes for resolvido, menos texto precisa ser migrado. Também entra na especificação (`inventario.md`), porque é um requisito novo.
+- **Quando:** decidido em 20/11/2026 resolver logo depois da versão app da home, antes da próxima página. Assim a migração cobre só a home (site e app).
 
 ### 2. Faixa de aviso sem botão de fechar
 
