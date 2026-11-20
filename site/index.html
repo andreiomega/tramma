@@ -12,12 +12,30 @@
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/home.css">
+
+  <!-- Foto que ainda não existe vira placeholder. Fica no <head>, antes de
+       qualquer imagem: o evento "error" de imagem não sobe na árvore, por
+       isso escutamos na fase de captura (o true no fim). -->
+  <script>
+    document.addEventListener("error", function (e) {
+      var img = e.target;
+      if (img.tagName === "IMG" && !img.dataset.fallback) {
+        img.dataset.fallback = "true";
+        img.src = "img/placeholder.svg";
+      }
+    }, true);
+  </script>
 </head>
 <body>
   <!-- Sprite de ícones: Lucide (lucide.dev), licença ISC.
        Copyright (c) Lucide Contributors 2022; partes (c) Cole Bemis 2013-2022 (Feather, MIT).
        Fica dentro do HTML porque <use> com arquivo externo não funciona em file://. -->
   <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+    <symbol id="i-badge-percent" viewBox="0 0 24 24"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m15 9-6 6"/><path d="M9 9h.01"/><path d="M15 15h.01"/></symbol>
+    <symbol id="i-credit-card" viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></symbol>
+    <symbol id="i-repeat" viewBox="0 0 24 24"><path d="m17 2 4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="m7 22-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/></symbol>
+    <symbol id="i-truck" viewBox="0 0 24 24"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></symbol>
     <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
     <symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
     <symbol id="i-chevron-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
@@ -39,7 +57,7 @@
 
   <!-- ===== Faixa de aviso ===== -->
   <div class="announcement-bar" id="announcement-bar">
-    <p class="announcement-bar__text">Até 6x sem juros e primeira troca grátis</p>
+    <p class="announcement-bar__text">Novidade: linha Pesada, com malha de até 260 g/m²</p>
     <button type="button" class="button" data-variant="ghost" data-size="icon" data-close aria-label="Fechar aviso">
       <svg class="icon" data-size="sm" aria-hidden="true" focusable="false"><use href="#i-x"></use></svg>
     </button>
@@ -199,18 +217,14 @@
          data-theme="light": o texto fica sobre fotos claras, então o slider é sempre claro. -->
     <section class="carousel" id="hero" data-theme="light" aria-roledescription="carrossel" aria-label="Destaques"></section>
 
-    <!-- O resto da página fica dentro do container. -->
-    <div class="container home-sections">
+    <!-- Faixa de benefícios: fixa, sem rolar sozinha. Montada pelo home.js. -->
+    <section class="benefit-strip" aria-label="Benefícios">
+      <ul class="container benefit-strip__list" id="benefits-list" role="list"></ul>
+    </section>
 
-      <section aria-labelledby="categories-title">
-        <div class="section-head">
-          <h2 id="categories-title">Categorias</h2>
-        </div>
-        <ul class="rail chips" id="categories-list" role="list"></ul>
-      </section>
-
-      <!-- Estado error-load: aparece no lugar das seções de produto. -->
-      <div class="alert home-error" data-variant="destructive" id="home-error" role="alert" hidden>
+    <!-- Estado error-load: aparece no lugar das seções de produto. -->
+    <div class="container home-error-wrap">
+      <div class="alert" data-variant="destructive" id="home-error" role="alert" hidden>
         <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-circle-alert"></use></svg>
         <p class="alert__title">Não foi possível carregar os produtos</p>
         <div class="alert__body">
@@ -218,22 +232,47 @@
           <button type="button" class="button" data-variant="outline" id="home-retry">Tentar de novo</button>
         </div>
       </div>
+    </div>
 
-      <section id="new-arrivals" aria-labelledby="new-arrivals-title">
-        <div class="section-head">
-          <h2 id="new-arrivals-title">Novidades</h2>
-          <a href="loja.html?ordem=novidades">Ver todas<span class="sr-only"> as novidades</span></a>
+    <!-- Vitrine com abas. As abas e os painéis são montados pelo home.js. -->
+    <section class="band" id="showcase" aria-labelledby="showcase-title">
+      <div class="container">
+        <div class="section-head section-head--center">
+          <p class="eyebrow">Vitrine</p>
+          <h2 id="showcase-title">Escolhidas a dedo</h2>
         </div>
-        <ul class="rail" role="list"></ul>
-      </section>
+        <div class="tabs" id="showcase-tabs">
+          <div class="tabs__list" role="tablist" aria-labelledby="showcase-title"></div>
+          <div id="showcase-panels"></div>
+        </div>
+        <div class="section-foot">
+          <a class="button" data-variant="outline" id="showcase-all" href="loja.html">Ver todos os produtos</a>
+        </div>
+      </div>
+    </section>
 
-      <!-- Bloco "Ficha técnica": conteúdo fixo, não depende da carga. -->
-      <section class="spec-block" aria-labelledby="spec-title">
+    <!-- Banner de campanha, na largura toda. Montado pelo home.js. -->
+    <section class="campaign-banner" id="campaign" data-theme="light" aria-labelledby="campaign-title"></section>
+
+    <!-- Mosaico de categorias. -->
+    <section class="band" aria-labelledby="categories-title">
+      <div class="container">
+        <div class="section-head">
+          <h2 id="categories-title">Compre por modelo</h2>
+          <a href="loja.html">Ver todas<span class="sr-only"> as camisetas</span></a>
+        </div>
+        <ul class="category-grid" id="categories-list" role="list"></ul>
+      </div>
+    </section>
+
+    <!-- Bloco "Ficha técnica": conteúdo fixo, não depende da carga. -->
+    <section class="band" data-tone="card" aria-labelledby="spec-title">
+      <div class="container spec-block">
         <div class="spec-block__media">
-          <img src="img/placeholder.svg" alt="Detalhe aproximado da malha de algodão Pima, com a costura dupla da barra" width="800" height="600" loading="lazy">
+          <img src="img/fotos/tecido.jpg" alt="Detalhe aproximado de uma malha de algodão em tom cru" width="800" height="600" loading="lazy">
         </div>
         <div class="spec-block__content">
-          <p class="spec-block__eyebrow">Ficha técnica</p>
+          <p class="eyebrow">Ficha técnica</p>
           <h2 id="spec-title">O que faz uma camiseta durar</h2>
           <p>Toda peça mostra gramatura e composição. Você compara antes de comprar, como faria com qualquer produto técnico.</p>
           <dl class="spec-list">
@@ -244,32 +283,56 @@
           </dl>
           <a href="sobre.html">Conheça nossos tecidos</a>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section id="best-sellers" aria-labelledby="best-sellers-title">
-        <div class="section-head">
-          <h2 id="best-sellers-title">Mais vendidos</h2>
-          <a href="loja.html?ordem=mais-vendidos">Ver todos<span class="sr-only"> os mais vendidos</span></a>
-        </div>
-        <ul class="rail" role="list"></ul>
-      </section>
-
-      <!-- Só logged. -->
-      <section id="recommended" aria-labelledby="recommended-title" hidden>
+    <!-- Só logged. -->
+    <section class="band" id="recommended" aria-labelledby="recommended-title" hidden>
+      <div class="container">
         <div class="section-head">
           <h2 id="recommended-title">Recomendados para você</h2>
         </div>
         <ul class="rail" role="list"></ul>
-      </section>
+      </div>
+    </section>
 
-      <!-- Só aparece se houver produtos vistos. -->
-      <section id="recently-viewed" aria-labelledby="recently-viewed-title" hidden>
+    <!-- Só aparece se houver produtos vistos. -->
+    <section class="band" id="recently-viewed" aria-labelledby="recently-viewed-title" hidden>
+      <div class="container">
         <div class="section-head">
           <h2 id="recently-viewed-title">Vistos recentemente</h2>
         </div>
         <ul class="rail" role="list"></ul>
-      </section>
-    </div>
+      </div>
+    </section>
+
+    <!-- Na vida real: galeria de fotos. -->
+    <section class="band gallery" aria-labelledby="gallery-title">
+      <div class="container">
+        <div class="section-head section-head--center">
+          <p class="eyebrow">Na vida real</p>
+          <h2 id="gallery-title">Feitas para o dia a dia</h2>
+        </div>
+        <ul class="gallery__list" id="gallery-list" role="list"></ul>
+      </div>
+    </section>
+
+    <!-- Sobre a Tramma e perguntas frequentes. -->
+    <section class="band" data-tone="card" aria-labelledby="about-title">
+      <div class="container about">
+        <div class="about__text">
+          <p class="eyebrow">Sobre a Tramma</p>
+          <h2 id="about-title">Camiseta básica, levada a sério</h2>
+          <p>A Tramma faz um produto só, e faz com cuidado: fio longo, malha estável e costura que aguenta lavagem. Em vez de coleção nova a cada estação, a gente melhora as mesmas peças.</p>
+          <a href="sobre.html">Conheça a Tramma</a>
+        </div>
+        <div class="about__faq">
+          <h2 class="about__faq-title">Perguntas frequentes</h2>
+          <div id="faq-list"></div>
+          <a href="perguntas.html">Ver todas as perguntas</a>
+        </div>
+      </div>
+    </section>
   </main>
 
   <!-- ===== Rodapé ===== -->

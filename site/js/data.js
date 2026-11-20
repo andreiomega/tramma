@@ -15,7 +15,9 @@ TRAMMA.rules = {
   installmentsMax: 6,       // até 6x sem juros
   installmentMin: 30,       // parcela mínima de R$ 30
   firstExchangeFree: true,  // primeira troca grátis
-  exchangeDays: 30          // prazo de troca: 30 dias
+  exchangeDays: 30,         // prazo de troca: 30 dias
+  freeShippingMin: 299,     // frete grátis acima de R$ 299
+  pixDiscount: 0.05         // 5% de desconto no Pix
 };
 
 /* ---------- Categorias ---------- */
@@ -100,16 +102,16 @@ TRAMMA.products = [
 TRAMMA.heroSlides = [
   { eyebrow: "Coleção Essencial", title: "A camiseta que dura mais que a estação",
     text: "Algodão Pima de 180 g/m², costura dupla e caimento que não deforma na lavagem.",
-    cta: "Ver a coleção Essencial", href: "categoria.html?c=gola-careca",
-    alt: "Camisetas Essencial dobradas em pilha, nas cores branco, preto e cinza" },
+    cta: "Ver a coleção Essencial", href: "categoria.html?c=gola-careca", image: "img/fotos/slider-1.jpg",
+    alt: "Pessoa vestindo camiseta branca lisa, enquadrada do peito até a cintura" },
   { eyebrow: "Novidade", title: "Oversized Pesada, 260 g/m²",
     text: "Malha encorpada, ombro caído e gola reforçada que não abre.",
-    cta: "Conhecer a Oversized", href: "produto.html?id=oversized-pesada",
-    alt: "Pessoa vestindo a camiseta Oversized Pesada preta" },
+    cta: "Conhecer a Oversized", href: "produto.html?id=oversized-pesada", image: "img/fotos/slider-2.jpg",
+    alt: "Pessoa vestindo camiseta preta lisa, enquadrada do peito até a cintura" },
   { eyebrow: "Sem juros", title: "Em até 6x, e a primeira troca é grátis",
     text: "Errou o tamanho? Você tem 30 dias para trocar, sem custo na primeira vez.",
-    cta: "Ver as regras de troca", href: "trocas.html",
-    alt: "Etiqueta de tamanho costurada na gola de uma camiseta" }
+    cta: "Ver as regras de troca", href: "trocas.html", image: "img/fotos/slider-3.jpg",
+    alt: "Camisetas dobradas em várias cores sobre uma superfície de madeira" }
 ];
 
 /* ---------- Contas de demonstração ----------
@@ -127,3 +129,91 @@ TRAMMA.demoAccounts = {
     bag: [{ id: "essencial-careca", size: "M", color: "Preto", qty: 2 }]
   }
 };
+
+/* ---------- Fotos ----------
+   Banco gratuito (Unsplash/Pexels), com crédito em img/fotos/CREDITOS.md.
+   Cada foto tem um nome de arquivo fixo. Enquanto o arquivo não existe,
+   a página mostra o placeholder (ver o script no <head> do index.html). */
+TRAMMA.photo = {
+  product:  function (id) { return "img/fotos/produto-" + id + ".jpg"; },
+  category: function (id) { return "img/fotos/categoria-" + id + ".jpg"; }
+};
+
+/* ---------- Cores do catálogo (amostras no card) ---------- */
+TRAMMA.colorHex = {
+  "Branco": "#FFFFFF", "Off-white": "#F2EEE6", "Preto": "#15171A", "Cinza mescla": "#A7A9AC",
+  "Cinza chumbo": "#4A4D52", "Azul-marinho": "#1F2A44", "Azul-claro": "#A9C4E2", "Areia": "#D8C8AA",
+  "Verde-oliva": "#6B6B3A", "Marrom": "#5B3E2B", "Azul e branco": "#3B5BA9", "Preto e branco": "#15171A"
+};
+
+/* ---------- Faixa de benefícios (regras da especificação) ---------- */
+TRAMMA.benefits = [
+  { icon: "truck",         title: "Frete grátis",       text: "Nas compras acima de R$ 299" },
+  { icon: "credit-card",   title: "Até 6x sem juros",   text: "Parcela mínima de R$ 30" },
+  { icon: "repeat",        title: "Primeira troca grátis", text: "Em até 30 dias depois da entrega" },
+  { icon: "badge-percent", title: "5% off no Pix",      text: "Desconto no valor dos produtos" }
+];
+
+/* ---------- Vitrine com abas ---------- */
+TRAMMA.showcaseTabs = [
+  { id: "mais-vendidos", label: "Mais vendidos", href: "loja.html?ordem=mais-vendidos",
+    pick: function (p) { return p.isBestSeller; } },
+  { id: "novidades",     label: "Novidades",     href: "loja.html?ordem=novidades",
+    pick: function (p) { return p.isNew; } },
+  { id: "promocoes",     label: "Promoções",     href: "loja.html?promocao=1",
+    pick: function (p) { return !!p.salePrice; } }
+];
+
+/* ---------- Banner de campanha ---------- */
+TRAMMA.campaign = {
+  eyebrow: "Linha Pesada", title: "Malha de 240 a 260 g/m²",
+  text: "Encorpada, opaca e com caimento firme. Feita para durar anos, não estações.",
+  cta: "Ver a linha Pesada", href: "loja.html?gramatura=pesada",
+  image: "img/fotos/campanha.jpg",
+  alt: "Pessoa de costas, com camiseta preta, diante de uma parede de tijolos claros"
+};
+
+/* ---------- Na vida real (galeria) ---------- */
+TRAMMA.gallery = [
+  { image: "img/fotos/vida-real-1.jpg", alt: "Pessoa de camiseta branca lisa num gramado" },
+  { image: "img/fotos/vida-real-2.jpg", alt: "Pessoa de camiseta branca e bolsa marrom numa escada" },
+  { image: "img/fotos/vida-real-3.jpg", alt: "Pessoa de camiseta branca e saia xadrez diante de uma parede verde" },
+  { image: "img/fotos/vida-real-4.jpg", alt: "Pessoa de camiseta preta num museu, com quadros ao fundo" },
+  { image: "img/fotos/vida-real-5.jpg", alt: "Pessoa de camiseta branca lisa com as mãos nos bolsos" },
+  { image: "img/fotos/vida-real-6.jpg", alt: "Pessoa de camiseta preta e jeans diante de uma parede de concreto" }
+];
+
+/* ---------- Perguntas frequentes (home) ---------- */
+TRAMMA.faq = [
+  { q: "O que é gramatura?",
+    a: "É o peso do tecido por metro quadrado (g/m²). Quanto maior, mais encorpada e opaca é a malha. Nossas camisetas vão de 140 g/m² (leves) a 280 g/m² (térmicas)." },
+  { q: "Como escolho o tamanho?",
+    a: "Cada produto tem uma tabela de medidas em centímetros. Compare com uma camiseta que você já tem e gosta do caimento." },
+  { q: "Qual o prazo de entrega?",
+    a: "Depende do CEP. Você vê o prazo e o valor do frete na página do produto, antes de colocar na sacola." },
+  { q: "Como funciona a troca?",
+    a: "Você tem 30 dias depois da entrega para trocar. A primeira troca é grátis: geramos a etiqueta de envio para você." },
+  { q: "Posso pagar com Pix?",
+    a: "Sim. No Pix, você tem 5% de desconto no valor dos produtos. Também aceitamos cartão em até 6x sem juros e boleto." }
+];
+
+/* ---------- Texto alternativo das fotos de produto ----------
+   Descreve a foto que está no arquivo (banco gratuito), não a peça ideal.
+   Quando a foto mudar, o texto muda junto. */
+(function () {
+  var alts = {
+    "essencial-careca":   "Camiseta branca lisa pendurada num cabide, contra uma parede cinza",
+    "essencial-v":        "Camiseta branca lisa estendida sobre a mesa, com folhas e uma câmera ao lado",
+    "pesada-careca":      "Duas camisetas pretas lisas, de manga curta e manga longa, em cabides de madeira",
+    "henley-curta":       "Pessoa vestindo uma henley azul-marinho com botões na gola",
+    "manga-longa-careca": "Camiseta branca de manga longa dobrada, ao lado de um par de tênis brancos",
+    "oversized-pesada":   "Pessoa de óculos vestindo uma camiseta preta larga, em estúdio claro",
+    "linho-careca":       "Camiseta branca lisa pendurada numa parede branca",
+    "henley-longa":       "Duas camisetas dobradas, preta e verde-clara, com galhos de algodão",
+    "leve-v":             "Camiseta branca lisa estendida sobre madeira clara, com limões e um chapéu",
+    "oversized-listrada": "Detalhe de uma camiseta listrada azul e branca, dobrada",
+    "pima-pocket":        "Camiseta azul-clara mesclada pendurada num cabide, contra uma parede branca",
+    "termica-longa":      "Pessoa vestindo camiseta branca de manga longa e calça branca"
+  };
+  TRAMMA.products.forEach(function (p) { p.photoAlt = alts[p.id]; });
+})();

@@ -381,3 +381,6 @@ A mudança entra na etapa de atualização do CLAUDE.md, depois deste inventári
 9. Sem atalho de demonstração. A "conta completa" já traz pedidos em todos os status; os pedidos novos avançam pelo relógio.
 10. **Trocas:** prazo de 30 dias depois da entrega; a primeira troca é sem custo.
 11. **Parcelamento:** até 6x sem juros, com parcela mínima de R$ 30.
+12. **Frete grátis** nas compras acima de R$ 299 (decidido em 20/11/2026, na revisão da home).
+13. **Pix:** 5% de desconto sobre o valor dos produtos.
+14. **Vitrine da home** com abas Mais vendidos, Novidades e Promoções; o catálogo é unissex, sem separação por gênero.

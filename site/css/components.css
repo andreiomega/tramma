@@ -468,25 +468,6 @@
 
 
 /* ---------------------------------------------------------------------
-   CATEGORY CHIP (atalhos de categoria)
-   --------------------------------------------------------------------- */
-.category-chip {
-  display: inline-flex;
-  align-items: center;
-  min-height: var(--target-min);
-  padding: 0 var(--space-3);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--card);
-  color: var(--foreground);
-  font-weight: var(--font-weight-semibold);
-  white-space: nowrap;
-  text-decoration: none;
-}
-.category-chip:hover { color: var(--foreground); background: var(--secondary); }
-
-
-/* ---------------------------------------------------------------------
    CAROUSEL (shadcn: Carousel) — slider principal
    Segue o padrão Carousel do WAI-ARIA Authoring Practices:
    - botão de pausar é o primeiro controle;
@@ -542,7 +523,7 @@
 }
 .carousel__content > * { max-width: 32rem; }
 .carousel__eyebrow { font-size: var(--text-sm); font-weight: var(--font-weight-semibold); }
-.carousel__title { font-size: var(--text-2xl); }
+.carousel__title { font-size: var(--text-3xl); }
 .carousel__content .button { align-self: flex-start; margin-top: var(--space-2); }
 
 /* Controles sobre a foto, na base do slider, alinhados ao container. */
@@ -584,7 +565,7 @@
   /* Laptop e desktop: altura da janela menos o cabeçalho (cerca de 160px). */
   .carousel__slide { height: calc(100svh - 10rem); min-height: 32rem; max-height: 60rem; }
   .carousel__content { justify-content: center; padding-bottom: 0; }
-  .carousel__title { font-size: var(--text-3xl); }
+  .carousel__title { font-size: var(--text-5xl); }
 }
 
 
@@ -749,3 +730,175 @@
   .site-footer__inner { grid-template-columns: 1fr 2fr; gap: var(--space-6); }
   .site-footer__meta { grid-column: 1 / -1; padding-top: var(--space-4); border-top: 1px solid var(--border); }
 }
+
+
+/* =====================================================================
+   ALTA FIDELIDADE — componentes da revisão 2 da home
+   ===================================================================== */
+
+/* ---------- EYEBROW ----------
+   Rótulo curto acima de um título ("Linha Pesada"). Caixa alta com
+   espaço entre letras; peso 600 para não sumir em tamanho pequeno. */
+.eyebrow {
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+
+
+/* ---------- COLOR SWATCH (cores no card) ----------
+   Informação, não controle: não é clicável, por isso não precisa de
+   48px. O nome das cores vai em texto escondido para o leitor de tela.
+   A borda garante que o branco apareça sobre o fundo claro. */
+.color-swatch { display: flex; align-items: center; gap: var(--space-1); font-size: var(--text-sm); color: var(--muted-foreground); }
+.color-swatch__dot {
+  width: 16px;
+  height: 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+}
+
+
+/* ---------- BENEFIT STRIP (faixa de benefícios) ----------
+   Fixa: não rola sozinha. No celular, rolagem lateral com o dedo. */
+.benefit-strip { background: var(--foreground); color: var(--background); }
+.benefit-strip__list {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 80%;
+  gap: var(--space-4);
+  padding-block: var(--space-3);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+}
+.benefit-strip__item { display: flex; align-items: center; gap: var(--space-3); scroll-snap-align: start; }
+.benefit-strip__title { display: block; font-weight: var(--font-weight-semibold); }
+.benefit-strip__text { display: block; font-size: var(--text-sm); opacity: 0.85; }
+
+
+/* ---------- TABS (shadcn: Tabs) ----------
+   Padrão Tabs do WAI-ARIA:
+   - só a aba ativa está no Tab; as setas ← → trocam de aba;
+   - aria-selected marca a ativa; o painel tem role="tabpanel".
+   A aba ativa é marcada por traço embaixo e peso, não só por cor. */
+.tabs__list {
+  display: flex;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+}
+.tabs__trigger {
+  min-height: var(--target-min);
+  padding: 0;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px; /* o traço da aba ativa cobre a linha da lista */
+  background: none;
+  color: var(--muted-foreground);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.tabs__trigger:hover { color: var(--foreground); }
+.tabs__trigger[aria-selected="true"] { color: var(--foreground); border-bottom-color: var(--foreground); }
+.tabs__panel:focus-visible { outline-offset: 8px; }
+
+
+/* ---------- CAMPAIGN BANNER ----------
+   Foto na largura toda, com texto e um botão. Tema claro sempre
+   (data-theme="light"), como o slider. */
+.campaign-banner { position: relative; min-height: 32rem; height: 70svh; max-height: 48rem; background: var(--muted); color: var(--foreground); }
+.campaign-banner__media { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.campaign-banner__content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: var(--space-2);
+  height: 100%;
+  padding-block: var(--space-6);
+}
+.campaign-banner__content > * { max-width: 32rem; }
+.campaign-banner__title { font-size: var(--text-3xl); }
+.campaign-banner__content .button { align-self: flex-start; margin-top: var(--space-2); }
+
+
+/* ---------- CATEGORY TILE ----------
+   Foto + nome. O link envolve tudo: um alvo grande e um nome claro
+   para o leitor de tela (a foto tem alt="" porque o nome já diz tudo). */
+.category-tile { display: grid; gap: var(--space-2); color: var(--foreground); text-decoration: none; }
+.category-tile__media { overflow: hidden; border-radius: var(--radius); background: var(--muted); }
+.category-tile__media img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; transition: transform 400ms var(--ease); }
+.category-tile:hover .category-tile__media img { transform: scale(1.04); }
+.category-tile__name { display: flex; align-items: center; justify-content: space-between; min-height: var(--target-min); font-weight: var(--font-weight-semibold); }
+.category-tile:hover { color: var(--foreground); }
+.category-tile:hover .category-tile__name { text-decoration: underline; }
+@media (prefers-reduced-motion: reduce) { .category-tile:hover .category-tile__media img { transform: none; } }
+
+
+/* ---------- GALLERY ("Na vida real") ---------- */
+.gallery__list {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 70%;
+  gap: var(--space-2);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+}
+.gallery__list > li { scroll-snap-align: start; }
+.gallery__list img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: var(--radius); }
+
+
+@media (min-width: 768px) {
+  .benefit-strip__list { grid-auto-flow: row; grid-template-columns: repeat(4, minmax(0, 1fr)); overflow: visible; }
+  .gallery__list { grid-auto-flow: row; grid-template-columns: repeat(6, minmax(0, 1fr)); overflow: visible; }
+}
+@media (min-width: 992px) {
+  .campaign-banner__content { justify-content: center; }
+  .campaign-banner__title { font-size: var(--text-4xl); }
+}
+
+
+/* ---------- Degradê de leitura (slider e banner) ----------
+   Texto sobre foto só é legível com contraste garantido. Um degradê do
+   fundo claro para transparente fica entre a foto e o texto: embaixo no
+   celular (o texto fica na base), à esquerda no desktop (o texto fica
+   à esquerda). Na área do texto, o fundo é quase opaco (92%), então o
+   contraste fica perto do de texto sobre o fundo liso. */
+.carousel__media::after,
+.campaign-banner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top,
+    color-mix(in srgb, var(--background) 92%, transparent) 0%,
+    color-mix(in srgb, var(--background) 85%, transparent) 40%,
+    transparent 70%);
+}
+.campaign-banner::before { z-index: 0; }
+.campaign-banner__media { z-index: -1; }
+.campaign-banner { isolation: isolate; } /* o z-index negativo fica preso dentro do banner */
+
+@media (min-width: 992px) {
+  .carousel__media::after,
+  .campaign-banner::before {
+    background: linear-gradient(to right,
+      color-mix(in srgb, var(--background) 92%, transparent) 0%,
+      color-mix(in srgb, var(--background) 85%, transparent) 40%,
+      transparent 65%);
+  }
+}
+
+/* Controles do slider sobre a foto: fundo claro próprio, porque a foto
+   atrás deles pode ser escura em qualquer ponto. */
+.carousel__controls .button[data-variant="ghost"],
+.carousel__dots {
+  background: color-mix(in srgb, var(--background) 85%, transparent);
+  border-radius: var(--radius-full);
+}
+.carousel__nav { gap: var(--space-2); }

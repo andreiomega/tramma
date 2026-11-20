@@ -38,6 +38,47 @@ TRAMMA.ui = (function () {
     return Math.max(1, Math.min(r.installmentsMax, Math.floor(value / r.installmentMin)));
   }
 
+  /* ---------- COLOR SWATCH ----------
+     Até 4 bolinhas e "+n". O nome das cores vai por extenso para o leitor de tela. */
+  function swatches(colors) {
+    var shown = colors.slice(0, 4);
+    return '<p class="color-swatch">' +
+      '<span class="sr-only">Cores: ' + colors.map(esc).join(", ") + '.</span>' +
+      shown.map(function (c) {
+        return '<span class="color-swatch__dot" style="background:' + (TRAMMA.colorHex[c] || "#ccc") + '" aria-hidden="true"></span>';
+      }).join("") +
+      (colors.length > 4 ? '<span aria-hidden="true">+' + (colors.length - 4) + '</span>' : '') +
+    '</p>';
+  }
+
+  /* ---------- TABS ----------
+     Padrão Tabs do WAI-ARIA, com ativação automática: a seta já mostra
+     o painel (os painéis são leves, não carregam nada novo). */
+  function initTabs(root, onChange) {
+    if (!root) return;
+    var tabs = Array.prototype.slice.call(root.querySelectorAll('[role="tab"]'));
+    function select(tab, moveFocus) {
+      tabs.forEach(function (t) {
+        var on = t === tab;
+        t.setAttribute("aria-selected", String(on));
+        t.tabIndex = on ? 0 : -1; // só a aba ativa entra no Tab
+        document.getElementById(t.getAttribute("aria-controls")).hidden = !on;
+      });
+      if (moveFocus) tab.focus();
+      if (onChange) onChange(tab);
+    }
+    tabs.forEach(function (tab, i) {
+      tab.addEventListener("click", function () { select(tab, false); });
+      tab.addEventListener("keydown", function (e) {
+        var next = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: tabs.length - 1 }[e.key];
+        if (next === undefined) return;
+        e.preventDefault();
+        select(tabs[(next + tabs.length) % tabs.length], true);
+      });
+    });
+    select(tabs[0], false);
+  }
+
   /* ---------- PRODUCT CARD ---------- */
 
   function productCard(p, favorites) {
@@ -71,7 +112,7 @@ TRAMMA.ui = (function () {
       '<article class="product-card"' + (soldOut ? ' data-state="sold-out"' : '') + '>' +
         '<div class="product-card__media">' +
           // Placeholder até as fotos existirem: o alt já descreve a foto final.
-          '<img src="img/placeholder.svg" alt="' + esc(p.name) + ', vista de frente sobre fundo cinza-claro" width="400" height="500" loading="lazy">' +
+          '<img src="' + TRAMMA.photo.product(p.id) + '" alt="' + esc(p.photoAlt || p.name) + '" width="400" height="500" loading="lazy">' +
           (badges.length ? '<div class="product-card__badges">' +
             badges.map(function (b) { return '<span class="badge" data-variant="' + b[0] + '">' + b[1] + '</span>'; }).join("") +
           '</div>' : '') +
@@ -81,6 +122,7 @@ TRAMMA.ui = (function () {
         '</div>' +
         '<h3 class="product-card__name"><a class="product-card__link" href="produto.html?id=' + p.id + '">' + esc(p.name) + '</a></h3>' +
         '<p class="product-card__spec">' + p.weight + ' g/m² · ' + esc(p.composition) + '</p>' +
+        swatches(p.colors) +
         '<p class="rating">' + rating + '</p>' +
         '<p class="price">' + price + '</p>' +
       '</article>';
@@ -429,6 +471,7 @@ TRAMMA.ui = (function () {
   }
 
   return {
+    initTabs: initTabs,
     renderHeaderAccount: renderHeaderAccount,
     initNavigationMenu: initNavigationMenu,
     initFooterColumns: initFooterColumns,

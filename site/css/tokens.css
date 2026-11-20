@@ -52,7 +52,14 @@
   --text-lg:   1.25rem;  /* 20px */
   --text-xl:   1.5rem;   /* 24px */
   --text-2xl:  2rem;     /* 32px */
-  --text-3xl:  2.5rem;   /* 40px: só no título do slider no desktop */
+  --text-3xl:  2.5rem;   /* 40px */
+  /* Tamanhos de vitrine: só em títulos de slider e de banner. */
+  --text-4xl:  3rem;     /* 48px */
+  --text-5xl:  4rem;     /* 64px */
+
+  /* Rótulos curtos em caixa alta (abas, eyebrows, benefícios):
+     o espaço extra entre letras compensa a caixa alta, que fica apertada. */
+  --tracking-wide: 0.08em;
 
   --leading-tight: 1.2;  /* títulos */
   --leading-normal: 1.5; /* texto corrido */
@@ -66,6 +73,8 @@
   --space-6: 2.5rem;  /* 40 */
   --space-7: 3rem;    /* 48 */
   --space-8: 4rem;    /* 64 */
+  --space-9: 5rem;    /* 80: entre seções no desktop */
+  --space-10: 6rem;   /* 96 */
 
   /* ---------- Forma ---------- */
   --radius: 4px;          /* direção "Ficha técnica": cantos pequenos, precisos */
