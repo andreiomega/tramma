@@ -1,9 +1,0 @@
-<!--
-  Tramma — ilustração base da camiseta (fonte da verdade, usada no Figma e no site).
-  A cor do tecido vem de "fill"; no HTML, o JavaScript troca essa cor conforme a variação escolhida.
-  viewBox 200×200, silhueta própria, sem fotos de terceiros.
--->
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
-  <path d="M70 30 L50 38 L20 62 L34 88 L52 78 L52 175 L148 175 L148 78 L166 88 L180 62 L150 38 L130 30 C124 42 112 48 100 48 C88 48 76 42 70 30 Z"
-        fill="#1F2A44" stroke="rgba(0,0,0,0.13)" stroke-width="1.5" stroke-linejoin="round"/>
-</svg>

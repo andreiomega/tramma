@@ -1,5 +1,0 @@
-Inter — Copyright (c) 2016 The Inter Project Authors (https://github.com/rsms/inter)
-
-Arquivos inter-latin-400.woff2 e inter-latin-600.woff2 (subconjunto latino, via Fontsource).
-Licenciada sob a SIL Open Font License, Version 1.1: https://openfontlicense.org
-A licença permite usar, estudar, modificar e redistribuir a fonte junto com este projeto.
