@@ -168,3 +168,94 @@ tramma/
 5. **Downloads do passo 2:**
    - fonte Inter (OFL);
    - ícones Lucide (ISC), com o aviso de licença no código.
+
+---
+
+# Revisão 2 — alta fidelidade (20/11/2026)
+
+A estrutura acima foi aprovada e está no código. Esta revisão leva a home para alta fidelidade, com a loja da Insider (insiderstore.com.br) como benchmarking. Da Insider vem só a estrutura; visual, textos e marca continuam nossos.
+
+## 7. Layout (feito, aguardando aprovação)
+
+- Quebras, container e gutter com os valores do Bootstrap 5. A tabela está no `tokens.css`.
+- Grade de 12 colunas, a mesma do Figma: 4 colunas no celular, 8 no tablet e 12 a partir do laptop.
+- Slider na largura toda da tela, com altura quase total e troca por deslize de 600 ms.
+
+## 8. Seções da home, nova ordem
+
+| # | Seção | Situação | Web mobile | Web desktop |
+|---|---|---|---|---|
+| 1 | Faixa de aviso | muda: passa a anunciar campanha (os benefícios fixos vão para a seção 6) | ● | ● |
+| 2 | Cabeçalho | igual | ● | ● |
+| 3 | Busca e saudação | igual | ● | ● |
+| 4 | Slider com foto de pessoas vestindo as peças | muda: foto real, título maior | ● | ● |
+| 5 | **Faixa de benefícios**: 3 itens com ícone, fixa (sem rolar sozinha) | nova | ● rolagem lateral | ● em linha |
+| 6 | **Vitrine com abas**: Mais vendidos · Novidades · Promoções, e o botão "Ver todos" | nova; substitui as seções Novidades e Mais vendidos | ● | ● |
+| 7 | **Banner de campanha** na largura toda: foto, título, 1 botão | nova | ● | ● |
+| 8 | **Mosaico de categorias** com foto | nova; substitui os botões de texto | ● 2 colunas | ● 5 colunas |
+| 9 | Ficha técnica | igual, com foto real do tecido | ● | ● |
+| 10 | Recomendados para você (`logged`) | igual | ● | ● |
+| 11 | Vistos recentemente | igual | ● | ● |
+| 12 | **Na vida real**: galeria de fotos de pessoas usando as peças | nova | ● rolagem lateral | ● 6 fotos em linha |
+| 13 | **Sobre a Tramma** (texto curto) e **Perguntas frequentes** em sanfona | nova | ● | ● texto e perguntas lado a lado |
+| 14 | Newsletter e rodapé | igual | ● | ● |
+
+**Não entram, por ferirem nossas regras:**
+- pop-up de desconto que interrompe a navegação;
+- contagem regressiva (urgência falsa);
+- faixa que rola sozinha sem pausa;
+- texto pequeno e claro sobre foto.
+
+## 9. Componentes novos
+
+| Componente | shadcn | Uso | Estados |
+|---|---|---|---|
+| `tabs` | Tabs | vitrine | aba ativa · foco; padrão Tabs do WAI-ARIA (setas trocam de aba) |
+| `benefit-strip` | — | faixa de benefícios | — |
+| `campaign-banner` | — | banner de campanha | — |
+| `category-tile` | — | mosaico de categorias | normal · foco · hover |
+| `color-swatch` | — | cores no card de produto | até 4 cores e "+n"; o nome da cor fica em texto escondido |
+| `gallery` | — | "Na vida real" | — |
+
+O `accordion` já existe e passa a servir também às perguntas frequentes.
+
+## 10. Estilos de alta fidelidade
+
+A direção "Ficha técnica" continua: Inter 400/600, neutros frios e cobalto.
+
+- **Tipografia de vitrine:**
+  - tokens novos `--text-4xl` (48px) e `--text-5xl` (64px), só para títulos de slider e de banner;
+  - rótulos curtos em caixa alta com `--tracking-wide` (0,08em): abas, eyebrows e benefícios.
+- **Ritmo:** tokens novos `--space-9` (80px) e `--space-10` (96px) entre as seções no desktop.
+- **Card de produto:**
+  - foto 4:5 em fundo de estúdio;
+  - selos nos cantos;
+  - amostras de cor;
+  - ficha técnica;
+  - preço em destaque e parcelamento abaixo.
+- **Cor:**
+  - fundo das seções alternando `background` e `card`, para separar blocos sem linhas;
+  - promoção em `destructive`, sempre com texto.
+- **Texto sobre foto:** o slider e os banners usam `data-theme="light"`. O texto fica numa área lisa da foto, ou sobre um degradê que garanta 4,5:1.
+
+## 11. Imagens (decidido: banco gratuito)
+
+- **Fonte:** Unsplash ou Pexels. As duas licenças permitem uso gratuito, inclusive comercial, sem pedir autorização.
+- **Crédito:** um arquivo `site/img/fotos/CREDITOS.md`, com autor e link de cada foto. Não é obrigatório, mas é boa prática e material de aula.
+- **Tamanho:** baixadas já redimensionadas pela própria URL do banco, com até 1600px no slider e 800px nos cards, em JPG.
+- **Lista mínima (cerca de 30 fotos):**
+  - slider: 3, de pessoas vestindo camiseta básica;
+  - banner de campanha: 1;
+  - categorias: 5, uma por modelo;
+  - produtos: 12, uma por camiseta, de preferência no mesmo estilo (fundo claro);
+  - ficha técnica: 1, um detalhe do tecido;
+  - "Na vida real": 6.
+- **Risco:** achar 12 fotos de produto coerentes entre si. Se não houver, os cards usam fotos de pessoas vestindo, com o mesmo corte 4:5.
+
+## 12. Decisões pendentes
+
+1. **Faixa de benefícios:** a especificação só garante 2 benefícios ("até 6x sem juros" e "primeira troca grátis"). Proposta: criar 2 regras novas e registrar na especificação:
+   - frete grátis acima de R$ 299;
+   - 5% de desconto no Pix.
+2. **Abas da vitrine:** Mais vendidos · Novidades · Promoções. A Insider separa por gênero, mas o nosso catálogo é unissex.
+3. **Seleção das fotos:** monto a lista com link, autor e tamanho de cada uma e peço sua aprovação antes de baixar.

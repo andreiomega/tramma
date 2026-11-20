@@ -73,6 +73,7 @@
 
   /* ---------- Movimento ---------- */
   --duration: 200ms;
+  --duration-slide: 600ms; /* deslize do slider: mais lento, para o olho acompanhar */
   --ease: cubic-bezier(0.2, 0, 0, 1);
 
   /* ---------- Camadas (z-index) ---------- */
@@ -81,11 +82,29 @@
   --z-sheet: 20;
   --z-toast: 30;
 
-  /* ---------- Layout ---------- */
-  --container-max: 80rem;  /* 1280px: largura máxima do conteúdo */
+  /* ---------- Layout: valores do Bootstrap 5 ----------
+     Usamos só os números do Bootstrap (não a biblioteca), para o código
+     e a grade do Figma falarem a mesma língua de um padrão de mercado.
+
+     | Faixa          | Quebra | Tela a partir de | Container | Colunas no Figma |
+     | Mobile         | xs     | 0                | 100%      | 4                |
+     | Mobile grande  | sm     | 576px            | 540px     | 4                |
+     | Tablet         | md     | 768px            | 720px     | 8                |
+     | Laptop         | lg     | 992px            | 960px     | 12               |
+     | Desktop        | xl     | 1200px           | 1140px    | 12               |
+     | Desktop grande | xxl    | 1400px           | 1320px    | 12               |
+
+     As quebras não viram variável porque CSS não aceita var() dentro de
+     @media. Elas aparecem escritas em cada @media, sempre estes 5 valores. */
+  --gutter: 1.5rem;                         /* 24px entre colunas (Bootstrap) */
+  --container-padding: calc(var(--gutter) / 2); /* 12px de cada lado (Bootstrap) */
+  --container-sm: 540px;
+  --container-md: 720px;
+  --container-lg: 960px;
+  --container-xl: 1140px;
+  --container-xxl: 1320px;
+
   --target-min: 48px;      /* alvo de toque mínimo (regra do projeto) */
-  /* Quebras usadas nos @media (CSS não aceita variável ali):
-     768px = tablet · 1024px = desktop */
 }
 
 /* =====================================================================
@@ -98,7 +117,10 @@
    success/background 4,87 · success-foreground/success 5,38
    border/card 3,53 (bordas de controle pedem 3:1)
    ===================================================================== */
-:root {
+/* [data-theme="light"] também vale num trecho da página: o slider fica
+   sempre claro, porque o texto dele fica sobre fotos de fundo claro. */
+:root,
+[data-theme="light"] {
   color-scheme: light;
 
   --background: var(--neutral-50);
@@ -195,5 +217,5 @@
 
 /* Movimento reduzido: as transições somem para quem pediu isso ao sistema. */
 @media (prefers-reduced-motion: reduce) {
-  :root { --duration: 0ms; }
+  :root { --duration: 0ms; --duration-slide: 0ms; }
 }

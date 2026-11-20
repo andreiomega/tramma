@@ -1,8 +1,8 @@
 /* =====================================================================
    Tramma — layout da home no site (I1)
    Só a distribuição das seções. A aparência de cada peça está no
-   components.css. Mobile-first: esta é a base; telas maiores entram
-   na etapa do web desktop, em @media (min-width: ...).
+   components.css. Mobile-first: a base é o celular; as telas maiores
+   entram nas quebras do Bootstrap (768, 992...).
    ===================================================================== */
 
 /* O <main> recebe foco por JS (tabindex="-1") em algumas trocas de estado.
@@ -11,15 +11,15 @@
 
 /* Ritmo vertical: o espaço ENTRE seções (48px) é maior que o espaço
    DENTRO de cada seção (16 a 24px). É isso que agrupa visualmente. */
-.home { display: grid; gap: var(--space-7); padding-top: var(--space-3); }
+.home { display: grid; gap: var(--space-4); padding-top: var(--space-3); }
+.home-sections { display: grid; gap: var(--space-7); padding-top: var(--space-4); }
 /* Item de grade cresce até caber o conteúdo (min-width: auto). Sem isto,
    as listas horizontais esticariam a página para além da tela. */
-.home > *, .home-top > * { min-width: 0; }
+.home > *, .home-top > *, .home-sections > * { min-width: 0; }
 
-/* Topo: busca, saudação e slider formam um grupo, com espaço menor entre si. */
+/* Topo: busca e saudação. */
 .home-top { display: grid; gap: var(--space-3); }
 .home-greeting { font-size: var(--text-xl); }
-.home-greeting[hidden] { display: none; }
 
 /* Cabeçalho de seção: título à esquerda, "Ver todos" à direita. */
 .section-head {
@@ -31,25 +31,23 @@
 }
 .section-head a { display: inline-flex; align-items: center; min-height: var(--target-min); }
 
-section[hidden] { display: none; }
-
-/* ---------- Listas com rolagem horizontal ----------
-   No celular, a lista rola para o lado e o card seguinte aparece pela
-   metade: a pessoa percebe que há mais conteúdo. O scroll-snap faz o
-   card parar alinhado. A rolagem é nativa: funciona com dedo, mouse,
-   trackpad e teclado (Tab passa pelos links dos cards).
-   A lista sangra até a borda da tela (margem negativa) para o corte
-   ficar na borda, e não no meio da página. */
+/* ---------- Listas com rolagem horizontal (celular) ----------
+   A lista rola para o lado e o card seguinte aparece pela metade: a
+   pessoa percebe que há mais conteúdo. O scroll-snap faz o card parar
+   alinhado. A rolagem é nativa: funciona com dedo, mouse, trackpad e
+   teclado (Tab passa pelos links dos cards).
+   A lista sangra até a borda da tela (margem negativa do tamanho do
+   padding do container) para o corte ficar na borda. */
 .rail {
   display: grid;
   grid-auto-flow: column;
   grid-auto-columns: 44%;
   gap: var(--space-3);
-  margin: 0 calc(var(--space-3) * -1);
-  padding: 0 var(--space-3) var(--space-2);
+  margin: 0 calc(var(--container-padding) * -1);
+  padding: 0 var(--container-padding) var(--space-2);
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  scroll-padding-inline: var(--space-3);
+  scroll-padding-inline: var(--container-padding);
   overscroll-behavior-x: contain;
 }
 .rail > li { scroll-snap-align: start; }
@@ -73,44 +71,42 @@ section[hidden] { display: none; }
 .spec-list dt { color: var(--muted-foreground); padding-right: var(--space-4); }
 .spec-list dd { font-weight: var(--font-weight-semibold); }
 
-/* Erro de carga ocupa o lugar das seções de produto. */
-.home-error[hidden] { display: none; }
-
 
 /* =====================================================================
-   TELAS MAIORES
+   TELAS MAIORES — usam a grade de 12 colunas (a mesma do Figma)
    ===================================================================== */
 
 @media (min-width: 768px) {
-  /* As listas viram grades de 4 colunas: cabem todos os cards sem rolar. */
+  /* Tablet em diante: as listas viram grade de 12 colunas, e cada card
+     ocupa 3 delas (4 cards por linha). */
   .rail {
     grid-auto-flow: row;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: var(--space-4) var(--space-3);
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: var(--space-5) var(--gutter);
     margin: 0;
     padding: 0;
     overflow: visible;
   }
+  .rail > li { grid-column: span 3; }
+
   /* Categorias quebram linha em vez de rolar. */
   .chips { display: flex; flex-wrap: wrap; gap: var(--space-2); }
 
-  /* Slider: texto e imagem lado a lado. A imagem vai para a direita só no
-     visual (order); no HTML o texto continua depois da imagem. */
-  .carousel__slide { grid-template-columns: 1fr 1fr; align-items: center; }
-  .carousel__media { order: 2; height: 100%; }
-  .carousel__media img { height: 100%; }
-  .carousel__content { padding: var(--space-6); }
-
-  /* Ficha técnica: imagem e texto lado a lado. */
-  .spec-block { grid-template-columns: 1fr 1fr; align-items: center; gap: var(--space-6); }
+  /* Ficha técnica: 6 colunas para a imagem, 6 para o texto. */
+  .spec-block { grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--gutter); align-items: center; }
+  .spec-block__media { grid-column: span 6; }
+  .spec-block__content { grid-column: span 6; }
 }
 
-@media (min-width: 1024px) {
-  .home { gap: var(--space-8); padding-top: var(--space-5); }
+@media (min-width: 992px) {
+  .home-sections { gap: var(--space-8); padding-top: var(--space-5); }
 
   /* A busca está no cabeçalho; a do topo do conteúdo sai. */
   .home-top > .search { display: none; }
+  /* Sem a busca, o topo só tem a saudação (quando logado). */
+  .home { padding-top: 0; gap: 0; }
+  .home-greeting { padding-block: var(--space-3); }
 
-  .carousel__content { padding: var(--space-8); }
-  .carousel__title { font-size: var(--text-3xl); }
+  /* Ficha técnica: o texto ocupa 5 colunas e deixa 1 de respiro. */
+  .spec-block__content { grid-column: 8 / span 5; }
 }

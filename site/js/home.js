@@ -80,22 +80,9 @@
     var slides = TRAMMA.heroSlides;
     var hero = document.getElementById("hero");
     hero.innerHTML =
-      '<div class="carousel__viewport" aria-live="off">' +
-        slides.map(function (s, i) {
-          return '<div class="carousel__slide" role="group" aria-roledescription="slide" aria-label="' + (i + 1) + ' de ' + slides.length + '"' + (i ? ' hidden' : '') + '>' +
-            '<div class="carousel__media"><img src="img/placeholder.svg" alt="' + ui.esc(s.alt) + '" width="800" height="600"></div>' +
-            '<div class="carousel__content">' +
-              '<p class="carousel__eyebrow">' + ui.esc(s.eyebrow) + '</p>' +
-              // h2: o h1 da página é o título "Tramma", escondido visualmente.
-              '<h2 class="carousel__title">' + ui.esc(s.title) + '</h2>' +
-              '<p>' + ui.esc(s.text) + '</p>' +
-              '<a class="button" href="' + s.href + '">' + ui.esc(s.cta) + '</a>' +
-            '</div>' +
-          '</div>';
-        }).join("") +
-      '</div>' +
-      '<div class="carousel__controls">' +
-        // O botão de pausar vem primeiro na ordem do teclado (padrão APG).
+      // Os controles vêm ANTES dos slides no HTML: assim o botão de pausar
+      // é o primeiro item do Tab (padrão APG). No visual, ficam na base.
+      '<div class="carousel__controls"><div class="container carousel__controls-inner">' +
         '<button type="button" class="button" data-variant="ghost" data-size="icon" data-carousel-toggle></button>' +
         '<div class="carousel__dots">' +
           slides.map(function (s, i) {
@@ -105,6 +92,22 @@
         '<div class="carousel__nav">' +
           '<button type="button" class="button" data-variant="ghost" data-size="icon" data-carousel-prev aria-label="Slide anterior">' + ui.icon("chevron-left") + '</button>' +
           '<button type="button" class="button" data-variant="ghost" data-size="icon" data-carousel-next aria-label="Próximo slide">' + ui.icon("chevron-right") + '</button>' +
+        '</div>' +
+      '</div></div>' +
+      '<div class="carousel__viewport" aria-live="off">' +
+        '<div class="carousel__track">' +
+          slides.map(function (s, i) {
+            return '<div class="carousel__slide" role="group" aria-roledescription="slide" aria-label="' + (i + 1) + ' de ' + slides.length + '">' +
+              '<div class="carousel__media"><img src="img/placeholder.svg" alt="' + ui.esc(s.alt) + '" width="1600" height="900"></div>' +
+              '<div class="carousel__content container">' +
+                '<p class="carousel__eyebrow">' + ui.esc(s.eyebrow) + '</p>' +
+                // h2: o h1 da página é o título "Tramma", escondido visualmente.
+                '<h2 class="carousel__title">' + ui.esc(s.title) + '</h2>' +
+                '<p>' + ui.esc(s.text) + '</p>' +
+                '<a class="button" href="' + s.href + '">' + ui.esc(s.cta) + '</a>' +
+              '</div>' +
+            '</div>';
+          }).join("") +
         '</div>' +
       '</div>';
     ui.initCarousel(hero);

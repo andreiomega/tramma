@@ -194,6 +194,7 @@ TRAMMA.ui = (function () {
     var slides = root.querySelectorAll(".carousel__slide");
     var dots = root.querySelectorAll(".carousel__dot");
     var viewport = root.querySelector(".carousel__viewport");
+    var track = root.querySelector(".carousel__track");
     var toggle = root.querySelector("[data-carousel-toggle]");
     var current = 0;
     var timer = null;
@@ -205,7 +206,10 @@ TRAMMA.ui = (function () {
 
     function show(index, byUser) {
       current = (index + slides.length) % slides.length;
-      slides.forEach(function (s, i) { s.hidden = i !== current; });
+      // O trilho desliza; os slides fora de vista ficam inert (fora do Tab
+      // e do leitor de tela), mas continuam visíveis durante o deslize.
+      track.style.transform = "translateX(" + (-100 * current) + "%)";
+      slides.forEach(function (s, i) { s.inert = i !== current; });
       dots.forEach(function (d, i) {
         if (i === current) d.setAttribute("aria-current", "true");
         else d.removeAttribute("aria-current");

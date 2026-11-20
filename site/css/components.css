@@ -252,7 +252,9 @@
 @media (prefers-reduced-motion: reduce) { .skeleton { animation: none; } }
 
 .skeleton[data-shape="media"] { aspect-ratio: 4 / 5; }
-.skeleton[data-shape="hero"] { aspect-ratio: 3 / 4; } /* altura parecida com a do slide */
+/* Mesma altura do slider, para a página não pular quando ele carregar. */
+.skeleton[data-shape="hero"] { height: min(80svh, 44rem); min-height: 28rem; border-radius: 0; }
+@media (min-width: 992px) { .skeleton[data-shape="hero"] { height: calc(100svh - 10rem); min-height: 32rem; max-height: 60rem; } }
 .skeleton[data-shape="line"] { height: 1em; }
 .skeleton[data-shape="line-short"] { height: 1em; width: 60%; }
 
@@ -415,7 +417,7 @@
   grid-template-columns: 1fr auto 1fr; /* logo sempre no centro */
   align-items: center;
   min-height: 56px;
-  padding-inline: var(--space-1);
+  /* No celular, o .container dá 12px de margem; os botões de 48px já têm folga interna. */
 }
 .site-header__start { display: flex; }
 .site-header__end { display: flex; justify-content: flex-end; gap: var(--space-1); }
@@ -489,28 +491,69 @@
    Segue o padrão Carousel do WAI-ARIA Authoring Practices:
    - botão de pausar é o primeiro controle;
    - passa sozinho, mas para com o mouse em cima ou o foco dentro;
-   - com prefers-reduced-motion, começa pausado;
-   - só o slide atual está visível; os outros ficam com hidden (fora do
-     tab e do leitor de tela);
+   - com prefers-reduced-motion, começa pausado e troca sem deslizar;
+   - os slides fora de vista ficam com inert (fora do Tab e do leitor
+     de tela), mas continuam no layout para o deslize funcionar;
    - aria-live="polite" só quando a troca é manual.
    estados: data-state="playing" | "paused"
+
+   Ocupa a largura toda da tela (sangra para fora do container) e quase
+   a altura toda, como os sliders de loja de moda. O texto fica sobre a
+   foto; por isso o slider usa sempre o tema claro (data-theme="light"
+   no HTML): as fotos são de estúdio, com fundo cinza-claro, nos dois temas.
    --------------------------------------------------------------------- */
-.carousel { display: grid; gap: var(--space-2); }
+.carousel {
+  position: relative;
+  overflow: hidden;
+  background: var(--muted);
+  color: var(--foreground);
+}
 
-.carousel__viewport { border-radius: var(--radius); overflow: hidden; background: var(--card); }
+/* Trilho: os slides ficam lado a lado e o trilho desliza. */
+.carousel__track {
+  display: flex;
+  transition: transform var(--duration-slide) var(--ease);
+}
+.carousel__slide {
+  position: relative;
+  flex: 0 0 100%;
+  height: min(80svh, 44rem);
+  min-height: 28rem;
+}
 
-.carousel__slide { display: grid; }
-.carousel__slide[hidden] { display: none; }
-.carousel__slide:not([hidden]) { animation: carousel-fade var(--duration) var(--ease); }
-@keyframes carousel-fade { from { opacity: 0; } }
+.carousel__media,
+.carousel__media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 
-.carousel__media img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
-.carousel__content { display: grid; gap: var(--space-2); justify-items: start; padding: var(--space-4) var(--space-3); }
-.carousel__eyebrow { font-size: var(--text-sm); color: var(--muted-foreground); }
+/* O texto se alinha ao container da página, mesmo com o slider sangrando. */
+.carousel__content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: var(--space-2);
+  height: 100%;
+  padding-bottom: calc(var(--target-min) + var(--space-6)); /* espaço para os controles */
+}
+.carousel__content > * { max-width: 32rem; }
+.carousel__eyebrow { font-size: var(--text-sm); font-weight: var(--font-weight-semibold); }
 .carousel__title { font-size: var(--text-2xl); }
-.carousel__content .button { margin-top: var(--space-2); }
+.carousel__content .button { align-self: flex-start; margin-top: var(--space-2); }
 
-.carousel__controls { display: flex; align-items: center; justify-content: space-between; }
+/* Controles sobre a foto, na base do slider, alinhados ao container. */
+.carousel__controls {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: var(--space-3);
+  z-index: 1;
+}
+.carousel__controls-inner { display: flex; align-items: center; justify-content: space-between; }
 .carousel__dots { display: flex; }
 
 /* O ponto é pequeno (8px), mas o botão em volta tem 48px: alvo de toque grande. */
@@ -530,11 +573,19 @@
   height: 8px;
   border: 1px solid var(--foreground);
   border-radius: var(--radius-full);
+  transition: width var(--duration) var(--ease);
 }
 /* Atual: o ponto fica cheio e mais largo. Forma e preenchimento, não só cor. */
 .carousel__dot[aria-current="true"]::before { width: 24px; background: var(--foreground); }
 
 .carousel__nav { display: flex; }
+
+@media (min-width: 992px) {
+  /* Laptop e desktop: altura da janela menos o cabeçalho (cerca de 160px). */
+  .carousel__slide { height: calc(100svh - 10rem); min-height: 32rem; max-height: 60rem; }
+  .carousel__content { justify-content: center; padding-bottom: 0; }
+  .carousel__title { font-size: var(--text-3xl); }
+}
 
 
 /* ---------------------------------------------------------------------
@@ -602,7 +653,7 @@
 /* =====================================================================
    VERSÕES PARA TELAS MAIORES
    Mobile-first: tudo acima é o celular. Aqui só entra o que muda.
-   768px = tablet · 1024px = desktop
+   Quebras do Bootstrap: 576 (sm) · 768 (md, tablet) · 992 (lg, laptop) · 1200 (xl) · 1400 (xxl)
    ===================================================================== */
 
 /* Peças do cabeçalho que só existem no desktop. */
@@ -627,15 +678,12 @@
   .site-footer__links a { min-height: 40px; } /* lista vertical com 8px entre itens */
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 992px) {
   /* ---------- Cabeçalho completo ---------- */
   .site-header__bar {
     grid-template-columns: auto 1fr auto; /* logo · busca · conta e ícones */
-    gap: var(--space-5);
-    max-width: var(--container-max);
-    min-height: 72px;
-    margin-inline: auto;
-    padding-inline: var(--space-5);
+    gap: var(--gutter);
+    min-height: 72px; /* largura e margens vêm da classe .container no HTML */
   }
   .site-header__start { display: none; } /* o menu lateral não é usado no desktop */
   .site-header__search { display: block; width: 100%; max-width: 32rem; justify-self: center; }

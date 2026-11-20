@@ -52,7 +52,7 @@
        Quem some numa largura usa display: none, que também tira o
        elemento do leitor de tela e do Tab. -->
   <header class="site-header">
-    <div class="site-header__bar">
+    <div class="site-header__bar container">
       <div class="site-header__start">
         <!-- aria-expanded diz ao leitor de tela se o menu está aberto. -->
         <button type="button" class="button" data-variant="ghost" data-size="icon" id="site-menu-open"
@@ -174,7 +174,7 @@
 
   <!-- ===== Conteúdo ===== -->
   <!-- tabindex="-1": permite mandar o foco para cá por JS, sem entrar na ordem do Tab. -->
-  <main id="main" class="container home" tabindex="-1">
+  <main id="main" class="home" tabindex="-1">
     <!-- O h1 existe para o leitor de tela e para a hierarquia de títulos.
          Visualmente, a marca já está no cabeçalho. -->
     <h1 class="sr-only">Tramma, camisetas básicas premium</h1>
@@ -182,7 +182,7 @@
     <!-- Região que anuncia "Carregando produtos…" ao leitor de tela. -->
     <p class="sr-only" id="loading-status" role="status"></p>
 
-    <div class="home-top">
+    <div class="container home-top">
       <form class="search" role="search" action="busca.html" method="get">
         <label class="sr-only" for="home-search">Buscar produtos</label>
         <input class="input" id="home-search" name="q" type="search" placeholder="Buscar camisetas" autocomplete="off">
@@ -193,77 +193,83 @@
 
       <p class="home-greeting" id="greeting" hidden>Olá, <span data-name></span></p>
 
-      <!-- Slider principal (carousel). Montado pelo home.js a partir dos dados. -->
-      <section class="carousel" id="hero" aria-roledescription="carrossel" aria-label="Destaques"></section>
     </div>
 
-    <section aria-labelledby="categories-title">
-      <div class="section-head">
-        <h2 id="categories-title">Categorias</h2>
-      </div>
-      <ul class="rail chips" id="categories-list" role="list"></ul>
-    </section>
+    <!-- Slider principal (carousel), na largura toda da tela. Montado pelo home.js.
+         data-theme="light": o texto fica sobre fotos claras, então o slider é sempre claro. -->
+    <section class="carousel" id="hero" data-theme="light" aria-roledescription="carrossel" aria-label="Destaques"></section>
 
-    <!-- Estado error-load: aparece no lugar das seções de produto. -->
-    <div class="alert home-error" data-variant="destructive" id="home-error" role="alert" hidden>
-      <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-circle-alert"></use></svg>
-      <p class="alert__title">Não foi possível carregar os produtos</p>
-      <div class="alert__body">
-        <p>Verifique sua conexão e tente de novo.</p>
-        <button type="button" class="button" data-variant="outline" id="home-retry">Tentar de novo</button>
+    <!-- O resto da página fica dentro do container. -->
+    <div class="container home-sections">
+
+      <section aria-labelledby="categories-title">
+        <div class="section-head">
+          <h2 id="categories-title">Categorias</h2>
+        </div>
+        <ul class="rail chips" id="categories-list" role="list"></ul>
+      </section>
+
+      <!-- Estado error-load: aparece no lugar das seções de produto. -->
+      <div class="alert home-error" data-variant="destructive" id="home-error" role="alert" hidden>
+        <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-circle-alert"></use></svg>
+        <p class="alert__title">Não foi possível carregar os produtos</p>
+        <div class="alert__body">
+          <p>Verifique sua conexão e tente de novo.</p>
+          <button type="button" class="button" data-variant="outline" id="home-retry">Tentar de novo</button>
+        </div>
       </div>
+
+      <section id="new-arrivals" aria-labelledby="new-arrivals-title">
+        <div class="section-head">
+          <h2 id="new-arrivals-title">Novidades</h2>
+          <a href="loja.html?ordem=novidades">Ver todas<span class="sr-only"> as novidades</span></a>
+        </div>
+        <ul class="rail" role="list"></ul>
+      </section>
+
+      <!-- Bloco "Ficha técnica": conteúdo fixo, não depende da carga. -->
+      <section class="spec-block" aria-labelledby="spec-title">
+        <div class="spec-block__media">
+          <img src="img/placeholder.svg" alt="Detalhe aproximado da malha de algodão Pima, com a costura dupla da barra" width="800" height="600" loading="lazy">
+        </div>
+        <div class="spec-block__content">
+          <p class="spec-block__eyebrow">Ficha técnica</p>
+          <h2 id="spec-title">O que faz uma camiseta durar</h2>
+          <p>Toda peça mostra gramatura e composição. Você compara antes de comprar, como faria com qualquer produto técnico.</p>
+          <dl class="spec-list">
+            <dt>Gramatura</dt><dd>140 a 280 g/m²</dd>
+            <dt>Fio</dt><dd>Algodão Pima e egípcio, fio longo</dd>
+            <dt>Costura</dt><dd>Dupla na barra e nas mangas</dd>
+            <dt>Gola</dt><dd>Ribana com elastano, não abre</dd>
+          </dl>
+          <a href="sobre.html">Conheça nossos tecidos</a>
+        </div>
+      </section>
+
+      <section id="best-sellers" aria-labelledby="best-sellers-title">
+        <div class="section-head">
+          <h2 id="best-sellers-title">Mais vendidos</h2>
+          <a href="loja.html?ordem=mais-vendidos">Ver todos<span class="sr-only"> os mais vendidos</span></a>
+        </div>
+        <ul class="rail" role="list"></ul>
+      </section>
+
+      <!-- Só logged. -->
+      <section id="recommended" aria-labelledby="recommended-title" hidden>
+        <div class="section-head">
+          <h2 id="recommended-title">Recomendados para você</h2>
+        </div>
+        <ul class="rail" role="list"></ul>
+      </section>
+
+      <!-- Só aparece se houver produtos vistos. -->
+      <section id="recently-viewed" aria-labelledby="recently-viewed-title" hidden>
+        <div class="section-head">
+          <h2 id="recently-viewed-title">Vistos recentemente</h2>
+        </div>
+        <ul class="rail" role="list"></ul>
+      </section>
     </div>
-
-    <section id="new-arrivals" aria-labelledby="new-arrivals-title">
-      <div class="section-head">
-        <h2 id="new-arrivals-title">Novidades</h2>
-        <a href="loja.html?ordem=novidades">Ver todas<span class="sr-only"> as novidades</span></a>
-      </div>
-      <ul class="rail" role="list"></ul>
-    </section>
-
-    <!-- Bloco "Ficha técnica": conteúdo fixo, não depende da carga. -->
-    <section class="spec-block" aria-labelledby="spec-title">
-      <div class="spec-block__media">
-        <img src="img/placeholder.svg" alt="Detalhe aproximado da malha de algodão Pima, com a costura dupla da barra" width="800" height="600" loading="lazy">
-      </div>
-      <div class="spec-block__content">
-        <p class="spec-block__eyebrow">Ficha técnica</p>
-        <h2 id="spec-title">O que faz uma camiseta durar</h2>
-        <p>Toda peça mostra gramatura e composição. Você compara antes de comprar, como faria com qualquer produto técnico.</p>
-        <dl class="spec-list">
-          <dt>Gramatura</dt><dd>140 a 280 g/m²</dd>
-          <dt>Fio</dt><dd>Algodão Pima e egípcio, fio longo</dd>
-          <dt>Costura</dt><dd>Dupla na barra e nas mangas</dd>
-          <dt>Gola</dt><dd>Ribana com elastano, não abre</dd>
-        </dl>
-        <a href="sobre.html">Conheça nossos tecidos</a>
-      </div>
-    </section>
-
-    <section id="best-sellers" aria-labelledby="best-sellers-title">
-      <div class="section-head">
-        <h2 id="best-sellers-title">Mais vendidos</h2>
-        <a href="loja.html?ordem=mais-vendidos">Ver todos<span class="sr-only"> os mais vendidos</span></a>
-      </div>
-      <ul class="rail" role="list"></ul>
-    </section>
-
-    <!-- Só logged. -->
-    <section id="recommended" aria-labelledby="recommended-title" hidden>
-      <div class="section-head">
-        <h2 id="recommended-title">Recomendados para você</h2>
-      </div>
-      <ul class="rail" role="list"></ul>
-    </section>
-
-    <!-- Só aparece se houver produtos vistos. -->
-    <section id="recently-viewed" aria-labelledby="recently-viewed-title" hidden>
-      <div class="section-head">
-        <h2 id="recently-viewed-title">Vistos recentemente</h2>
-      </div>
-      <ul class="rail" role="list"></ul>
-    </section>
   </main>
 
   <!-- ===== Rodapé ===== -->

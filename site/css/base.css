@@ -122,21 +122,22 @@ a:hover { color: var(--primary-hover); }
 }
 .skip-link:focus { transform: none; color: var(--background); }
 
-/* Recipiente com margens laterais e largura máxima. */
+/* ---------- Container (igual ao .container do Bootstrap) ----------
+   Ocupa a tela toda no celular e ganha largura máxima fixa a partir de
+   cada quebra. O padding lateral é metade do gutter (12px). */
 .container {
   width: 100%;
-  max-width: var(--container-max);
   margin-inline: auto;
-  padding-inline: var(--space-3);
+  padding-inline: var(--container-padding);
 }
+@media (min-width: 576px)  { .container { max-width: var(--container-sm); } }
+@media (min-width: 768px)  { .container { max-width: var(--container-md); } }
+@media (min-width: 992px)  { .container { max-width: var(--container-lg); } }
+@media (min-width: 1200px) { .container { max-width: var(--container-xl); } }
+@media (min-width: 1400px) { .container { max-width: var(--container-xxl); } }
 
 /* Trava a rolagem da página enquanto um painel está aberto. */
 body[data-scroll-lock] { overflow: hidden; }
-
-/* Desktop: margens laterais maiores. */
-@media (min-width: 1024px) {
-  .container { padding-inline: var(--space-5); }
-}
 
 /* O atributo hidden sempre esconde. Sem isto, um componente com
    display: flex/grid apareceria mesmo com hidden no HTML. */
