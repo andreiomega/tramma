@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <!-- viewport-fit=cover: o app ocupa a tela toda, inclusive atrás do
+       entalhe e da barra de gestos. As áreas seguras (env(safe-area-inset-*))
+       são compensadas no app.css, para nada ficar escondido atrás delas. -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title data-i18n="app.meta.title">Tramma | App</title>
+  <meta name="description" content="Versão app da Tramma, loja fictícia de camisetas básicas premium, criada para aulas." data-i18n-attr="content:app.meta.description">
+
+  <!-- Ordem dos estilos: tokens → base → componentes → página → moldura do app.
+       Os quatro primeiros são cópias idênticas dos arquivos do site.
+       O app.css vem por último: ele só acrescenta o que é do app. -->
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/home.css">
+  <link rel="stylesheet" href="css/app.css">
+
+  <!-- Foto que ainda não existe vira placeholder (igual ao site). -->
+  <script>
+    document.addEventListener("error", function (e) {
+      var img = e.target;
+      if (img.tagName === "IMG" && !img.dataset.fallback) {
+        img.dataset.fallback = "true";
+        img.src = "img/placeholder.svg";
+      }
+    }, true);
+  </script>
+</head>
+<body class="app">
+  <!-- Sprite de ícones: Lucide (lucide.dev), licença ISC.
+       Copyright (c) Lucide Contributors 2022; partes (c) Cole Bemis 2013-2022 (Feather, MIT).
+       Fica dentro do HTML porque <use> com arquivo externo não funciona em file://.
+       Igual ao do site, menos o "menu" e mais os ícones da moldura do app. -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+    <symbol id="i-badge-percent" viewBox="0 0 24 24"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m15 9-6 6"/><path d="M9 9h.01"/><path d="M15 15h.01"/></symbol>
+    <symbol id="i-credit-card" viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></symbol>
+    <symbol id="i-repeat" viewBox="0 0 24 24"><path d="m17 2 4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="m7 22-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/></symbol>
+    <symbol id="i-truck" viewBox="0 0 24 24"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+    <symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+    <symbol id="i-chevron-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+    <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+    <symbol id="i-circle-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24"><rect x="14" y="4" width="4" height="16" rx="1"/><rect x="6" y="4" width="4" height="16" rx="1"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+    <symbol id="i-shopping-bag" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></symbol>
+    <symbol id="i-house" viewBox="0 0 24 24"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+    <symbol id="i-package" viewBox="0 0 24 24"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"/><path d="M12 22V12"/><path d="m3.3 7 7.703 4.734a2 2 0 0 0 1.994 0L20.7 7"/><path d="m7.5 4.27 9 5.15"/></symbol>
+    <symbol id="i-wifi-off" viewBox="0 0 24 24"><path d="M12 20h.01"/><path d="M8.5 16.429a5 5 0 0 1 7 0"/><path d="M5 12.859a10 10 0 0 1 5.17-2.69"/><path d="M19 12.859a10 10 0 0 0-2.007-1.523"/><path d="M2 8.82a15 15 0 0 1 4.177-2.643"/><path d="M22 8.82a15 15 0 0 0-11.288-3.764"/><path d="m2 2 20 20"/></symbol>
+  </svg>
+
+  <!-- Primeiro item da página: quem navega pelo teclado pula a barra superior. -->
+  <a class="skip-link" href="#main" data-i18n="skip">Pular para o conteúdo</a>
+
+  <!-- ===== Barra superior do app (app-bar) =====
+       Fica presa no topo. Na home ela não tem "voltar": a home é a raiz
+       da aba Início. As telas internas ganham o botão voltar à esquerda.
+       O aviso de conexão mora dentro dela, para ficar preso junto. -->
+  <header class="app-bar">
+    <div class="app-bar__row container">
+      <a class="logo" href="index.html" aria-label="Tramma, página inicial" data-i18n-attr="aria-label:logo.label">tramma</a>
+      <div class="app-bar__actions">
+        <!-- Seletor de idioma: o mesmo componente do site. Fica aqui até a
+             tela Conta existir; lá é onde a maioria dos apps põe essa escolha. -->
+        <div class="language-switcher" id="language-switcher" role="group" aria-label="Idioma" data-i18n-attr="aria-label:language.label">
+          <a class="language-switcher__option" href="?lang=pt" data-lang="pt" hreflang="pt-BR" lang="pt-BR">PT<span class="sr-only">, Português</span></a>
+          <a class="language-switcher__option" href="?lang=en" data-lang="en" hreflang="en" lang="en">EN<span class="sr-only">, English</span></a>
+        </div>
+        <a class="button" data-variant="ghost" data-size="icon" href="notificacoes.html" aria-label="Notificações" data-i18n-attr="aria-label:app.notifications">
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-bell"></use></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Aviso de conexão (offline-banner). A região role="status" fica
+         sempre no HTML, vazia: assim o leitor de tela anuncia quando o
+         aviso entra. Se ela nascesse junto com o aviso, o anúncio poderia
+         se perder. Preenchida pelo app.js. -->
+    <div id="connection-status" role="status"></div>
+  </header>
+
+  <!-- ===== Conteúdo ===== -->
+  <!-- tabindex="-1": permite mandar o foco para cá por JS, sem entrar na ordem do Tab. -->
+  <main id="main" class="home" tabindex="-1">
+    <!-- O h1 existe para o leitor de tela e para a hierarquia de títulos.
+         Visualmente, a marca já está no cabeçalho. -->
+    <h1 class="sr-only" data-i18n="home.h1">Tramma, camisetas básicas premium</h1>
+
+    <!-- Região que anuncia "Carregando produtos…" ao leitor de tela. -->
+    <p class="sr-only" id="loading-status" role="status"></p>
+
+    <div class="container home-top">
+      <form class="search" role="search" action="busca.html" method="get">
+        <label class="sr-only" for="home-search" data-i18n="search.label">Buscar produtos</label>
+        <input class="input" id="home-search" name="q" type="search" placeholder="Buscar camisetas" autocomplete="off" data-i18n-attr="placeholder:search.placeholder">
+        <button type="submit" class="button search__submit" data-variant="ghost" data-size="icon" aria-label="Buscar" data-i18n-attr="aria-label:search.submit">
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-search"></use></svg>
+        </button>
+      </form>
+
+      <!-- "Olá, Ana": o texto vem do dicionário, montado pelo home.js. -->
+      <p class="home-greeting" id="greeting" hidden></p>
+
+    </div>
+
+    <!-- Slider principal (carousel), na largura toda da tela. Montado pelo home.js.
+         data-theme="light": o texto fica sobre fotos claras, então o slider é sempre claro. -->
+    <section class="carousel" id="hero" data-theme="light" aria-roledescription="carrossel" aria-label="Destaques"
+             data-i18n-attr="aria-roledescription:carousel.roledescription;aria-label:carousel.label"></section>
+
+    <!-- Faixa de benefícios: fixa, sem rolar sozinha. Montada pelo home.js. -->
+    <section class="benefit-strip" aria-label="Benefícios" data-i18n-attr="aria-label:benefits.label">
+      <ul class="container benefit-strip__list" id="benefits-list" role="list"></ul>
+    </section>
+
+    <!-- Estado error-load: aparece no lugar das seções de produto. -->
+    <div class="container home-error-wrap">
+      <div class="alert" data-variant="destructive" id="home-error" role="alert" hidden>
+        <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-circle-alert"></use></svg>
+        <p class="alert__title" data-i18n="error.title">Não foi possível carregar os produtos</p>
+        <div class="alert__body">
+          <p data-i18n="error.text">Verifique sua conexão e tente de novo.</p>
+          <button type="button" class="button" data-variant="outline" id="home-retry" data-i18n="error.retry">Tentar de novo</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Vitrine com abas. As abas e os painéis são montados pelo home.js. -->
+    <section class="band" id="showcase" aria-labelledby="showcase-title">
+      <div class="container">
+        <div class="section-head section-head--center">
+          <p class="eyebrow" data-i18n="showcase.eyebrow">Vitrine</p>
+          <h2 id="showcase-title" data-i18n="showcase.title">Escolhidas a dedo</h2>
+        </div>
+        <div class="tabs" id="showcase-tabs">
+          <div class="tabs__list" role="tablist" aria-labelledby="showcase-title"></div>
+          <div id="showcase-panels"></div>
+        </div>
+        <div class="section-foot">
+          <a class="button" data-variant="outline" id="showcase-all" href="loja.html" data-i18n="showcase.all">Ver todos os produtos</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Banner de campanha, na largura toda. Montado pelo home.js. -->
+    <section class="campaign-banner" id="campaign" data-theme="light" aria-labelledby="campaign-title"></section>
+
+    <!-- Mosaico de categorias. -->
+    <section class="band" aria-labelledby="categories-title">
+      <div class="container">
+        <div class="section-head">
+          <h2 id="categories-title" data-i18n="categories.title">Compre por modelo</h2>
+          <a href="loja.html"><span data-i18n="categories.all">Ver todas</span><span class="sr-only" data-i18n="categories.allHidden"> as camisetas</span></a>
+        </div>
+        <ul class="category-grid" id="categories-list" role="list"></ul>
+      </div>
+    </section>
+
+    <!-- Bloco "Ficha técnica": conteúdo fixo, não depende da carga. -->
+    <section class="band" data-tone="card" aria-labelledby="spec-title">
+      <div class="container spec-block">
+        <div class="spec-block__media">
+          <img src="img/fotos/tecido.jpg" alt="Detalhe aproximado de uma malha de algodão em tom cru" width="800" height="600" loading="lazy" data-i18n-attr="alt:spec.alt">
+        </div>
+        <div class="spec-block__content">
+          <p class="eyebrow" data-i18n="spec.eyebrow">Ficha técnica</p>
+          <h2 id="spec-title" data-i18n="spec.title">O que faz uma camiseta durar</h2>
+          <p data-i18n="spec.text">Toda peça mostra gramatura e composição. Você compara antes de comprar, como faria com qualquer produto técnico.</p>
+          <dl class="spec-list">
+            <dt data-i18n="spec.weight">Gramatura</dt><dd data-i18n="spec.weightValue">140 a 280 g/m²</dd>
+            <dt data-i18n="spec.yarn">Fio</dt><dd data-i18n="spec.yarnValue">Algodão Pima e egípcio, fio longo</dd>
+            <dt data-i18n="spec.seam">Costura</dt><dd data-i18n="spec.seamValue">Dupla na barra e nas mangas</dd>
+            <dt data-i18n="spec.collar">Gola</dt><dd data-i18n="spec.collarValue">Ribana com elastano, não abre</dd>
+          </dl>
+          <a href="sobre.html" data-i18n="spec.link">Conheça nossos tecidos</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Só logged. -->
+    <section class="band" id="recommended" aria-labelledby="recommended-title" hidden>
+      <div class="container">
+        <div class="section-head">
+          <h2 id="recommended-title" data-i18n="recommended.title">Recomendados para você</h2>
+        </div>
+        <ul class="rail" role="list"></ul>
+      </div>
+    </section>
+
+    <!-- Só aparece se houver produtos vistos. -->
+    <section class="band" id="recently-viewed" aria-labelledby="recently-viewed-title" hidden>
+      <div class="container">
+        <div class="section-head">
+          <h2 id="recently-viewed-title" data-i18n="recent.title">Vistos recentemente</h2>
+        </div>
+        <ul class="rail" role="list"></ul>
+      </div>
+    </section>
+
+    <!-- Na vida real: galeria de fotos. -->
+    <section class="band gallery" aria-labelledby="gallery-title">
+      <div class="container">
+        <div class="section-head section-head--center">
+          <p class="eyebrow" data-i18n="gallery.eyebrow">Na vida real</p>
+          <h2 id="gallery-title" data-i18n="gallery.title">Feitas para o dia a dia</h2>
+        </div>
+        <ul class="gallery__list" id="gallery-list" role="list"></ul>
+      </div>
+    </section>
+
+    <!-- Sobre a Tramma e perguntas frequentes. -->
+    <section class="band" data-tone="card" aria-labelledby="about-title">
+      <div class="container about">
+        <div class="about__text">
+          <p class="eyebrow" data-i18n="about.eyebrow">Sobre a Tramma</p>
+          <h2 id="about-title" data-i18n="about.title">Camiseta básica, levada a sério</h2>
+          <p data-i18n="about.text">A Tramma faz um produto só, e faz com cuidado: fio longo, malha estável e costura que aguenta lavagem. Em vez de coleção nova a cada estação, a gente melhora as mesmas peças.</p>
+          <a href="sobre.html" data-i18n="about.link">Conheça a Tramma</a>
+        </div>
+        <div class="about__faq">
+          <h2 class="about__faq-title" data-i18n="faq.title">Perguntas frequentes</h2>
+          <div id="faq-list"></div>
+          <a href="perguntas.html" data-i18n="faq.all">Ver todas as perguntas</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== Avisos (toast) ===== -->
+  <div class="toast-region" id="toast-region" aria-live="polite"></div>
+
+  <!-- ===== Consentimento de cookies (E4) ===== -->
+  <section class="cookie-banner" id="cookie-banner" aria-labelledby="cookie-title" hidden>
+    <h2 class="cookie-banner__title" id="cookie-title" data-i18n="cookies.title">Cookies</h2>
+    <p class="cookie-banner__text" data-i18n="app.cookies.text">Usamos cookies essenciais para o app funcionar. Os outros nos ajudam a melhorar o app, e você escolhe se aceita.</p>
+    <div class="cookie-banner__actions">
+      <button type="button" class="button" data-variant="outline" data-consent="all" data-i18n="cookies.all">Aceitar todos</button>
+      <button type="button" class="button" data-variant="outline" data-consent="essential" data-i18n="cookies.essential">Só os essenciais</button>
+      <a class="button" data-variant="link" href="cookies.html" data-i18n="cookies.customize">Personalizar cookies</a>
+    </div>
+  </section>
+
+  <!-- ===== Bottom nav =====
+       As 5 seções principais do app, sempre à mão do polegar.
+       Ícone e texto juntos: ícone sozinho obriga a adivinhar.
+       aria-current="page" diz ao leitor de tela qual é a aba atual;
+       no visual, a aba atual tem cor, peso e um traço (não só a cor). -->
+  <nav class="bottom-nav" aria-label="Principal" data-i18n-attr="aria-label:nav.main">
+    <ul class="bottom-nav__list" role="list">
+      <li>
+        <a class="bottom-nav__item" href="index.html" aria-current="page">
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-house"></use></svg>
+          <span data-i18n="app.home">Início</span>
+        </a>
+      </li>
+      <li>
+        <a class="bottom-nav__item" href="favoritos.html">
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-heart"></use></svg>
+          <span data-i18n="favorites">Favoritos</span>
+        </a>
+      </li>
+      <li>
+        <!-- data-bag-link: o mesmo contador da sacola do site (components.js).
+             O aria-label ("Sacola, 2 itens") começa pelo texto visível. -->
+        <a class="bottom-nav__item counter-anchor" href="sacola.html" data-bag-link aria-label="Sacola, vazia">
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-shopping-bag"></use></svg>
+          <span data-i18n="bag">Sacola</span>
+          <span class="counter" aria-hidden="true" hidden>0</span>
+        </a>
+      </li>
+      <li>
+        <a class="bottom-nav__item" href="pedidos.html">
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-package"></use></svg>
+          <span data-i18n="app.orders">Pedidos</span>
+        </a>
+      </li>
+      <li>
+        <a class="bottom-nav__item" href="conta.html">
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-user"></use></svg>
+          <span data-i18n="app.account">Conta</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Scripts: dados → persistência → idioma → componentes → página → moldura do app.
+       Os cinco primeiros são cópias idênticas dos arquivos do site. -->
+  <script src="js/data.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/components.js"></script>
+  <script src="js/home.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

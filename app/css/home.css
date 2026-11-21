@@ -1,0 +1,154 @@
+/* =====================================================================
+   Tramma — layout da home (I1), no site e no app
+   Só a distribuição das seções. A aparência de cada peça está no
+   components.css. Mobile-first: a base é o celular; as telas maiores
+   entram nas quebras do Bootstrap (768, 992...).
+   Arquivo compartilhado: é idêntico em site/ e app/.
+   ===================================================================== */
+
+/* O <main> recebe foco por JS (tabindex="-1") em algumas trocas de estado.
+   O anel não aparece nele: ele não é um controle. */
+#main:focus { outline: none; }
+
+/* Item de grade cresce até caber o conteúdo (min-width: auto). Sem isto,
+   as listas horizontais esticariam a página para além da tela. */
+.home-top > *, .band .container > * { min-width: 0; }
+
+/* Topo: busca e saudação (celular). */
+.home-top { display: grid; gap: var(--space-3); padding-block: var(--space-3); }
+.home-greeting { font-size: var(--text-xl); }
+
+/* ---------- Faixas (bands) ----------
+   Cada seção ocupa a largura toda, com o conteúdo no container.
+   O fundo alterna entre background (cinza) e card (branco), separando os
+   blocos sem precisar de linhas. A cor de cada seção é FIXA, escrita no
+   HTML, e não calculada pela posição: o resultado é sempre previsível.
+     vitrine: cinza · categorias: branco · (campanha)
+     recomendados: cinza · vistos: branco
+     newsletter: cinza · sobre: branco */
+.band { padding-block: var(--space-7); }
+.band[data-tone="card"] { background: var(--card); }
+
+/* Cabeçalho de seção: título à esquerda, "Ver todos" à direita. */
+.section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-3);
+  margin-bottom: var(--space-4);
+}
+.section-head a { display: inline-flex; align-items: center; min-height: var(--target-min); }
+/* Variante centralizada: eyebrow em cima, título embaixo. */
+.section-head--center { flex-direction: column; align-items: center; text-align: center; }
+.section-head .eyebrow { color: var(--muted-foreground); }
+.section-head h2 { font-size: var(--text-2xl); }
+
+/* Rodapé de seção: botão "Ver todos" centralizado. */
+.section-foot { display: flex; justify-content: center; margin-top: var(--space-5); }
+
+.home-error-wrap:has(> [hidden]) { display: none; }
+.home-error-wrap { padding-top: var(--space-5); }
+
+/* ---------- Listas com rolagem horizontal (celular) ----------
+   A lista rola para o lado e o card seguinte aparece pela metade: a
+   pessoa percebe que há mais conteúdo. O scroll-snap faz o card parar
+   alinhado. A rolagem é nativa: funciona com dedo, mouse, trackpad e
+   teclado (Tab passa pelos links dos cards).
+   A lista sangra até a borda da tela (margem negativa do tamanho do
+   padding do container) para o corte ficar na borda. */
+.rail {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 44%;
+  gap: var(--space-3);
+  margin: 0 calc(var(--container-padding) * -1);
+  padding: 0 var(--container-padding) var(--space-2);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--container-padding);
+  overscroll-behavior-x: contain;
+}
+.rail > li { scroll-snap-align: start; }
+
+/* ---------- Mosaico de categorias ---------- */
+.category-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-4) var(--space-3); }
+
+/* ---------- Bloco "Ficha técnica" ---------- */
+.spec-block { display: grid; gap: var(--space-5); }
+.spec-block__media img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--radius); }
+.spec-block__content { display: grid; gap: var(--space-3); justify-items: start; }
+.spec-block__content .eyebrow { color: var(--muted-foreground); }
+.spec-block__content h2 { font-size: var(--text-2xl); }
+
+/* Lista de dados técnicos em duas colunas: rótulo e valor. */
+.spec-list {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  width: 100%;
+  border-top: 1px solid var(--border);
+}
+.spec-list dt, .spec-list dd { padding: var(--space-2) 0; border-bottom: 1px solid var(--border); }
+.spec-list dt { color: var(--muted-foreground); padding-right: var(--space-4); }
+.spec-list dd { font-weight: var(--font-weight-semibold); }
+
+/* ---------- Sobre e perguntas frequentes ---------- */
+.about { display: grid; gap: var(--space-6); }
+.about__text { display: grid; gap: var(--space-3); justify-items: start; align-content: start; }
+.about__text .eyebrow { color: var(--muted-foreground); }
+.about__text h2,
+.newsletter-band__body h2 { font-size: var(--text-2xl); } /* mesmo tamanho dos outros títulos de seção */
+.about__faq { display: grid; gap: var(--space-3); justify-items: start; }
+.about__faq > div { width: 100%; border-top: 1px solid var(--border); }
+.about__faq-title { font-size: var(--text-lg); }
+
+
+/* =====================================================================
+   TELAS MAIORES — usam a grade de 12 colunas (a mesma do Figma)
+   ===================================================================== */
+
+@media (min-width: 768px) {
+  /* As listas viram grade de 12 colunas; cada card ocupa 3 (4 por linha). */
+  .rail {
+    grid-auto-flow: row;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: var(--space-5) var(--gutter);
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+  }
+  .rail > li { grid-column: span 3; }
+
+  .category-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--gutter); }
+
+  /* Ficha técnica: 6 colunas para a imagem, 6 para o texto. */
+  .spec-block { grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--gutter); align-items: center; }
+  .spec-block__media { grid-column: span 6; }
+  .spec-block__content { grid-column: span 6; }
+
+  /* Sobre: 5 colunas · perguntas: 6 colunas, com 1 de respiro entre elas. */
+  .about { grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--gutter); }
+  .about__text { grid-column: span 5; }
+  .about__faq { grid-column: 7 / span 6; }
+}
+
+@media (min-width: 992px) {
+  /* Mais respiro entre as seções no desktop. */
+  .band { padding-block: var(--space-9); }
+  .section-head { margin-bottom: var(--space-5); }
+  .section-head h2,
+  .spec-block__content h2,
+  .about__text h2,
+  .newsletter-band__body h2 { font-size: var(--text-3xl); }
+
+  /* A busca está no cabeçalho; a do topo do conteúdo sai. */
+  /* No desktop, o topo do conteúdo some inteiro: a busca está no cabeçalho
+     e a saudação também ("Olá, Ana" ao lado do ícone de conta). Repetir o
+     nome logo acima do slider seria redundante. */
+  .home-top { display: none; }
+  /* O cabeçalho fica preso no topo (72px): a newsletter para logo abaixo dele. */
+  #newsletter-band { scroll-margin-top: 72px; }
+
+  /* Ficha técnica: o texto ocupa 5 colunas e deixa 1 de respiro. */
+  .spec-block__content { grid-column: 8 / span 5; }
+}

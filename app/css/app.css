@@ -1,0 +1,164 @@
+/* =====================================================================
+   Tramma — moldura do app
+   ---------------------------------------------------------------------
+   Só o que existe no app e não no site: a barra superior (app-bar),
+   o aviso de conexão (offline-banner) e a navegação inferior
+   (bottom-nav). Mais os ajustes que a moldura pede nas peças
+   compartilhadas (toast, cookies, busca).
+   Vem depois do home.css: tokens, base, componentes e o layout da
+   home são os mesmos do site, sem nenhuma alteração.
+
+   Contraste dos pares novos (WCAG 2.1):
+   claro  · muted-foreground/background 5,83 · primary/background 7,21
+            foreground/muted 14,56 · border/background 3,19
+   escuro · muted-foreground/background 7,78 · primary/background 7,79
+            foreground/muted 12,93 · border/background 3,32
+   success-foreground/success: já verificado no tokens.css.
+   ===================================================================== */
+
+/* Altura da bottom nav, sem contar a área segura do celular.
+   Vira variável porque três peças dependem dela: o fim da página,
+   o toast e o aviso de cookies. Só existe no app. */
+:root { --bottom-nav-height: 4rem; } /* 64px */
+
+/* O conteúdo termina acima da bottom nav. Sem este espaço, o fim da
+   página ficaria escondido atrás dela.
+   env(safe-area-inset-bottom) é a altura da barra de gestos do
+   celular (0 onde ela não existe). */
+body.app {
+  padding-bottom: calc(var(--bottom-nav-height) + env(safe-area-inset-bottom));
+}
+
+
+/* ---------------------------------------------------------------------
+   APP BAR
+   sem voltar (home) · com voltar (telas internas, nas próximas páginas)
+   Presa no topo, como o cabeçalho do site. O padding de cima respeita
+   o entalhe da câmera quando o app ocupa a tela toda.
+   --------------------------------------------------------------------- */
+.app-bar {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-header);
+  padding-top: env(safe-area-inset-top);
+  background: var(--background);
+  border-bottom: 1px solid var(--border);
+}
+.app-bar__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  min-height: 56px;
+}
+.app-bar__actions { display: flex; gap: var(--space-1); }
+
+
+/* ---------------------------------------------------------------------
+   OFFLINE BANNER
+   offline (sem conexão) · online (conexão de volta, some em 4 s)
+   Não bloqueia nada: a pessoa continua vendo o que já carregou.
+   Ícone e texto em cada estado; a cor só reforça.
+   --------------------------------------------------------------------- */
+.offline-banner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--container-padding);
+  font-size: var(--text-sm);
+  background: var(--muted);
+  color: var(--foreground);
+}
+.offline-banner[data-state="online"] {
+  background: var(--success);
+  color: var(--success-foreground);
+}
+
+
+/* ---------------------------------------------------------------------
+   BOTTOM NAV
+   aba atual (aria-current="page") · contador da sacola
+   Cinco itens de largura igual. Cada um tem pelo menos 64px de largura
+   e de altura, acima do alvo mínimo de 48px.
+   --------------------------------------------------------------------- */
+.bottom-nav {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: var(--z-header);
+  padding-bottom: env(safe-area-inset-bottom);
+  background: var(--background);
+  border-top: 1px solid var(--border);
+}
+.bottom-nav__list {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  max-width: var(--container-sm); /* num tablet, os itens não se espalham pela tela toda */
+  margin-inline: auto;
+}
+.bottom-nav__item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  min-height: var(--bottom-nav-height);
+  color: var(--muted-foreground);
+  font-size: var(--text-sm);
+  line-height: 1;
+  text-decoration: none;
+}
+.bottom-nav__item:hover { color: var(--foreground); }
+
+/* Aba atual: cor de marca, peso maior e um traço no topo.
+   Três sinais juntos, para não depender só da cor. */
+.bottom-nav__item[aria-current="page"] {
+  color: var(--primary);
+  font-weight: var(--font-weight-semibold);
+}
+.bottom-nav__item[aria-current="page"]::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: var(--space-5);
+  height: 3px;
+  border-radius: 0 0 var(--radius) var(--radius);
+  background: currentColor;
+  transform: translateX(-50%);
+}
+
+/* O anel de foco fica por dentro: por fora, ele seria cortado pela
+   borda da tela e pelos vizinhos. */
+.bottom-nav__item:focus-visible { outline-offset: -2px; }
+
+/* Contador: preso ao canto do ícone, e não ao canto do item, que é largo. */
+.bottom-nav__item .counter {
+  top: var(--space-1);
+  right: auto;
+  left: calc(50% + var(--space-1));
+}
+
+
+/* ---------------------------------------------------------------------
+   AJUSTES DA MOLDURA NAS PEÇAS COMPARTILHADAS
+   --------------------------------------------------------------------- */
+
+/* Toast e aviso de cookies sobem para ficar acima da bottom nav. */
+.toast-region {
+  bottom: calc(var(--bottom-nav-height) + env(safe-area-inset-bottom) + var(--space-3));
+}
+.cookie-banner {
+  bottom: calc(var(--bottom-nav-height) + env(safe-area-inset-bottom) + var(--space-2));
+}
+
+/* No site, a partir de 992px a busca vai para o cabeçalho e sai do
+   topo do conteúdo (home.css). O app não tem busca na barra: ela
+   continua no conteúdo em qualquer largura. */
+@media (min-width: 992px) {
+  .home-top { padding-block: var(--space-3); }
+  .home-top > .search { display: block; }
+  .home-top { display: grid; } /* no app, a busca e a saudação ficam no conteúdo em qualquer largura */
+}
