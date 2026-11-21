@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Tramma | Camisetas básicas premium</title>
-  <meta name="description" content="Camisetas básicas de algodão Pima e egípcio, com gramatura e composição informadas. Loja fictícia, criada para aulas.">
+  <title data-i18n="meta.title">Tramma | Camisetas básicas premium</title>
+  <meta name="description" content="Camisetas básicas de algodão Pima e egípcio, com gramatura e composição informadas. Loja fictícia, criada para aulas." data-i18n-attr="content:meta.description">
 
   <!-- Ordem dos estilos: tokens → base → componentes → página.
        Cada arquivo só usa o que veio antes dele. -->
@@ -50,23 +50,43 @@
     <symbol id="i-star" viewBox="0 0 24 24"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"/></symbol>
     <symbol id="i-user" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
     <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
+    <!-- Redes sociais: desenhadas no mesmo traço do Lucide (o Lucide não tem TikTok, X nem Pinterest). -->
+    <symbol id="i-facebook" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></symbol>
+    <symbol id="i-youtube" viewBox="0 0 24 24"><path d="M2.5 17a24 24 0 0 1 0-10 2 2 0 0 1 1.4-1.4 50 50 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24 24 0 0 1 0 10 2 2 0 0 1-1.4 1.4 50 50 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><path d="m10 15 5-3-5-3z"/></symbol>
+    <symbol id="i-instagram" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.4A4 4 0 1 1 12.6 8 4 4 0 0 1 16 11.4z"/><path d="M17.5 6.5h.01"/></symbol>
+    <symbol id="i-tiktok" viewBox="0 0 24 24"><path d="M14 3v12a4 4 0 1 1-4-4"/><path d="M14 3a5 5 0 0 0 5 5"/></symbol>
+    <symbol id="i-brand-x" viewBox="0 0 24 24"><path d="M4 4l11 16h5L9 4z"/><path d="M4 20l6.5-7M20 4l-6.2 6.6"/></symbol>
+    <symbol id="i-pinterest" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8.5 13.5c-1-3 1-6.5 4.5-6.5 3 0 4.5 2 4.5 4.5 0 3-2 5-4 5-1.2 0-2-.8-2-1.8M12 10l-2.5 11"/></symbol>
   </svg>
 
   <!-- Primeiro item da página: quem navega pelo teclado pula o cabeçalho. -->
-  <a class="skip-link" href="#main">Pular para o conteúdo</a>
+  <a class="skip-link" href="#main" data-i18n="skip">Pular para o conteúdo</a>
 
-  <!-- ===== Faixa de aviso ===== -->
+  <!-- ===== Faixa de aviso =====
+       Um aviso curto e o seletor de idioma. Sem botão de fechar: o aviso
+       é útil e curto, e a faixa precisa ficar para guardar o seletor. -->
   <div class="announcement-bar" id="announcement-bar">
-    <p class="announcement-bar__text">Novidade: linha Pesada, com malha de até 260 g/m²</p>
-    <button type="button" class="button" data-variant="ghost" data-size="icon" data-close aria-label="Fechar aviso">
-      <svg class="icon" data-size="sm" aria-hidden="true" focusable="false"><use href="#i-x"></use></svg>
-    </button>
+    <!-- O aviso é um link para a seção da newsletter, na própria página.
+         Ao seguir o link, o próximo Tab já cai no campo de e-mail. -->
+    <p class="announcement-bar__text"><a href="#newsletter-band" data-i18n="announcement">Assine a newsletter e ganhe 10% na primeira compra</a></p>
+
+    <!-- Seletor de idioma (language-switcher). Links de verdade (?lang=en):
+         funcionam até sem JS. O texto visível é "PT"/"EN"; o nome completo vai
+         junto, escondido, para o leitor de tela. O nome acessível começa pelo
+         texto visível ("PT, Português"): quem usa comando de voz fala o que vê.
+         lang em cada link: o leitor de tela pronuncia "English" em inglês. -->
+    <div class="language-switcher" id="language-switcher" role="group" aria-label="Idioma" data-i18n-attr="aria-label:language.label">
+      <a class="language-switcher__option" href="?lang=pt" data-lang="pt" hreflang="pt-BR" lang="pt-BR">PT<span class="sr-only">, Português</span></a>
+      <a class="language-switcher__option" href="?lang=en" data-lang="en" hreflang="en" lang="en">EN<span class="sr-only">, English</span></a>
+    </div>
   </div>
 
   <!-- ===== Cabeçalho =====
-       Um HTML só para todas as telas. Abaixo de 1024px: compacto (menu
-       lateral, logo, favoritos e sacola). A partir de 1024px: completo
-       (logo, busca, conta, favoritos, sacola e a navegação com mega menu).
+       Um HTML só para todas as telas.
+       - Celular (abaixo de 992px): menu lateral, logo e sacola.
+       - Desktop: UMA linha (logo · menu · busca, conta, favoritos e sacola),
+         como no Aurum e na Insider. A busca é um ícone: ao abrir, o campo
+         ocupa a linha inteira no lugar do menu (padrão Insider).
        Quem some numa largura usa display: none, que também tira o
        elemento do leitor de tela e do Tab. -->
   <header class="site-header">
@@ -74,29 +94,88 @@
       <div class="site-header__start">
         <!-- aria-expanded diz ao leitor de tela se o menu está aberto. -->
         <button type="button" class="button" data-variant="ghost" data-size="icon" id="site-menu-open"
-                aria-label="Abrir menu" aria-haspopup="dialog" aria-expanded="false" aria-controls="site-menu">
+                aria-label="Abrir menu" aria-haspopup="dialog" aria-expanded="false" aria-controls="site-menu" data-i18n-attr="aria-label:menu.open">
           <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-menu"></use></svg>
         </button>
       </div>
 
-      <a class="logo" href="index.html" aria-label="Tramma, página inicial">tramma</a>
+      <a class="logo" href="index.html" aria-label="Tramma, página inicial" data-i18n-attr="aria-label:logo.label">tramma</a>
 
-      <!-- Busca do cabeçalho: só no desktop. No celular, a busca fica no topo do conteúdo. -->
-      <form class="search site-header__search" role="search" action="busca.html" method="get">
-        <label class="sr-only" for="header-search">Buscar produtos</label>
-        <input class="input" id="header-search" name="q" type="search" placeholder="Buscar camisetas" autocomplete="off">
-        <button type="submit" class="button search__submit" data-variant="ghost" data-size="icon" aria-label="Buscar">
-          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-search"></use></svg>
+      <!-- Navegação principal com mega menu (navigation-menu): só no desktop, no centro da linha.
+           Padrão "disclosure navigation" do WAI-ARIA: "Camisetas" é um botão
+           que abre e fecha o painel (aria-expanded); os itens do painel são
+           links comuns, na ordem natural do Tab. Abre no clique, não no
+           hover: hover não existe no toque e abre menus sem querer. -->
+      <nav class="navigation-menu" id="navigation-menu" aria-label="Principal" data-i18n-attr="aria-label:nav.main">
+        <ul class="navigation-menu__list" role="list">
+          <li><a class="navigation-menu__link" href="loja.html" data-i18n="nav.all">Todos os produtos</a></li>
+          <li><a class="navigation-menu__link" href="loja.html?ordem=novidades" data-i18n="nav.new">Novidades</a></li>
+          <li>
+            <button type="button" class="navigation-menu__trigger" aria-expanded="false" aria-controls="mega-camisetas">
+              <span data-i18n="nav.tees">Camisetas</span>
+              <svg class="icon" data-size="sm" aria-hidden="true" focusable="false"><use href="#i-chevron-down"></use></svg>
+            </button>
+            <div class="navigation-menu__content" id="mega-camisetas" hidden>
+              <div class="navigation-menu__group">
+                <h2 class="navigation-menu__heading" data-i18n="nav.byStyle">Por modelo</h2>
+                <ul role="list">
+                  <li><a href="categoria.html?c=gola-careca" data-i18n="category.gola-careca">Gola careca</a></li>
+                  <li><a href="categoria.html?c=gola-v" data-i18n="category.gola-v">Gola V</a></li>
+                  <li><a href="categoria.html?c=henley" data-i18n="category.henley">Henley</a></li>
+                  <li><a href="categoria.html?c=manga-longa" data-i18n="category.manga-longa">Manga longa</a></li>
+                  <li><a href="categoria.html?c=oversized" data-i18n="category.oversized">Oversized</a></li>
+                </ul>
+              </div>
+              <div class="navigation-menu__group">
+                <h2 class="navigation-menu__heading" data-i18n="nav.byWeight">Por gramatura</h2>
+                <ul role="list">
+                  <li><a href="loja.html?gramatura=leve" data-i18n="nav.weightLight">Leve, até 160 g/m²</a></li>
+                  <li><a href="loja.html?gramatura=media" data-i18n="nav.weightMedium">Média, de 180 a 200 g/m²</a></li>
+                  <li><a href="loja.html?gramatura=pesada" data-i18n="nav.weightHeavy">Pesada, 220 g/m² ou mais</a></li>
+                </ul>
+              </div>
+              <div class="navigation-menu__group">
+                <h2 class="navigation-menu__heading" data-i18n="nav.highlights">Destaques</h2>
+                <ul role="list">
+                  <li><a href="loja.html?ordem=mais-vendidos" data-i18n="nav.bestSellers">Mais vendidos</a></li>
+                  <li><a href="loja.html?promocao=1" data-i18n="nav.onSale">Em promoção</a></li>
+                  <li><a href="loja.html" data-i18n="nav.allTees">Ver todas as camisetas</a></li>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li><a class="navigation-menu__link" href="sobre.html" data-i18n="nav.about">Sobre a Tramma</a></li>
+          <li><a class="navigation-menu__link" href="blog.html" data-i18n="nav.blog">Blog</a></li>
+        </ul>
+      </nav>
+
+      <!-- Busca do desktop (padrão Insider): fica escondida; a lupa (aria-expanded)
+           a abre no lugar do menu. Esc ou o X fecham e devolvem o foco à lupa. -->
+      <form class="site-header__search" id="header-search-form" role="search" action="busca.html" method="get" hidden>
+        <div class="search">
+          <label class="sr-only" for="header-search" data-i18n="search.label">Buscar produtos</label>
+          <input class="input" id="header-search" name="q" type="search" placeholder="Buscar camisetas" autocomplete="off" data-i18n-attr="placeholder:search.placeholder">
+          <button type="submit" class="button search__submit" data-variant="ghost" data-size="icon" aria-label="Buscar" data-i18n-attr="aria-label:search.submit">
+            <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-search"></use></svg>
+          </button>
+        </div>
+        <button type="button" class="button" data-variant="ghost" data-size="icon" data-search-close aria-label="Fechar busca" data-i18n-attr="aria-label:search.close">
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-x"></use></svg>
         </button>
       </form>
 
-      <nav class="site-header__end" aria-label="Atalhos">
+      <nav class="site-header__end" aria-label="Atalhos" data-i18n-attr="aria-label:nav.shortcuts">
+        <!-- Lupa: só no desktop. Abre a busca no lugar do menu. -->
+        <button type="button" class="button site-header__search-toggle" data-variant="ghost" data-size="icon" aria-label="Buscar" aria-expanded="false" aria-controls="header-search-form" data-i18n-attr="aria-label:search.submit">
+          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-search"></use></svg>
+        </button>
         <!-- Conta: só no desktop. guest = "Entrar" · logged = "Olá, Ana". Texto preenchido pelo JS. -->
         <a class="button site-header__account" data-variant="ghost" href="entrar.html" id="header-account">
           <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-user"></use></svg>
-          <span>Entrar</span>
+          <span data-i18n="account.signIn">Entrar</span>
         </a>
-        <a class="button" data-variant="ghost" data-size="icon" href="favoritos.html" aria-label="Favoritos">
+        <!-- Favoritos: só no desktop. No celular, fica dentro do menu. -->
+        <a class="button site-header__favorites" data-variant="ghost" data-size="icon" href="favoritos.html" aria-label="Favoritos" data-i18n-attr="aria-label:favorites">
           <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-heart"></use></svg>
         </a>
         <!-- O aria-label com o número de itens é atualizado pelo JS. -->
@@ -107,86 +186,48 @@
       </nav>
     </div>
 
-    <!-- Navegação principal com mega menu (navigation-menu): só no desktop.
-         Padrão "disclosure navigation" do WAI-ARIA: "Camisetas" é um botão
-         que abre e fecha o painel (aria-expanded); os itens do painel são
-         links comuns, na ordem natural do Tab. Abre no clique, não no
-         hover: hover não existe no toque e abre menus sem querer. -->
-    <nav class="navigation-menu" id="navigation-menu" aria-label="Principal">
-      <ul class="navigation-menu__list" role="list">
-        <li><a class="navigation-menu__link" href="loja.html">Todos os produtos</a></li>
-        <li><a class="navigation-menu__link" href="loja.html?ordem=novidades">Novidades</a></li>
-        <li>
-          <button type="button" class="navigation-menu__trigger" aria-expanded="false" aria-controls="mega-camisetas">
-            Camisetas
-            <svg class="icon" data-size="sm" aria-hidden="true" focusable="false"><use href="#i-chevron-down"></use></svg>
-          </button>
-          <div class="navigation-menu__content" id="mega-camisetas" hidden>
-            <div class="navigation-menu__group">
-              <h2 class="navigation-menu__heading">Por modelo</h2>
-              <ul role="list">
-                <li><a href="categoria.html?c=gola-careca">Gola careca</a></li>
-                <li><a href="categoria.html?c=gola-v">Gola V</a></li>
-                <li><a href="categoria.html?c=henley">Henley</a></li>
-                <li><a href="categoria.html?c=manga-longa">Manga longa</a></li>
-                <li><a href="categoria.html?c=oversized">Oversized</a></li>
-              </ul>
-            </div>
-            <div class="navigation-menu__group">
-              <h2 class="navigation-menu__heading">Por gramatura</h2>
-              <ul role="list">
-                <li><a href="loja.html?gramatura=leve">Leve, até 160 g/m²</a></li>
-                <li><a href="loja.html?gramatura=media">Média, de 180 a 200 g/m²</a></li>
-                <li><a href="loja.html?gramatura=pesada">Pesada, 220 g/m² ou mais</a></li>
-              </ul>
-            </div>
-            <div class="navigation-menu__group">
-              <h2 class="navigation-menu__heading">Destaques</h2>
-              <ul role="list">
-                <li><a href="loja.html?ordem=mais-vendidos">Mais vendidos</a></li>
-                <li><a href="loja.html?promocao=1">Em promoção</a></li>
-                <li><a href="loja.html">Ver todas as camisetas</a></li>
-              </ul>
-            </div>
-          </div>
-        </li>
-        <li><a class="navigation-menu__link" href="loja.html?ordem=mais-vendidos">Mais vendidos</a></li>
-        <li><a class="navigation-menu__link" href="sobre.html">Sobre a Tramma</a></li>
-        <li><a class="navigation-menu__link" href="blog.html">Blog</a></li>
-      </ul>
-    </nav>
   </header>
 
   <!-- ===== Menu do site (sheet) ===== -->
   <dialog class="sheet" id="site-menu" aria-labelledby="site-menu-title">
     <div class="sheet__header">
-      <h2 class="sheet__title" id="site-menu-title">Menu</h2>
-      <button type="button" class="button" data-variant="ghost" data-size="icon" data-sheet-close aria-label="Fechar menu">
+      <h2 class="sheet__title" id="site-menu-title" data-i18n="menu.title">Menu</h2>
+      <button type="button" class="button" data-variant="ghost" data-size="icon" data-sheet-close aria-label="Fechar menu" data-i18n-attr="aria-label:menu.close">
         <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-x"></use></svg>
       </button>
     </div>
     <div class="sheet__body">
-      <nav class="sheet__nav" aria-label="Principal">
-        <a class="sheet__link" href="loja.html">Todos os produtos</a>
-        <a class="sheet__link" href="loja.html?ordem=novidades">Novidades</a>
+      <nav class="sheet__nav" aria-label="Principal" data-i18n-attr="aria-label:nav.main">
+        <a class="sheet__link" href="loja.html" data-i18n="nav.all">Todos os produtos</a>
+        <a class="sheet__link" href="loja.html?ordem=novidades" data-i18n="nav.new">Novidades</a>
         <details class="accordion__item">
-          <summary class="accordion__trigger">Categorias
+          <summary class="accordion__trigger"><span data-i18n="nav.categories">Categorias</span>
             <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-chevron-down"></use></svg>
           </summary>
           <div class="accordion__content">
-            <a class="sheet__link sheet__sublink" href="categoria.html?c=gola-careca">Gola careca</a>
-            <a class="sheet__link sheet__sublink" href="categoria.html?c=gola-v">Gola V</a>
-            <a class="sheet__link sheet__sublink" href="categoria.html?c=henley">Henley</a>
-            <a class="sheet__link sheet__sublink" href="categoria.html?c=manga-longa">Manga longa</a>
-            <a class="sheet__link sheet__sublink" href="categoria.html?c=oversized">Oversized</a>
+            <a class="sheet__link sheet__sublink" href="categoria.html?c=gola-careca" data-i18n="category.gola-careca">Gola careca</a>
+            <a class="sheet__link sheet__sublink" href="categoria.html?c=gola-v" data-i18n="category.gola-v">Gola V</a>
+            <a class="sheet__link sheet__sublink" href="categoria.html?c=henley" data-i18n="category.henley">Henley</a>
+            <a class="sheet__link sheet__sublink" href="categoria.html?c=manga-longa" data-i18n="category.manga-longa">Manga longa</a>
+            <a class="sheet__link sheet__sublink" href="categoria.html?c=oversized" data-i18n="category.oversized">Oversized</a>
           </div>
         </details>
-        <a class="sheet__link" href="loja.html?ordem=mais-vendidos">Mais vendidos</a>
-        <a class="sheet__link" href="sobre.html">Sobre a Tramma</a>
-        <a class="sheet__link" href="blog.html">Blog</a>
+        <a class="sheet__link" href="loja.html?ordem=mais-vendidos" data-i18n="nav.bestSellers">Mais vendidos</a>
+        <a class="sheet__link" href="sobre.html" data-i18n="nav.about">Sobre a Tramma</a>
+        <a class="sheet__link" href="blog.html" data-i18n="nav.blog">Blog</a>
       </nav>
-      <!-- Preenchido pelo JS: guest (entrar, criar conta) ou logged (saudação, conta, sair). -->
+      <!-- Preenchido pelo JS: guest (entrar, criar conta) ou logged (saudação, conta, sair).
+           Favoritos e pedidos ficam aqui também, porque no celular saem do cabeçalho. -->
       <div class="sheet__account" id="site-menu-account"></div>
+      <!-- Idioma: no celular a faixa de aviso some, então o seletor mora no menu.
+           Mesmo componente da faixa, com outro id. -->
+      <div class="sheet__language">
+        <span class="sheet__label" id="menu-language-label" data-i18n="language.label">Idioma</span>
+        <div class="language-switcher" id="menu-language-switcher" role="group" aria-labelledby="menu-language-label">
+          <a class="language-switcher__option" href="?lang=pt" data-lang="pt" hreflang="pt-BR" lang="pt-BR">PT<span class="sr-only">, Português</span></a>
+          <a class="language-switcher__option" href="?lang=en" data-lang="en" hreflang="en" lang="en">EN<span class="sr-only">, English</span></a>
+        </div>
+      </div>
     </div>
   </dialog>
 
@@ -195,30 +236,32 @@
   <main id="main" class="home" tabindex="-1">
     <!-- O h1 existe para o leitor de tela e para a hierarquia de títulos.
          Visualmente, a marca já está no cabeçalho. -->
-    <h1 class="sr-only">Tramma, camisetas básicas premium</h1>
+    <h1 class="sr-only" data-i18n="home.h1">Tramma, camisetas básicas premium</h1>
 
     <!-- Região que anuncia "Carregando produtos…" ao leitor de tela. -->
     <p class="sr-only" id="loading-status" role="status"></p>
 
     <div class="container home-top">
       <form class="search" role="search" action="busca.html" method="get">
-        <label class="sr-only" for="home-search">Buscar produtos</label>
-        <input class="input" id="home-search" name="q" type="search" placeholder="Buscar camisetas" autocomplete="off">
-        <button type="submit" class="button search__submit" data-variant="ghost" data-size="icon" aria-label="Buscar">
+        <label class="sr-only" for="home-search" data-i18n="search.label">Buscar produtos</label>
+        <input class="input" id="home-search" name="q" type="search" placeholder="Buscar camisetas" autocomplete="off" data-i18n-attr="placeholder:search.placeholder">
+        <button type="submit" class="button search__submit" data-variant="ghost" data-size="icon" aria-label="Buscar" data-i18n-attr="aria-label:search.submit">
           <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-search"></use></svg>
         </button>
       </form>
 
-      <p class="home-greeting" id="greeting" hidden>Olá, <span data-name></span></p>
+      <!-- "Olá, Ana": o texto vem do dicionário, montado pelo home.js. -->
+      <p class="home-greeting" id="greeting" hidden></p>
 
     </div>
 
     <!-- Slider principal (carousel), na largura toda da tela. Montado pelo home.js.
          data-theme="light": o texto fica sobre fotos claras, então o slider é sempre claro. -->
-    <section class="carousel" id="hero" data-theme="light" aria-roledescription="carrossel" aria-label="Destaques"></section>
+    <section class="carousel" id="hero" data-theme="light" aria-roledescription="carrossel" aria-label="Destaques"
+             data-i18n-attr="aria-roledescription:carousel.roledescription;aria-label:carousel.label"></section>
 
     <!-- Faixa de benefícios: fixa, sem rolar sozinha. Montada pelo home.js. -->
-    <section class="benefit-strip" aria-label="Benefícios">
+    <section class="benefit-strip" aria-label="Benefícios" data-i18n-attr="aria-label:benefits.label">
       <ul class="container benefit-strip__list" id="benefits-list" role="list"></ul>
     </section>
 
@@ -226,94 +269,102 @@
     <div class="container home-error-wrap">
       <div class="alert" data-variant="destructive" id="home-error" role="alert" hidden>
         <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-circle-alert"></use></svg>
-        <p class="alert__title">Não foi possível carregar os produtos</p>
+        <p class="alert__title" data-i18n="error.title">Não foi possível carregar os produtos</p>
         <div class="alert__body">
-          <p>Verifique sua conexão e tente de novo.</p>
-          <button type="button" class="button" data-variant="outline" id="home-retry">Tentar de novo</button>
+          <p data-i18n="error.text">Verifique sua conexão e tente de novo.</p>
+          <button type="button" class="button" data-variant="outline" id="home-retry" data-i18n="error.retry">Tentar de novo</button>
         </div>
       </div>
     </div>
 
-    <!-- Vitrine com abas. As abas e os painéis são montados pelo home.js. -->
-    <section class="band" id="showcase" aria-labelledby="showcase-title">
+    <!-- Vitrine: curadoria por momento (Destaques, Novidades, Mais vendidos, Mais bem avaliados, Promoções).
+         Diferente de "Compre por modelo", que navega por tipo de camiseta.
+         Componente tabs, variante chips: pílulas no celular, abas no desktop. Montada pelo home.js. -->
+    <section class="band" id="showcase-chips" aria-labelledby="showcase-chips-title">
       <div class="container">
         <div class="section-head section-head--center">
-          <p class="eyebrow">Vitrine</p>
-          <h2 id="showcase-title">Escolhidas a dedo</h2>
+          <p class="eyebrow" data-i18n="showcase.eyebrow">Vitrine</p>
+          <h2 id="showcase-chips-title" data-i18n="showcase.title">Escolhidas a dedo</h2>
         </div>
-        <div class="tabs" id="showcase-tabs">
-          <div class="tabs__list" role="tablist" aria-labelledby="showcase-title"></div>
-          <div id="showcase-panels"></div>
+        <div class="tabs" data-variant="chips" id="showcase-chips-tabs">
+          <div class="tabs__list" role="tablist" aria-labelledby="showcase-chips-title"></div>
+          <div id="showcase-chips-panels"></div>
         </div>
         <div class="section-foot">
-          <a class="button" data-variant="outline" id="showcase-all" href="loja.html">Ver todos os produtos</a>
+          <a class="button" data-variant="outline" id="showcase-chips-all" href="loja.html" data-i18n="showcase.all">Ver todos os produtos</a>
         </div>
       </div>
     </section>
 
-    <!-- Banner de campanha, na largura toda. Montado pelo home.js. -->
-    <section class="campaign-banner" id="campaign" data-theme="light" aria-labelledby="campaign-title"></section>
-
     <!-- Mosaico de categorias. -->
-    <section class="band" aria-labelledby="categories-title">
+    <section class="band" data-tone="card" aria-labelledby="categories-title">
       <div class="container">
         <div class="section-head">
-          <h2 id="categories-title">Compre por modelo</h2>
-          <a href="loja.html">Ver todas<span class="sr-only"> as camisetas</span></a>
+          <h2 id="categories-title" data-i18n="categories.title">Compre por modelo</h2>
+          <a href="loja.html"><span data-i18n="categories.all">Ver todas</span><span class="sr-only" data-i18n="categories.allHidden"> as camisetas</span></a>
         </div>
         <ul class="category-grid" id="categories-list" role="list"></ul>
       </div>
     </section>
 
-    <!-- Bloco "Ficha técnica": conteúdo fixo, não depende da carga. -->
-    <section class="band" data-tone="card" aria-labelledby="spec-title">
-      <div class="container spec-block">
-        <div class="spec-block__media">
-          <img src="img/fotos/tecido.jpg" alt="Detalhe aproximado de uma malha de algodão em tom cru" width="800" height="600" loading="lazy">
-        </div>
-        <div class="spec-block__content">
-          <p class="eyebrow">Ficha técnica</p>
-          <h2 id="spec-title">O que faz uma camiseta durar</h2>
-          <p>Toda peça mostra gramatura e composição. Você compara antes de comprar, como faria com qualquer produto técnico.</p>
-          <dl class="spec-list">
-            <dt>Gramatura</dt><dd>140 a 280 g/m²</dd>
-            <dt>Fio</dt><dd>Algodão Pima e egípcio, fio longo</dd>
-            <dt>Costura</dt><dd>Dupla na barra e nas mangas</dd>
-            <dt>Gola</dt><dd>Ribana com elastano, não abre</dd>
-          </dl>
-          <a href="sobre.html">Conheça nossos tecidos</a>
-        </div>
-      </div>
-    </section>
+    <!-- Banner de campanha, na largura toda, depois das categorias (wireframe). Montado pelo home.js. -->
+    <section class="campaign-banner" id="campaign" data-theme="light" aria-labelledby="campaign-title"></section>
 
     <!-- Só logged. -->
     <section class="band" id="recommended" aria-labelledby="recommended-title" hidden>
       <div class="container">
         <div class="section-head">
-          <h2 id="recommended-title">Recomendados para você</h2>
+          <h2 id="recommended-title" data-i18n="recommended.title">Recomendados para você</h2>
         </div>
         <ul class="rail" role="list"></ul>
       </div>
     </section>
 
     <!-- Só aparece se houver produtos vistos. -->
-    <section class="band" id="recently-viewed" aria-labelledby="recently-viewed-title" hidden>
+    <section class="band" data-tone="card" id="recently-viewed" aria-labelledby="recently-viewed-title" hidden>
       <div class="container">
         <div class="section-head">
-          <h2 id="recently-viewed-title">Vistos recentemente</h2>
+          <h2 id="recently-viewed-title" data-i18n="recent.title">Vistos recentemente</h2>
         </div>
         <ul class="rail" role="list"></ul>
       </div>
     </section>
 
-    <!-- Na vida real: galeria de fotos. -->
-    <section class="band gallery" aria-labelledby="gallery-title">
-      <div class="container">
-        <div class="section-head section-head--center">
-          <p class="eyebrow">Na vida real</p>
-          <h2 id="gallery-title">Feitas para o dia a dia</h2>
+    <!-- Newsletter como seção própria (fundo cinza, fixo).
+         À esquerda, o motivo para assinar (incentivo e 3 ganhos); à direita,
+         o formulário, direto sobre o fundo. No celular, tudo empilha.
+         Estados do formulário (initNewsletter): empty, error-empty,
+         error-invalid, submitting, success e já inscrito. -->
+    <section class="band" id="newsletter-band" aria-labelledby="newsletter-band-title">
+      <div class="container newsletter-band">
+        <div class="newsletter-band__body">
+          <h2 id="newsletter-band-title" data-i18n="newsletter.title">Receba novidades e ofertas</h2>
+          <p class="newsletter-band__incentive" data-i18n="newsletter.incentive">Assine e ganhe 10% na primeira compra.</p>
+          <ul class="newsletter-band__perks" role="list">
+            <li><svg class="icon" data-size="sm" aria-hidden="true" focusable="false"><use href="#i-check"></use></svg><span data-i18n="newsletter.perk1">Frete grátis na primeira compra</span></li>
+            <li><svg class="icon" data-size="sm" aria-hidden="true" focusable="false"><use href="#i-check"></use></svg><span data-i18n="newsletter.perk2">Novidades antes de todo mundo</span></li>
+            <li><svg class="icon" data-size="sm" aria-hidden="true" focusable="false"><use href="#i-check"></use></svg><span data-i18n="newsletter.perk3">Ofertas só para assinantes</span></li>
+          </ul>
         </div>
-        <ul class="gallery__list" id="gallery-list" role="list"></ul>
+        <div class="newsletter-band__card">
+            <form class="newsletter__form" novalidate>
+              <div class="field">
+                <label class="label" for="newsletter-band-email" data-i18n="newsletter.email">E-mail</label>
+                <input class="input" id="newsletter-band-email" name="email" type="email" autocomplete="email" inputmode="email" aria-describedby="newsletter-band-error newsletter-band-trust">
+                <p class="field__error" id="newsletter-band-error" hidden>
+                  <svg class="icon" data-size="sm" aria-hidden="true" focusable="false"><use href="#i-circle-alert"></use></svg>
+                  <span></span>
+                </p>
+              </div>
+              <button type="submit" class="button" data-i18n="newsletter.submit">Assinar a newsletter</button>
+              <p class="newsletter-band__trust" id="newsletter-band-trust" data-i18n="newsletter.trust">Sem spam. Você cancela quando quiser.</p>
+            </form>
+            <!-- tabindex="-1": recebe o foco depois do envio, para o leitor de tela ler a confirmação e o cupom. -->
+            <div class="newsletter__done" tabindex="-1" hidden>
+              <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-check"></use></svg>
+              <p></p>
+            </div>
+        </div>
       </div>
     </section>
 
@@ -321,15 +372,15 @@
     <section class="band" data-tone="card" aria-labelledby="about-title">
       <div class="container about">
         <div class="about__text">
-          <p class="eyebrow">Sobre a Tramma</p>
-          <h2 id="about-title">Camiseta básica, levada a sério</h2>
-          <p>A Tramma faz um produto só, e faz com cuidado: fio longo, malha estável e costura que aguenta lavagem. Em vez de coleção nova a cada estação, a gente melhora as mesmas peças.</p>
-          <a href="sobre.html">Conheça a Tramma</a>
+          <p class="eyebrow" data-i18n="about.eyebrow">Sobre a Tramma</p>
+          <h2 id="about-title" data-i18n="about.title">Camiseta básica, levada a sério</h2>
+          <p data-i18n="about.text">A Tramma faz um produto só, e faz com cuidado: fio longo, malha estável e costura que aguenta lavagem. Em vez de coleção nova a cada estação, a gente melhora as mesmas peças.</p>
+          <a href="sobre.html" data-i18n="about.link">Conheça a Tramma</a>
         </div>
         <div class="about__faq">
-          <h2 class="about__faq-title">Perguntas frequentes</h2>
+          <h2 class="about__faq-title" data-i18n="faq.title">Perguntas frequentes</h2>
           <div id="faq-list"></div>
-          <a href="perguntas.html">Ver todas as perguntas</a>
+          <a href="perguntas.html" data-i18n="faq.all">Ver todas as perguntas</a>
         </div>
       </div>
     </section>
@@ -339,71 +390,60 @@
   <footer class="site-footer">
     <div class="container site-footer__inner">
 
-      <!-- Newsletter: estados empty, error-empty, error-invalid, submitting, success, já inscrito. -->
-      <section class="newsletter" id="newsletter" aria-labelledby="newsletter-title">
-        <h2 class="newsletter__title" id="newsletter-title">Receba novidades e ofertas</h2>
-        <!-- novalidate: a validação é nossa, com mensagens em português e no padrão do DS. -->
-        <form class="newsletter__form" novalidate>
-          <div class="field">
-            <label class="label" for="newsletter-email">E-mail</label>
-            <input class="input" id="newsletter-email" name="email" type="email" autocomplete="email" inputmode="email" aria-describedby="newsletter-error">
-            <p class="field__error" id="newsletter-error" hidden>
-              <svg class="icon" data-size="sm" aria-hidden="true" focusable="false"><use href="#i-circle-alert"></use></svg>
-              <span></span>
-            </p>
-          </div>
-          <button type="submit" class="button" data-variant="secondary" data-width="full">Assinar a newsletter</button>
-        </form>
-        <!-- tabindex="-1": recebe o foco depois do envio, para o leitor de tela ler a confirmação. -->
-        <div class="newsletter__done" tabindex="-1" hidden>
-          <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-check"></use></svg>
-          <p></p>
-        </div>
-      </section>
-
-      <nav aria-label="Rodapé">
+      <!-- Coluna da marca: logo, frase e redes. Ocupa o lugar da antiga
+           newsletter, que agora é uma seção própria antes do rodapé. -->
+      <div class="site-footer__brand">
+        <a class="logo" href="index.html" aria-label="Tramma, página inicial" data-i18n-attr="aria-label:logo.label">tramma</a>
+        <p data-i18n="footer.tagline">Camiseta básica premium: tecido, caimento e durabilidade.</p>
+        <!-- Perfis fictícios: a marca não existe, então os links não levam a lugar nenhum.
+             Só ícone na tela; o nome da rede vai no aria-label. Ordem: rede com mais usuários primeiro. -->
+        <ul class="site-footer__social" role="list" aria-label="Redes sociais" data-i18n-attr="aria-label:footer.social">
+          <li><a class="button" data-variant="ghost" data-size="icon" href="#" aria-label="Facebook"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-facebook"></use></svg></a></li>
+          <li><a class="button" data-variant="ghost" data-size="icon" href="#" aria-label="YouTube"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-youtube"></use></svg></a></li>
+          <li><a class="button" data-variant="ghost" data-size="icon" href="#" aria-label="Instagram"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-instagram"></use></svg></a></li>
+          <li><a class="button" data-variant="ghost" data-size="icon" href="#" aria-label="TikTok"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-tiktok"></use></svg></a></li>
+          <li><a class="button" data-variant="ghost" data-size="icon" href="#" aria-label="X"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-brand-x"></use></svg></a></li>
+          <li><a class="button" data-variant="ghost" data-size="icon" href="#" aria-label="Pinterest"><svg class="icon" aria-hidden="true" focusable="false"><use href="#i-pinterest"></use></svg></a></li>
+        </ul>
+      </div>
+      <nav aria-label="Rodapé" data-i18n-attr="aria-label:footer.label">
         <details class="accordion__item">
-          <summary class="accordion__trigger">Ajuda
+          <summary class="accordion__trigger"><span data-i18n="footer.help">Ajuda</span>
             <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-chevron-down"></use></svg>
           </summary>
           <div class="accordion__content site-footer__links">
-            <a href="entrega.html">Entrega e prazos</a>
-            <a href="trocas.html">Trocas e devoluções</a>
-            <a href="rastrear.html">Rastrear pedido</a>
-            <a href="perguntas.html">Perguntas frequentes</a>
+            <a href="entrega.html" data-i18n="footer.shipping">Entrega e prazos</a>
+            <a href="trocas.html" data-i18n="footer.exchanges">Trocas e devoluções</a>
+            <a href="rastrear.html" data-i18n="footer.track">Rastrear pedido</a>
+            <a href="perguntas.html" data-i18n="faq.title">Perguntas frequentes</a>
           </div>
         </details>
         <details class="accordion__item">
-          <summary class="accordion__trigger">A Tramma
+          <summary class="accordion__trigger"><span data-i18n="footer.brand">A Tramma</span>
             <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-chevron-down"></use></svg>
           </summary>
           <div class="accordion__content site-footer__links">
-            <a href="sobre.html">Sobre a Tramma</a>
-            <a href="blog.html">Blog</a>
-            <a href="medidas.html">Tabela de medidas</a>
+            <a href="sobre.html" data-i18n="nav.about">Sobre a Tramma</a>
+            <a href="blog.html" data-i18n="nav.blog">Blog</a>
+            <a href="medidas.html" data-i18n="footer.sizes">Tabela de medidas</a>
           </div>
         </details>
         <details class="accordion__item">
-          <summary class="accordion__trigger">Minha conta
+          <summary class="accordion__trigger"><span data-i18n="account.mine">Minha conta</span>
             <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-chevron-down"></use></svg>
           </summary>
           <div class="accordion__content site-footer__links">
-            <a href="conta.html">Minha conta</a>
-            <a href="pedidos.html">Meus pedidos</a>
-            <a href="favoritos.html">Favoritos</a>
-            <a href="cookies.html">Preferências de cookies</a>
+            <a href="conta.html" data-i18n="account.mine">Minha conta</a>
+            <a href="pedidos.html" data-i18n="account.orders">Meus pedidos</a>
+            <a href="favoritos.html" data-i18n="favorites">Favoritos</a>
+            <a href="cookies.html" data-i18n="footer.cookies">Preferências de cookies</a>
           </div>
         </details>
       </nav>
 
       <div class="site-footer__meta">
-        <!-- Perfis fictícios: a marca não existe, então os links não levam a lugar nenhum. -->
-        <div class="site-footer__social">
-          <a href="#">Instagram</a>
-          <a href="#">Pinterest</a>
-        </div>
-        <p>Pagamento: Pix, boleto ou cartão de crédito em até 6x sem juros.</p>
-        <p>Tramma é uma loja fictícia, criada para aulas de design de interfaces.</p>
+        <p data-i18n="footer.payment">Pagamento: Pix, boleto ou cartão de crédito em até 6x sem juros.</p>
+        <p data-i18n="footer.fictional">Tramma é uma loja fictícia, criada para aulas de design de interfaces.</p>
       </div>
     </div>
   </footer>
@@ -413,19 +453,20 @@
 
   <!-- ===== Consentimento de cookies (E4) ===== -->
   <section class="cookie-banner" id="cookie-banner" aria-labelledby="cookie-title" hidden>
-    <h2 class="cookie-banner__title" id="cookie-title">Cookies</h2>
-    <p class="cookie-banner__text">Usamos cookies essenciais para a loja funcionar. Os outros nos ajudam a melhorar o site, e você escolhe se aceita.</p>
+    <h2 class="cookie-banner__title" id="cookie-title" data-i18n="cookies.title">Cookies</h2>
+    <p class="cookie-banner__text" data-i18n="cookies.text">Usamos cookies essenciais para a loja funcionar. Os outros nos ajudam a melhorar o site, e você escolhe se aceita.</p>
     <div class="cookie-banner__actions">
-      <button type="button" class="button" data-variant="outline" data-consent="all">Aceitar todos</button>
-      <button type="button" class="button" data-variant="outline" data-consent="essential">Só os essenciais</button>
-      <a class="button" data-variant="link" href="cookies.html">Personalizar cookies</a>
+      <button type="button" class="button" data-variant="outline" data-consent="all" data-i18n="cookies.all">Aceitar todos</button>
+      <button type="button" class="button" data-variant="outline" data-consent="essential" data-i18n="cookies.essential">Só os essenciais</button>
+      <a class="button" data-variant="link" href="cookies.html" data-i18n="cookies.customize">Personalizar cookies</a>
     </div>
   </section>
 
-  <!-- Scripts: dados → persistência → componentes → página. Sem módulos,
+  <!-- Scripts: dados → persistência → idioma → componentes → página. Sem módulos,
        para funcionar direto do arquivo (file://). -->
   <script src="js/data.js"></script>
   <script src="js/store.js"></script>
+  <script src="js/i18n.js"></script>
   <script src="js/components.js"></script>
   <script src="js/home.js"></script>
 </body>

@@ -10,24 +10,27 @@ Referências: I1 e elementos fixos do `inventario.md`, Trendify T16 (mobile e ap
 
 A ordem é a mesma nas três versões. Só muda a moldura e a distribuição na largura.
 
+> Revista em 21/11/2026 a partir dos wireframes (`wireframes/home-*.html`). Decisões 16 a 23 do `inventario.md`.
+
 | # | Seção | Origem | Web mobile | Web desktop | App |
 |---|---|---|---|---|---|
 | 0 | Link "Pular para o conteúdo" | regra | ● | ● | ● |
-| 1 | Faixa de aviso (frete grátis), com botão fechar | elementos fixos | ● | ● | — |
-| 2 | Cabeçalho: menu, logo, busca, favoritos, sacola com contador | elementos fixos | ● compacto | ● completo, com mega menu | — |
+| 1 | Faixa de aviso (incentivo da newsletter) e seletor de idioma | elementos fixos | — (idioma no menu) | ● | — |
+| 2 | Cabeçalho | elementos fixos | ● menu, logo, sacola | ● uma linha: logo, menu, busca (ícone), conta, favoritos, sacola | — |
 | 2a | Barra superior do app: logo, notificações | elementos fixos | — | — | ● |
-| 3 | Campo de busca | T16 | ● abaixo do cabeçalho | ● dentro do cabeçalho | ● abaixo da barra |
-| 4 | Saudação ("Olá, Ana") | I1 `logged` | ● só `logged` | ● só `logged` | ● só `logged` |
-| 5 | Slider principal: 3 slides, cada um com título, frase e 1 botão | T16 banner · A slider | ● | ● | ● |
-| 6 | Atalhos de categoria | T16 | ● rolagem horizontal | ● em linha | ● rolagem horizontal |
-| 7 | Novidades: 4 a 8 cards de produto | T16 · A carrossel em alta | ● rolagem horizontal | ● grade de 4 colunas | ● rolagem horizontal |
-| 8 | Bloco "Ficha técnica": imagem do tecido, gramatura e composição, link | A banner de texto · direção A | ● | ● imagem e texto lado a lado | ● |
-| 9 | Mais vendidos: cards de produto | A | ● | ● | ● |
-| 10 | Recomendados para você | T16 · I1 `logged` | ● só `logged` | ● só `logged` | ● só `logged` |
-| 11 | Vistos recentemente | novo | ● só se houver | ● só se houver | ● só se houver |
-| 12 | Newsletter | rodapé | ● | ● | — |
-| 13 | Rodapé: links, redes, formas de pagamento | elementos fixos | ● em sanfona | ● em colunas | — |
-| 14 | Bottom nav | elementos fixos | — | — | ● |
+| 3 | Campo de busca | T16 | ● abaixo do cabeçalho | ● aberto pela lupa, no lugar da linha do cabeçalho | ● abaixo da barra |
+| 4 | Saudação ("Olá, Ana") | I1 `logged` | ● só `logged` | — (o nome está no cabeçalho) | ● só `logged` |
+| 5 | Slider: Coleção Essencial, Camiseta Leve, 12 cores fixas | T16 banner · A slider | ● | ● | ● |
+| 6 | Faixa de benefícios (4) | Insider (estilo) · decisões 11 a 13 | ● rolagem horizontal | ● em linha | ● rolagem horizontal |
+| 7 | Vitrine: curadoria por momento (5 itens), 4 cards, "Ver todos" | T16 chips · A listas | ● chips, fundo cinza | ● abas, fundo cinza | ● chips, fundo cinza |
+| 8 | Categorias: 5 modelos e "Ver todas" | T16 | ● 2 colunas, fundo branco | ● 5 colunas, fundo branco | ● 2 colunas, fundo branco |
+| 9 | Banner de campanha (Linha Pesada) | A banner | ● | ● | ● |
+| 10 | Recomendados para você | T16 · I1 `logged` | ● só `logged`, cinza | ● só `logged`, cinza | ● só `logged`, cinza |
+| 11 | Vistos recentemente | novo | ● só se houver, branco | ● só se houver, branco | ● só se houver, branco |
+| 12 | Newsletter: incentivo, 3 ganhos, formulário | A rodapé · decisão 20 | ● fundo cinza | ● fundo cinza | — |
+| 13 | Sobre a Tramma e perguntas frequentes | Insider | ● fundo branco | ● fundo branco | ● fundo cinza |
+| 14 | Rodapé preto: marca, redes, 3 grupos de links | elementos fixos | ● em sanfona | ● em colunas | — |
+| 14a | Bottom nav | elementos fixos | — | — | ● |
 | 15 | Consentimento de cookies (E4), na 1ª visita | E4 | ● | ● | ● |
 
 **Ficam de fora, e por quê:**
@@ -47,7 +50,8 @@ A ordem é a mesma nas três versões. Só muda a moldura e a distribuição na 
 | `logged` | Saudação com o nome e recomendados |
 | vistos recentemente | Com itens: a seção aparece. Sem itens: a seção não aparece. |
 | 1ª visita | Aviso de cookies até a pessoa escolher. A escolha fica no `localStorage`. |
-| faixa de aviso | Visível ou fechada. Fechada continua fechada nas próximas visitas. |
+| faixa de aviso | Sempre visível. O botão fechar saiu (20/11/2026): a faixa guarda o seletor de idioma. |
+| idioma | Português (padrão) ou inglês, com a moeda junto. Ver `mapeamento/idioma.md`. |
 | favoritar no card | `guest`: leva ao login. `logged`: marca e mostra toast com "Desfazer" (`undo`). |
 | newsletter | `empty` · `error-empty` · `error-invalid` · `submitting` · `success` · já inscrito |
 | slider | Passa sozinho a cada 6 s · pausado pelo botão, pelo mouse em cima ou pelo foco do teclado · parado com `prefers-reduced-motion` |
@@ -90,11 +94,13 @@ Nomes do shadcn/ui quando ele tem o componente; senão, um nome no mesmo padrão
 | `sheet` | Sheet | menu mobile do site | aberto, fechado · `guest`, `logged` | web mobile |
 | `accordion` | Accordion | rodapé no mobile | aberto, fechado | web mobile |
 | `icon` | (Lucide) | cabeçalho, card, rodapé | tamanho 20 e 24 | web mobile |
-| `announcement-bar` | — | faixa de aviso | visível, fechada | web mobile |
-| `site-header` | — | cabeçalho | compacto · contador 0 ou n | web mobile; completo no desktop |
-| `site-footer` | — | rodapé | sanfona no mobile, colunas no desktop | web mobile |
+| `announcement-bar` | — | faixa de aviso | aviso e seletor de idioma | web mobile |
+| `language-switcher` | (Toggle Group) | seletor de idioma | idioma atual, outro idioma | idioma (faixa no site, barra no app) |
+| `site-header` | — | cabeçalho | compacto · uma linha no desktop · busca aberta/fechada · contador 0 ou n | web mobile; completo no desktop |
+| `site-footer` | — | rodapé | fundo preto · sanfona no mobile, colunas no desktop | web mobile |
+| `newsletter-band` | — | newsletter da home | os estados da newsletter · cupom na confirmação | web desktop |
 | `cookie-banner` | — | E4 | visível, escolhido | web mobile |
-| `category-chip` | — | atalhos de categoria | normal, foco | web mobile |
+| `tabs` (variante `chips`) | Tabs | vitrine | pílulas no celular, abas no desktop · selecionada | web mobile |
 | `navigation-menu` | Navigation Menu | mega menu | aberto, fechado | web desktop |
 | `app-bar` | — | barra superior do app | com e sem voltar | app |
 | `bottom-nav` | — | navegação do app | aba atual · contador da sacola | app |

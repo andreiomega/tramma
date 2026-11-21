@@ -35,6 +35,7 @@ Para os estados de erro e recusa aparecerem de forma previsível em aula:
 | Cartão recusado | Qualquer cartão terminado em `0002` |
 | Cartão aprovado | Qualquer outro número válido pelo dígito verificador |
 | Cupom expirado / com valor mínimo / já usado | Um cupom fixo para cada caso |
+| Cupom de boas-vindas da newsletter | `BEMVINDO10`: 10% sobre os produtos e frete grátis (normal ou expressa, sem valor mínimo), só na primeira compra, uma vez por e-mail. Aparece na confirmação da newsletter e precisa valer na sacola (S1) e no checkout (K1) |
 | CEP não encontrado | Qualquer CEP fora da tabela |
 | Expressa indisponível | CEPs de uma faixa fixa da tabela |
 | Bloqueio de login | 5 tentativas erradas seguidas, por 1 min |
@@ -94,12 +95,13 @@ Cada tela é conferida contra esta lista fechada. Os nomes são iguais no Figma 
 | Elemento | App | Site | Estados |
 |---|---|---|---|
 | Barra superior | Título, voltar, ações | Entrar/cadastrar ou minha conta/sair, favoritos, idioma | `guest` · `logged` (nome da pessoa) |
-| Cabeçalho | — | Logo, menu com mega menu, busca, favoritos, notificações, sacola | Mega menu e busca abertos/fechados · contador da sacola com 0 ou n itens · notificações não lidas ou nenhuma |
+| Cabeçalho | — | **Celular:** menu, logo e sacola. **Desktop:** uma linha só, com logo, menu (Todos os produtos, Novidades, Camisetas com mega menu, Sobre a Tramma, Blog) e ícones (busca, conta, favoritos, sacola) | Mega menu aberto/fechado · busca aberta (o campo ocupa a linha inteira, padrão Insider) ou fechada · conta `guest` ("Entrar") / `logged` ("Olá, Ana") · contador da sacola com 0 ou n itens |
 | Menu mobile do site | — | Painel lateral | Aberto/fechado · submenus · `guest` / `logged` |
 | Bottom nav | Início, Favoritos, Sacola, Pedidos, Conta | — | Aba atual · contador da sacola |
 | Mini-sacola | — | Painel lateral | `empty` · `many` · item recém-adicionado |
-| Rodapé | — | Links, redes, formas de pagamento, **newsletter** | Newsletter: `empty`, `error-empty`, `error-invalid`, `submitting`, `success`, já inscrito |
-| Faixa de aviso | — | Frete grátis, cupom | Visível · fechada pela pessoa |
+| Rodapé | — | Fundo preto: marca (logo, frase e 6 redes sociais em ícone) e 3 grupos de links (Ajuda, A Tramma, Minha conta); pagamento e aviso de loja fictícia. As redes levam a `#`: a marca é fictícia | Grupos em sanfona no celular, em colunas no desktop |
+| Faixa de aviso | — | Só no desktop: aviso curto (hoje, o incentivo da newsletter) e o seletor de idioma | Sempre visível no desktop (sem botão de fechar) · some no celular |
+| Seletor de idioma | Na barra superior (depois, na tela Conta) | Desktop: na faixa de aviso · celular: dentro do menu | Português (padrão) · inglês |
 | Toast | ● | ● | Sucesso · erro · com ação (`undo`, "ver sacola") |
 | Aviso de conexão | `offline` | — | Sem conexão · conexão de volta |
 | Sessão expirada | ● | ● | Aviso → entrar de novo → volta ao mesmo ponto, sem perder o que foi preenchido |
@@ -331,7 +333,7 @@ A **biblioteca de componentes do Aurum** (shortcodes) não é tela da loja. Ela 
 | 11 | Sessão expirada | Elementos fixos, K1, A2 |
 | 12 | Sem conexão (app) | Elementos fixos, E1, I1 |
 | 13 | Vistos recentemente | I1, P1 |
-| 14 | Newsletter | Rodapé do site |
+| 14 | Newsletter (com cupom de boas-vindas) | Seção própria da home, no site |
 | 15 | Políticas de entrega e de trocas | U24, U25 |
 | 16 | Declaração de acessibilidade | U26 |
 
@@ -383,4 +385,16 @@ A mudança entra na etapa de atualização do CLAUDE.md, depois deste inventári
 11. **Parcelamento:** até 6x sem juros, com parcela mínima de R$ 30.
 12. **Frete grátis** nas compras acima de R$ 299 (decidido em 20/11/2026, na revisão da home).
 13. **Pix:** 5% de desconto sobre o valor dos produtos.
-14. **Vitrine da home** com abas Mais vendidos, Novidades e Promoções; o catálogo é unissex, sem separação por gênero.
+14. **Vitrine da home** (revista em 21/11/2026, ver decisão 17); o catálogo é unissex, sem separação por gênero.
+15. **Idioma:** português (padrão) e inglês, escolhidos pelo seletor ou pelo link com `?lang=en`. A escolha fica salva. O idioma traz a moeda junto: real em português e dólar em inglês, com câmbio fixo de R$ 5 = US$ 1 (didático, sem cotação do dia). O preço continua guardado em reais. Decidido em 20/11/2026; ver `mapeamento/idioma.md`.
+
+## Decisões tomadas (21/11/2026)
+
+16. **Estrutura antes do layout:** cada tela passa por wireframe de baixa fidelidade (pasta `wireframes/`), um por canal (app, web mobile, desktop), com a mesma estrutura nos três. Base de conteúdo: Trendify; Aurum só acrescenta; Insider é referência de estilo, não de conteúdo.
+17. **Curadoria da vitrine** por momento, diferente das categorias (que navegam por modelo): Destaques, Novidades, Mais vendidos, Mais bem avaliados e Promoções. Destaques são produtos marcados pela loja (`isFeatured`, só com estoque); Mais bem avaliados são os de nota 4,7 ou mais, da maior para a menor; Promoções por último. Chips no celular e no app, abas no desktop.
+18. **Seções que saíram da home:** ficha técnica, galeria "Na vida real", "Ofertas da semana" e "Novidades" como listas próprias (as duas viraram abas da curadoria).
+19. **Fundos fixos por seção**, nunca pela posição: vitrine cinza, categorias branco, (campanha), recomendados cinza, vistos branco, newsletter cinza, sobre branco, rodapé preto.
+20. **Newsletter** como seção própria, antes do Sobre: incentivo de 10% e frete grátis na primeira compra (cupom `BEMVINDO10`), 3 ganhos (frete grátis na primeira compra, novidades antes de todo mundo, ofertas só para assinantes); o frete vem primeiro, perto dos 10% e a linha "Sem spam. Você cancela quando quiser." Só no site.
+21. **Cabeçalho do desktop** em uma linha, sem "Mais vendidos" no menu (a curadoria já está na home). A saudação "Olá, Ana" acima do slider fica só no celular; no desktop, o nome já está no cabeçalho.
+22. **Conteúdo sem repetição:** a Linha Pesada fica só no banner de campanha; o slider mostra Coleção Essencial, Camiseta Leve e as 12 cores fixas; parcelamento e troca ficam só na faixa de benefícios; a faixa de aviso divulga a newsletter.
+23. **Botões no celular e no app** ocupam a largura toda do conteúdo.

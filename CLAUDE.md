@@ -66,7 +66,7 @@ O código vem antes do Figma, para não gastar esforço desenhando o que depois 
 - Nada comunicado só por cor: status com ícone e texto, links em texto sublinhados, erro com borda, ícone e mensagem.
 - Teclado: toda interação funciona sem mouse. Diálogos e painéis prendem o foco, fecham com `Esc` e devolvem o foco a quem os abriu.
 - `prefers-reduced-motion`: transições reduzidas ou removidas.
-- Imagens com `alt` descritivo (ou `alt=""` quando decorativas). `lang="pt-BR"`. Link "Pular para o conteúdo" em cada página.
+- Imagens com `alt` descritivo (ou `alt=""` quando decorativas). `lang` no `<html>` acompanhando o idioma (`pt-BR` ou `en`). Link "Pular para o conteúdo" em cada página.
 
 ## Design system
 
@@ -115,6 +115,9 @@ O código vem antes do Figma, para não gastar esforço desenhando o que depois 
 - **Posicionamento:** camiseta básica premium, com foco em tecido, caimento e durabilidade.
 - **Tom de voz:** direto, cuidadoso e técnico sem jargão. Trata o cliente por "você". Frases curtas, números em algarismos.
 - **Vocabulário fixo:** "sacola" (nunca "carrinho" nem "bolsa" na interface), "Adicionar à sacola", "Finalizar compra", "Frete", "Modelagem", "Gramatura".
+- **Idioma:** português (padrão) e inglês, com o mesmo tom de voz. Textos da interface no `i18n.js` (dicionários `pt` e `en`); conteúdo no `data.js`, com `{ pt, en }` lado a lado. Toda tela nova nasce nos dois idiomas.
+  - **Vocabulário fixo em inglês:** "bag" (sacola), "Add to bag", "Checkout", "Shipping" (frete), "Fit" (modelagem), "Fabric weight" (gramatura).
+  - **Moeda:** real em português, dólar em inglês, com câmbio fixo de R$ 5 = US$ 1. Preços sempre guardados em reais.
 
 ## Publicação
 

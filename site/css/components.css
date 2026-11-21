@@ -358,6 +358,15 @@
 .sheet__sublink { font-weight: var(--font-weight-regular); padding-left: var(--space-3); }
 .sheet__account { display: grid; gap: var(--space-2); padding-top: var(--space-3); border-top: 1px solid var(--border); }
 .sheet__greeting { color: var(--muted-foreground); }
+/* Idioma no menu: rótulo à esquerda, opções à direita, na mesma linha. */
+.sheet__language {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--border);
+}
+.sheet__label { font-weight: var(--font-weight-semibold); }
 
 
 /* ---------------------------------------------------------------------
@@ -383,7 +392,8 @@
 
 /* ---------------------------------------------------------------------
    ANNOUNCEMENT BAR (faixa de aviso)
-   visível · fechada (a escolha fica guardada)
+   aviso à esquerda · seletor de idioma à direita
+   Sem estado "fechada": a faixa guarda o seletor de idioma.
    --------------------------------------------------------------------- */
 .announcement-bar {
   display: flex;
@@ -394,10 +404,42 @@
   color: var(--background);
   font-size: var(--text-sm);
 }
-.announcement-bar[hidden] { display: none; }
 .announcement-bar__text { flex: 1; }
-.announcement-bar .button { color: var(--background); }
-.announcement-bar .button:hover { background: transparent; }
+/* Link do aviso: mesma cor do texto da faixa, sublinhado, alvo de 48px. */
+.announcement-bar__text a { display: inline-flex; align-items: center; min-height: var(--target-min); color: inherit; text-decoration: underline; }
+.announcement-bar__text a:hover { color: inherit; text-decoration-thickness: 2px; }
+/* O anel de foco padrão (cobalto) quase some no fundo escuro da faixa
+   (2,2:1). Aqui ele usa a cor do texto, com o mesmo contraste do texto. */
+.announcement-bar :focus-visible { outline-color: currentColor; }
+
+
+/* ---------------------------------------------------------------------
+   LANGUAGE SWITCHER (seletor de idioma)
+   idioma atual (aria-current="true") · outro idioma
+   shadcn não tem um componente próprio; a anatomia mais próxima é o
+   Toggle Group. Aqui são links, porque cada idioma é um endereço.
+   A cor vem de quem o contém (faixa escura no site, barra clara no app).
+   --------------------------------------------------------------------- */
+.language-switcher { display: flex; flex: none; }
+.language-switcher__option {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--target-min);
+  min-height: var(--target-min);
+  color: inherit;
+  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-wide);
+  text-decoration: none;
+}
+.language-switcher__option:hover { color: inherit; text-decoration: underline; }
+/* Idioma atual: peso e sublinhado grosso. Dois sinais além da cor. */
+.language-switcher__option[aria-current="true"] {
+  font-weight: var(--font-weight-semibold);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.3em;
+}
 
 
 /* ---------------------------------------------------------------------
@@ -598,23 +640,41 @@
    SITE FOOTER
    mobile: grupos de links em accordion · desktop: colunas (próxima etapa)
    --------------------------------------------------------------------- */
+/* Rodapé preto: o mesmo par invertido da faixa de aviso (fundo foreground,
+   texto background, cerca de 17:1). No tema escuro, o par se inverte junto.
+   Sem margem em cima: a newsletter (faixa branca) encosta no rodapé. */
 .site-footer {
-  margin-top: var(--space-8);
-  padding-block: var(--space-5);
-  border-top: 1px solid var(--border);
-  background: var(--card);
+  padding-block: var(--space-6) var(--space-5);
+  background: var(--foreground);
+  color: var(--background);
 }
+/* Tudo dentro do rodapé herda a cor clara: links, logo, ícones e acordeões. */
+.site-footer a,
+.site-footer .logo,
+.site-footer .accordion__trigger { color: inherit; }
+.site-footer a:hover { color: inherit; text-decoration-thickness: 2px; }
+/* O anel cobalto quase some no fundo escuro: aqui ele usa a cor do texto. */
+.site-footer :focus-visible { outline-color: currentColor; }
+/* Linhas dos acordeões: decorativas, então podem ser mais suaves. */
+.site-footer .accordion__item { border-color: color-mix(in srgb, currentColor 30%, transparent); }
+.site-footer__brand { display: grid; gap: var(--space-2); justify-items: start; }
+.site-footer__brand p { opacity: 0.85; } /* ainda acima de 7:1 */
 .site-footer__inner { display: grid; gap: var(--space-5); }
 .site-footer__links { display: grid; }
 .site-footer__links a {
   display: flex;
   align-items: center;
   min-height: var(--target-min);
-  color: var(--foreground);
+  color: inherit; /* claro, sobre o fundo preto */
 }
-.site-footer__meta { display: grid; gap: var(--space-3); font-size: var(--text-sm); color: var(--muted-foreground); }
-.site-footer__social { display: flex; gap: var(--space-3); }
-.site-footer__social a { display: inline-flex; align-items: center; min-height: var(--target-min); color: var(--foreground); }
+.site-footer__meta { display: grid; gap: var(--space-3); font-size: var(--text-sm); opacity: 0.85; }
+/* Ícones de 48px (alvo de toque) com 8px entre eles. O primeiro recua para
+   alinhar o desenho do ícone com o texto acima. */
+/* O botão ghost usa foreground por padrão; no rodapé, herda a cor clara.
+   No hover, um fundo translúcido da mesma cor marca o alvo. */
+.site-footer .button[data-variant="ghost"] { color: inherit; }
+.site-footer .button[data-variant="ghost"]:hover { background: color-mix(in srgb, currentColor 15%, transparent); color: inherit; }
+.site-footer__social { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-left: calc(-1 * var(--space-2)); }
 
 /* Newsletter */
 .newsletter { display: grid; gap: var(--space-3); }
@@ -630,6 +690,18 @@
 }
 .newsletter__done .icon { color: var(--success); }
 
+/* Newsletter como seção: uma coluna no celular;
+   no desktop, texto à esquerda e formulário à direita (ver a quebra de 768px). */
+.newsletter-band { display: grid; gap: var(--space-4); }
+.newsletter-band__body { display: grid; gap: var(--space-3); align-content: center; }
+.newsletter-band__incentive { font-size: var(--text-lg); font-weight: var(--font-weight-semibold); }
+.newsletter-band__perks { display: grid; gap: var(--space-2); }
+.newsletter-band__perks li { display: flex; align-items: center; gap: var(--space-2); }
+.newsletter-band__perks .icon { color: var(--success); flex: none; }
+/* Formulário direto sobre o fundo da faixa, sem cartão. */
+.newsletter-band__card { display: grid; }
+.newsletter-band__trust { font-size: var(--text-sm); color: var(--muted-foreground); }
+
 
 /* =====================================================================
    VERSÕES PARA TELAS MAIORES
@@ -637,9 +709,15 @@
    Quebras do Bootstrap: 576 (sm) · 768 (md, tablet) · 992 (lg, laptop) · 1200 (xl) · 1400 (xxl)
    ===================================================================== */
 
-/* Peças do cabeçalho que só existem no desktop. */
+/* Peças do cabeçalho que só existem no desktop.
+   No celular, o cabeçalho fica com menu, logo e sacola (wireframe da home).
+   A faixa de aviso também sai: os benefícios já aparecem no conteúdo, e o
+   seletor de idioma, favoritos e pedidos vão para dentro do menu. */
+.announcement-bar,
 .site-header__search,
+.site-header__search-toggle,
 .site-header__account,
+.site-header__favorites,
 .navigation-menu { display: none; }
 
 @media (min-width: 768px) {
@@ -652,6 +730,7 @@
 
   /* Rodapé em colunas: os grupos ficam abertos (o JS cuida do <details>)
      e o <summary> vira só o título da coluna. */
+  .newsletter-band { grid-template-columns: 1fr 1fr; gap: var(--space-6); align-items: center; }
   .site-footer nav { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-4); }
   .site-footer .accordion__item { border-bottom: 0; }
   .site-footer .accordion__trigger { pointer-events: none; cursor: default; min-height: 0; margin-bottom: var(--space-2); }
@@ -661,17 +740,27 @@
 
 @media (min-width: 992px) {
   /* ---------- Cabeçalho completo ---------- */
+  /* Uma linha só: logo · menu (no centro) · busca, conta e ícones. */
   .site-header__bar {
-    grid-template-columns: auto 1fr auto; /* logo · busca · conta e ícones */
+    grid-template-columns: auto 1fr auto;
     gap: var(--gutter);
     min-height: 72px; /* largura e margens vêm da classe .container no HTML */
   }
   .site-header__start { display: none; } /* o menu lateral não é usado no desktop */
-  .site-header__search { display: block; width: 100%; max-width: 32rem; justify-self: center; }
+  .site-header__search-toggle { display: inline-flex; }
+
+  /* Busca aberta (data-search="open" no header, posto pelo JS): o campo
+     ocupa a linha inteira e o resto some (sai também do Tab). */
+  .site-header[data-search="open"] .site-header__bar { grid-template-columns: 1fr; }
+  .site-header[data-search="open"] .site-header__bar > :not(.site-header__search) { display: none; }
+  .site-header__search:not([hidden]) { display: flex; align-items: center; gap: var(--space-2); }
+  .site-header__search .search { flex: 1; }
   .site-header__account { display: inline-flex; padding: 0 var(--space-3); font-weight: var(--font-weight-regular); }
+  .site-header__favorites { display: inline-flex; }
+  .announcement-bar { display: flex; }
 
   /* ---------- NAVIGATION MENU (shadcn: Navigation Menu) ---------- */
-  .navigation-menu { display: block; border-top: 1px solid var(--border); }
+  .navigation-menu { display: block; justify-self: center; }
   .navigation-menu__list { display: flex; justify-content: center; gap: var(--space-2); }
 
   .navigation-menu__link,
@@ -728,7 +817,7 @@
 
   /* ---------- Rodapé ---------- */
   .site-footer__inner { grid-template-columns: 1fr 2fr; gap: var(--space-6); }
-  .site-footer__meta { grid-column: 1 / -1; padding-top: var(--space-4); border-top: 1px solid var(--border); }
+  .site-footer__meta { grid-column: 1 / -1; padding-top: var(--space-4); border-top: 1px solid color-mix(in srgb, currentColor 30%, transparent); }
 }
 
 
@@ -781,20 +870,24 @@
    Padrão Tabs do WAI-ARIA:
    - só a aba ativa está no Tab; as setas ← → trocam de aba;
    - aria-selected marca a ativa; o painel tem role="tabpanel".
-   A aba ativa é marcada por traço embaixo e peso, não só por cor. */
+   A aba ativa é marcada por traço embaixo e peso, não só por cor.
+
+   A linha da lista é uma sombra interna, não uma borda: o traço da aba
+   ativa (filho) é pintado por cima dela sem precisar de margem negativa.
+   Margem negativa vazava 1px para fora da lista e, com overflow-x: auto,
+   o navegador criava uma barra de rolagem vertical. */
 .tabs__list {
   display: flex;
-  gap: var(--space-4);
+  gap: var(--space-3);
   margin-bottom: var(--space-4);
-  border-bottom: 1px solid var(--border);
-  overflow-x: auto;
+  box-shadow: inset 0 -1px 0 var(--border);
+  overflow-x: auto; /* muitas abas no celular: rolam para o lado */
 }
 .tabs__trigger {
   min-height: var(--target-min);
-  padding: 0;
+  padding: 0 var(--space-1);
   border: 0;
   border-bottom: 2px solid transparent;
-  margin-bottom: -1px; /* o traço da aba ativa cobre a linha da lista */
   background: none;
   color: var(--muted-foreground);
   font-size: var(--text-sm);
@@ -806,7 +899,66 @@
 }
 .tabs__trigger:hover { color: var(--foreground); }
 .tabs__trigger[aria-selected="true"] { color: var(--foreground); border-bottom-color: var(--foreground); }
+/* O overflow da lista corta o que passa da borda dela. Por isso o anel de
+   foco fica para dentro da aba (os 4px de padding lateral dão a folga). */
+.tabs__trigger:focus-visible { outline-offset: -4px; }
 .tabs__panel:focus-visible { outline-offset: 8px; }
+
+/* Variante chips: o mesmo padrão Tabs, com cara de chip (como no Trendify).
+   - Sem linha embaixo da lista; 8px entre chips (regra dos alvos vizinhos).
+   - Chip com borda `border` (3,3:1 sobre o fundo: borda de controle ≥ 3:1).
+   - Ativo: preenchido com `primary` e texto `primary-foreground` (7,9:1).
+     O preenchimento muda a forma do chip, não só a cor do texto. */
+.tabs[data-variant="chips"] .tabs__list {
+  gap: var(--space-2);
+  box-shadow: none;
+  padding: 4px; /* anel de foco (2px + 2px de afastamento) inteiro, sem corte */
+  /* Rola para o lado sem barra visível, como nas listas do Trendify.
+     Continua acessível: arrasto no toque, trackpad e setas do teclado (o foco
+     leva a aba para a área visível). O chip cortado na borda indica que há mais. */
+  scrollbar-width: none;
+}
+.tabs[data-variant="chips"] .tabs__list::-webkit-scrollbar { display: none; }
+.tabs[data-variant="chips"] .tabs__trigger:focus-visible { outline-offset: 2px; }
+.tabs[data-variant="chips"] .tabs__trigger {
+  margin: 0;
+  padding: 0 var(--space-3);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--foreground);
+  letter-spacing: normal;
+  text-transform: none;
+}
+.tabs[data-variant="chips"] .tabs__trigger:hover { border-color: var(--foreground); }
+.tabs[data-variant="chips"] .tabs__trigger[aria-selected="true"] {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: var(--primary-foreground);
+}
+/* No desktop, os chips voltam a ter cara de abas: com 6 opções numa linha
+   larga, o traço embaixo organiza melhor que as pílulas. O conteúdo
+   (Descobrir e os modelos) e o comportamento continuam os mesmos. */
+@media (min-width: 992px) {
+  .tabs[data-variant="chips"] .tabs__list {
+    gap: var(--space-3);
+    box-shadow: inset 0 -1px 0 var(--border);
+    padding: 0;
+  }
+  .tabs[data-variant="chips"] .tabs__trigger:focus-visible { outline-offset: -4px; }
+  .tabs[data-variant="chips"] .tabs__trigger,
+  .tabs[data-variant="chips"] .tabs__trigger[aria-selected="true"] {
+    padding: 0 var(--space-1);
+    border: 0;
+    border-bottom: 2px solid transparent;
+    border-radius: 0;
+    background: none;
+    color: var(--muted-foreground);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+  }
+  .tabs[data-variant="chips"] .tabs__trigger:hover { color: var(--foreground); }
+  .tabs[data-variant="chips"] .tabs__trigger[aria-selected="true"] { color: var(--foreground); border-bottom-color: var(--foreground); }
+}
 
 
 /* ---------- CAMPAIGN BANNER ----------

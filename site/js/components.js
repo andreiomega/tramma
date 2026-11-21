@@ -19,10 +19,10 @@ TRAMMA.ui = (function () {
       ' aria-hidden="true" focusable="false"><use href="#i-' + name + '"></use></svg>';
   }
 
-  /* Formato brasileiro: R$ 1.234,56 */
-  function money(value) {
-    return value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-  }
+  /* Dinheiro na moeda do idioma (o i18n.js converte e formata). */
+  var money = TRAMMA.money;
+  var t = TRAMMA.t;
+  var text = TRAMMA.text;
 
   /* Escapa texto antes de pôr no HTML (boa prática mesmo com dados fixos). */
   function esc(text) {
@@ -42,10 +42,11 @@ TRAMMA.ui = (function () {
      Até 4 bolinhas e "+n". O nome das cores vai por extenso para o leitor de tela. */
   function swatches(colors) {
     var shown = colors.slice(0, 4);
+    var names = colors.map(function (c) { return TRAMMA.colors[c] ? text(TRAMMA.colors[c].name) : c; });
     return '<p class="color-swatch">' +
-      '<span class="sr-only">Cores: ' + colors.map(esc).join(", ") + '.</span>' +
+      '<span class="sr-only">' + esc(t("card.colors", { list: names.join(", ") })) + '</span>' +
       shown.map(function (c) {
-        return '<span class="color-swatch__dot" style="background:' + (TRAMMA.colorHex[c] || "#ccc") + '" aria-hidden="true"></span>';
+        return '<span class="color-swatch__dot" style="background:' + (TRAMMA.colors[c] ? TRAMMA.colors[c].hex : "#ccc") + '" aria-hidden="true"></span>';
       }).join("") +
       (colors.length > 4 ? '<span aria-hidden="true">+' + (colors.length - 4) + '</span>' : '') +
     '</p>';
@@ -85,43 +86,44 @@ TRAMMA.ui = (function () {
     var final = p.salePrice || p.price;
     var soldOut = p.stock === 0;
     var isFav = favorites.indexOf(p.id) !== -1;
-    var n = installments(final);
+    var n = installments(final); // calculado em reais; só o valor mostrado é convertido
+    var name = text(p.name);
 
     // Selos: no máximo 2, na ordem de importância para a compra.
     var badges = [];
-    if (soldOut) badges.push(['secondary', "Esgotado"]);
-    else if (p.stock <= 5) badges.push(['outline', "Últimas unidades"]);
+    if (soldOut) badges.push(['secondary', t("card.soldOut")]);
+    else if (p.stock <= 5) badges.push(['outline', t("card.lastUnits")]);
     if (p.salePrice) badges.push(['destructive', "-" + Math.round((1 - p.salePrice / p.price) * 100) + "%"]);
-    if (p.isNew) badges.push(['default', "Novo"]);
-    if (p.isBestSeller) badges.push(['secondary', "Mais vendido"]);
+    if (p.isNew) badges.push(['default', t("card.new")]);
+    if (p.isBestSeller) badges.push(['secondary', t("card.bestSeller")]);
     badges = badges.slice(0, 2);
 
     var rating = p.rating
-      ? icon("star", "sm") + '<span class="rating__value">' + p.rating.toLocaleString("pt-BR") + '</span>' +
-        '<span>(' + p.reviews + '<span class="sr-only"> avaliações</span>)</span>' +
-        '<span class="sr-only">Nota ' + p.rating.toLocaleString("pt-BR") + ' de 5.</span>'
-      : '<span>Sem avaliações</span>';
+      ? icon("star", "sm") + '<span class="rating__value">' + TRAMMA.number(p.rating) + '</span>' +
+        '<span>(' + p.reviews + '<span class="sr-only">' + t("card.reviews") + '</span>)</span>' +
+        '<span class="sr-only">' + t("card.rating", { value: TRAMMA.number(p.rating) }) + '</span>'
+      : '<span>' + t("card.noReviews") + '</span>';
 
     var price = p.salePrice
-      ? '<span class="price__old"><span class="sr-only">De </span><s>' + money(p.price) + '</s></span>' +
-        '<span class="price__current"><span class="sr-only">por </span>' + money(p.salePrice) + '</span>'
+      ? '<span class="price__old"><span class="sr-only">' + t("card.was") + '</span><s>' + money(p.price) + '</s></span>' +
+        '<span class="price__current"><span class="sr-only">' + t("card.now") + '</span>' + money(p.salePrice) + '</span>'
       : '<span class="price__current">' + money(p.price) + '</span>';
-    if (n > 1) price += '<span class="price__installments">ou ' + n + 'x de ' + money(final / n) + ' sem juros</span>';
+    if (n > 1) price += '<span class="price__installments">' + t("card.installments", { n: n, value: money(final / n) }) + '</span>';
 
     return '' +
       '<article class="product-card"' + (soldOut ? ' data-state="sold-out"' : '') + '>' +
         '<div class="product-card__media">' +
           // Placeholder até as fotos existirem: o alt já descreve a foto final.
-          '<img src="' + TRAMMA.photo.product(p.id) + '" alt="' + esc(p.photoAlt || p.name) + '" width="400" height="500" loading="lazy">' +
+          '<img src="' + TRAMMA.photo.product(p.id) + '" alt="' + esc(p.photoAlt ? text(p.photoAlt) : name) + '" width="400" height="500" loading="lazy">' +
           (badges.length ? '<div class="product-card__badges">' +
             badges.map(function (b) { return '<span class="badge" data-variant="' + b[0] + '">' + b[1] + '</span>'; }).join("") +
           '</div>' : '') +
           '<button type="button" class="button product-card__favorite" data-variant="ghost" data-size="icon"' +
-            ' aria-pressed="' + isFav + '" data-favorite="' + p.id + '" aria-label="Favoritar ' + esc(p.name) + '">' +
+            ' aria-pressed="' + isFav + '" data-favorite="' + p.id + '" aria-label="' + esc(t("card.favorite", { name: name })) + '">' +
             icon("heart") + '</button>' +
         '</div>' +
-        '<h3 class="product-card__name"><a class="product-card__link" href="produto.html?id=' + p.id + '">' + esc(p.name) + '</a></h3>' +
-        '<p class="product-card__spec">' + p.weight + ' g/m² · ' + esc(p.composition) + '</p>' +
+        '<h3 class="product-card__name"><a class="product-card__link" href="produto.html?id=' + p.id + '">' + esc(name) + '</a></h3>' +
+        '<p class="product-card__spec">' + p.weight + ' g/m² · ' + esc(text(p.composition)) + '</p>' +
         swatches(p.colors) +
         '<p class="rating">' + rating + '</p>' +
         '<p class="price">' + price + '</p>' +
@@ -174,7 +176,7 @@ TRAMMA.ui = (function () {
       if (!btn) return;
       var account = TRAMMA.session.account();
       if (!account) {
-        toast("Entre na sua conta para salvar favoritos.", { label: "Entrar", href: "entrar.html" });
+        toast(t("favorites.signIn"), { label: t("account.signIn"), href: "entrar.html" });
         return;
       }
       var id = btn.getAttribute("data-favorite");
@@ -189,8 +191,8 @@ TRAMMA.ui = (function () {
       }
       var on = btn.getAttribute("aria-pressed") !== "true";
       apply(on);
-      toast(on ? "Adicionado aos favoritos." : "Removido dos favoritos.",
-        { label: "Desfazer", onAction: function () { apply(!on); } });
+      toast(on ? t("favorites.added") : t("favorites.removed"),
+        { label: t("undo"), onAction: function () { apply(!on); } });
     });
   }
 
@@ -215,18 +217,33 @@ TRAMMA.ui = (function () {
     });
   }
 
-  /* ---------- ANNOUNCEMENT BAR ----------
-     Fechada pela pessoa, continua fechada nas próximas visitas. */
-  function initAnnouncementBar(bar) {
-    if (!bar) return;
-    if (TRAMMA.store.get("announcement-closed", false)) { bar.hidden = true; return; }
-    bar.querySelector("[data-close]").addEventListener("click", function () {
-      bar.hidden = true;
-      TRAMMA.store.set("announcement-closed", true);
-      // O botão sumiu: o foco vai para o começo do cabeçalho, e não se perde.
-      var next = document.querySelector(".site-header button, .site-header a");
-      if (next) next.focus();
+  /* ---------- LANGUAGE SWITCHER (seletor de idioma) ----------
+     Cada opção é um link de verdade (?lang=en): funciona até sem JS.
+     O JS só acrescenta três coisas:
+     - mantém os outros parâmetros do endereço (ex.: ?estado=logged);
+     - marca o idioma atual com aria-current;
+     - depois da troca, devolve o foco ao seletor. A página recarrega,
+       e sem isso quem usa teclado voltaria para o começo da página. */
+  function initLanguageSwitcher(root) {
+    if (!root) return;
+    root.querySelectorAll("[data-lang]").forEach(function (link) {
+      var lang = link.getAttribute("data-lang");
+      var params = new URLSearchParams(location.search);
+      params.set("lang", lang);
+      link.href = "?" + params.toString();
+      if (lang === TRAMMA.lang) link.setAttribute("aria-current", "true");
+      else link.removeAttribute("aria-current");
+      // Guarda QUAL seletor foi usado: a página tem dois (faixa e menu),
+      // e o foco volta para o mesmo depois do recarregamento.
+      link.addEventListener("click", function () {
+        TRAMMA.store.set("lang-focus", root.id);
+      });
     });
+    if (TRAMMA.store.get("lang-focus", false) === root.id) {
+      TRAMMA.store.remove("lang-focus");
+      var current = root.querySelector('[aria-current="true"]');
+      if (current) current.focus();
+    }
   }
 
   /* ---------- CAROUSEL ----------
@@ -266,7 +283,7 @@ TRAMMA.ui = (function () {
       if (playing) timer = setInterval(function () { show(current + 1, false); }, DELAY);
       root.setAttribute("data-state", userPaused ? "paused" : "playing");
       // O botão mostra a ação que vai acontecer, não o estado atual.
-      toggle.setAttribute("aria-label", userPaused ? "Retomar a passagem dos slides" : "Pausar a passagem dos slides");
+      toggle.setAttribute("aria-label", userPaused ? t("carousel.play") : t("carousel.pause"));
       toggle.innerHTML = icon(userPaused ? "play" : "pause");
     }
 
@@ -312,7 +329,7 @@ TRAMMA.ui = (function () {
       if (!btn) return;
       TRAMMA.store.set("cookie-consent", { choice: btn.getAttribute("data-consent"), date: new Date().toISOString() });
       banner.hidden = true;
-      toast(btn.getAttribute("data-consent") === "all" ? "Preferência salva: todos os cookies." : "Preferência salva: só os cookies essenciais.");
+      toast(btn.getAttribute("data-consent") === "all" ? t("cookies.savedAll") : t("cookies.savedEssential"));
       document.getElementById("main").focus(); // o foco não fica num elemento que sumiu
     });
   }
@@ -352,23 +369,24 @@ TRAMMA.ui = (function () {
 
     // Quem já assinou neste navegador vê a confirmação direto.
     var saved = TRAMMA.store.get("newsletter", null);
-    if (saved) { form.hidden = true; doneText.textContent = "Você já recebe a newsletter no e-mail " + saved + "."; done.hidden = false; }
+    if (saved) { form.hidden = true; doneText.textContent = t("newsletter.already", { email: saved }); done.hidden = false; }
 
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       if (submit.getAttribute("aria-busy") === "true") return; // ignora clique duplo
       var value = input.value.trim();
-      if (!value) return setError("Informe seu e-mail.");
-      if (!EMAIL.test(value)) return setError("Digite um e-mail válido, como nome@exemplo.com.");
+      if (!value) return setError(t("newsletter.errorEmpty"));
+      if (!EMAIL.test(value)) return setError(t("newsletter.errorInvalid"));
       setError(null);
 
       submit.setAttribute("aria-busy", "true");
-      submit.textContent = "Enviando…";
+      submit.textContent = t("newsletter.sending");
       TRAMMA.simulate(1000).then(function () {
         submit.removeAttribute("aria-busy");
-        submit.textContent = "Assinar a newsletter";
+        submit.textContent = t("newsletter.submit");
         TRAMMA.store.set("newsletter", value);
-        showDone("Pronto. Você vai receber novidades e ofertas no e-mail " + value + ".");
+        // O cupom vem junto na confirmação: é o incentivo prometido na seção.
+        showDone(t("newsletter.done", { email: value, code: TRAMMA.newsletterCoupon.code }));
       });
     });
   }
@@ -382,26 +400,33 @@ TRAMMA.ui = (function () {
       var counter = link.querySelector(".counter");
       counter.textContent = total > 99 ? "99+" : total;
       counter.hidden = total === 0;
-      link.setAttribute("aria-label", total === 0 ? "Sacola, vazia" : "Sacola, " + total + (total === 1 ? " item" : " itens"));
+      link.setAttribute("aria-label", total === 0 ? t("bag.label.empty") : total === 1 ? t("bag.label.one") : t("bag.label.many", { n: total }));
     });
   }
 
   /* ---------- CONTA NO MENU (sheet) ----------
-     guest: entrar e criar conta · logged: saudação, conta, pedidos e sair. */
+     guest: entrar, criar conta, favoritos e pedidos
+     logged: saudação, conta, pedidos, favoritos e sair.
+     Favoritos e pedidos aparecem nos dois estados: no celular, o menu é o
+     único caminho para eles. Sem login, as páginas pedem para entrar. */
   function renderSheetAccount(container) {
     if (!container) return;
     var account = TRAMMA.session.account();
+    var shortcuts =
+      '<a class="sheet__link" href="pedidos.html">' + t("account.orders") + '</a>' +
+      '<a class="sheet__link" href="favoritos.html">' + t("favorites") + '</a>';
     if (!account) {
       container.innerHTML =
-        '<a class="button" href="entrar.html">Entrar</a>' +
-        '<a class="button" data-variant="outline" href="criar-conta.html">Criar conta</a>';
+        '<a class="button" href="entrar.html">' + t("account.signIn") + '</a>' +
+        '<a class="button" data-variant="outline" href="criar-conta.html">' + t("account.create") + '</a>' +
+        shortcuts;
       return;
     }
     container.innerHTML =
-      '<p class="sheet__greeting">Olá, ' + esc(account.name.split(" ")[0]) + '</p>' +
-      '<a class="sheet__link" href="conta.html">Minha conta</a>' +
-      '<a class="sheet__link" href="pedidos.html">Meus pedidos</a>' +
-      '<button type="button" class="button" data-variant="outline" data-sign-out>Sair da conta</button>';
+      '<p class="sheet__greeting">' + esc(t("greeting", { name: account.name.split(" ")[0] })) + '</p>' +
+      '<a class="sheet__link" href="conta.html">' + t("account.mine") + '</a>' +
+      shortcuts +
+      '<button type="button" class="button" data-variant="outline" data-sign-out>' + t("account.signOut") + '</button>';
     container.querySelector("[data-sign-out]").addEventListener("click", function () {
       TRAMMA.store.remove("session");
       location.href = "index.html"; // recarrega sem o parâmetro de revisão
@@ -414,7 +439,7 @@ TRAMMA.ui = (function () {
     var account = TRAMMA.session.account();
     if (!account) return; // guest: o HTML já diz "Entrar"
     link.href = "conta.html";
-    link.querySelector("span").textContent = "Olá, " + account.name.split(" ")[0];
+    link.querySelector("span").textContent = t("greeting", { name: account.name.split(" ")[0] });
   }
 
   /* ---------- NAVIGATION MENU (mega menu, desktop) ----------
@@ -451,6 +476,27 @@ TRAMMA.ui = (function () {
     document.addEventListener("click", function (e) { if (!nav.contains(e.target)) closeAll(); });
   }
 
+  /* ---------- BUSCA DO CABEÇALHO (desktop, padrão Insider) ----------
+     A lupa abre o campo no lugar do menu; o X ou o Esc fecham.
+     Foco: vai para o campo ao abrir e volta para a lupa ao fechar. */
+  function initHeaderSearch(header) {
+    if (!header) return;
+    var toggle = header.querySelector(".site-header__search-toggle");
+    var form = header.querySelector(".site-header__search");
+    if (!toggle || !form) return;
+    var input = form.querySelector("input");
+
+    function setOpen(open) {
+      form.hidden = !open;
+      toggle.setAttribute("aria-expanded", String(open));
+      if (open) { header.setAttribute("data-search", "open"); input.focus(); }
+      else { header.removeAttribute("data-search"); toggle.focus(); }
+    }
+    toggle.addEventListener("click", function () { setOpen(true); });
+    form.querySelector("[data-search-close]").addEventListener("click", function () { setOpen(false); });
+    form.addEventListener("keydown", function (e) { if (e.key === "Escape") setOpen(false); });
+  }
+
   /* ---------- RODAPÉ: sanfona no celular, colunas no desktop ----------
      Os grupos são <details>. A partir de 768px eles ficam sempre abertos,
      e o <summary> sai da ordem do Tab, porque lá ele vira só um título
@@ -474,12 +520,13 @@ TRAMMA.ui = (function () {
     initTabs: initTabs,
     renderHeaderAccount: renderHeaderAccount,
     initNavigationMenu: initNavigationMenu,
+    initHeaderSearch: initHeaderSearch,
     initFooterColumns: initFooterColumns,
     renderSheetAccount: renderSheetAccount,
     icon: icon, money: money, esc: esc,
     productCard: productCard, productCardSkeleton: productCardSkeleton,
     toast: toast, initFavorites: initFavorites, initSheet: initSheet,
-    initAnnouncementBar: initAnnouncementBar, initCarousel: initCarousel,
+    initLanguageSwitcher: initLanguageSwitcher, initCarousel: initCarousel,
     initCookieBanner: initCookieBanner, initNewsletter: initNewsletter,
     updateBagCounter: updateBagCounter
   };

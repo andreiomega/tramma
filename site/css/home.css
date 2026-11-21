@@ -1,8 +1,9 @@
 /* =====================================================================
-   Tramma — layout da home no site (I1)
+   Tramma — layout da home (I1), no site e no app
    Só a distribuição das seções. A aparência de cada peça está no
    components.css. Mobile-first: a base é o celular; as telas maiores
    entram nas quebras do Bootstrap (768, 992...).
+   Arquivo compartilhado: é idêntico em site/ e app/.
    ===================================================================== */
 
 /* O <main> recebe foco por JS (tabindex="-1") em algumas trocas de estado.
@@ -19,8 +20,12 @@
 
 /* ---------- Faixas (bands) ----------
    Cada seção ocupa a largura toda, com o conteúdo no container.
-   O fundo alterna entre background e card (data-tone="card"):
-   separa os blocos sem precisar de linhas. */
+   O fundo alterna entre background (cinza) e card (branco), separando os
+   blocos sem precisar de linhas. A cor de cada seção é FIXA, escrita no
+   HTML, e não calculada pela posição: o resultado é sempre previsível.
+     vitrine: cinza · categorias: branco · (campanha)
+     recomendados: cinza · vistos: branco
+     newsletter: cinza · sobre: branco */
 .band { padding-block: var(--space-7); }
 .band[data-tone="card"] { background: var(--card); }
 
@@ -91,7 +96,8 @@
 .about { display: grid; gap: var(--space-6); }
 .about__text { display: grid; gap: var(--space-3); justify-items: start; align-content: start; }
 .about__text .eyebrow { color: var(--muted-foreground); }
-.about__text h2 { font-size: var(--text-2xl); }
+.about__text h2,
+.newsletter-band__body h2 { font-size: var(--text-2xl); } /* mesmo tamanho dos outros títulos de seção */
 .about__faq { display: grid; gap: var(--space-3); justify-items: start; }
 .about__faq > div { width: 100%; border-top: 1px solid var(--border); }
 .about__faq-title { font-size: var(--text-lg); }
@@ -132,14 +138,16 @@
   .section-head { margin-bottom: var(--space-5); }
   .section-head h2,
   .spec-block__content h2,
-  .about__text h2 { font-size: var(--text-3xl); }
+  .about__text h2,
+  .newsletter-band__body h2 { font-size: var(--text-3xl); }
 
   /* A busca está no cabeçalho; a do topo do conteúdo sai. */
-  .home-top > .search { display: none; }
-  .home-top { padding-block: 0; }
-  .home-greeting { padding-block: var(--space-3); }
-  /* Guest no desktop: o topo fica vazio e não deve ocupar espaço. */
-  .home-top:not(:has(.home-greeting:not([hidden]))) { display: none; }
+  /* No desktop, o topo do conteúdo some inteiro: a busca está no cabeçalho
+     e a saudação também ("Olá, Ana" ao lado do ícone de conta). Repetir o
+     nome logo acima do slider seria redundante. */
+  .home-top { display: none; }
+  /* O cabeçalho fica preso no topo (72px): a newsletter para logo abaixo dele. */
+  #newsletter-band { scroll-margin-top: 72px; }
 
   /* Ficha técnica: o texto ocupa 5 colunas e deixa 1 de respiro. */
   .spec-block__content { grid-column: 8 / span 5; }

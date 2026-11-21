@@ -9,6 +9,7 @@
   <style>
     body { margin: 0; padding: 48px 16px; font-family: system-ui, sans-serif; line-height: 1.5; color: #1a1a1a; background: #fff; }
     main { max-width: 40rem; margin: 0 auto; }
+    .phone { display: block; max-width: 100%; border: 1px solid #888; border-radius: 24px; }
     @media (prefers-color-scheme: dark) { body { color: #f2f2f2; background: #141414; } a { color: #9db0ee; } }
   </style>
 </head>
@@ -17,7 +18,13 @@
     <h1>Tramma</h1>
     <p>Loja fictícia de camisetas, criada para aulas de UI, design system, design responsivo, design de apps, interação e acessibilidade.</p>
     <p><a href="site/index.html">Abrir o site (em construção)</a></p>
+    <p><a href="app/index.html">Abrir o app (em construção)</a></p>
+    <p>Em inglês, para as aulas em inglês: <a href="site/index.html?lang=en" hreflang="en">site</a> · <a href="app/index.html?lang=en" hreflang="en">app</a>. A escolha fica salva no navegador; o seletor PT/EN no topo troca de volta.</p>
     <p>A versão 2 está em construção, uma página por vez. A versão 1 continua disponível no repositório, na tag <a href="https://github.com/andreiomega/tramma/tree/v1">v1</a>.</p>
+    <!-- Moldura de celular só para ver o app no computador. O app em si
+         não depende dela: no celular, ele abre direto. -->
+    <h2>O app num celular de 390 × 844</h2>
+    <iframe class="phone" src="app/index.html" width="390" height="844" title="App da Tramma, em tamanho de celular"></iframe>
   </main>
 </body>
 </html>

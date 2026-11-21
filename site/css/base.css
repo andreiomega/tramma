@@ -142,3 +142,9 @@ body[data-scroll-lock] { overflow: hidden; }
 /* O atributo hidden sempre esconde. Sem isto, um componente com
    display: flex/grid apareceria mesmo com hidden no HTML. */
 [hidden] { display: none !important; }
+
+/* Rolagem suave nos links internos (ex.: aviso → newsletter), só para quem
+   não pediu menos movimento no sistema. */
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
