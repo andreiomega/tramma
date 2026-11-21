@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wireframe | Home, propostas</title>
+  <!-- Wireframe de baixa fidelidade: só estrutura e conteúdo.
+       Sem fotos, sem interação. Cinza para tudo; azul só no que é clicável.
+       Base: a home do Trendify (tela 16_Light_home), com o conteúdo da Tramma. -->
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 32px 16px; font: 14px/1.4 system-ui, sans-serif; color: #222; background: #e9e9e9; }
+    h1 { font-size: 18px; margin: 0 0 4px; }
+    .intro { max-width: 360px; margin: 0 auto 16px; color: #555; }
+    .phone { width: 360px; margin: 0 auto; background: #fff; border: 1px solid #999; }
+    .pad { padding: 12px 16px; }
+    .row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .box { background: #d6d6d6; display: flex; align-items: center; justify-content: center; color: #666; font-size: 12px; }
+    .link { color: #1a56db; text-decoration: underline; }
+    .btn { color: #1a56db; border: 1px solid #1a56db; border-radius: 4px; padding: 4px 10px; font-size: 12px; white-space: nowrap; }
+    .icon { width: 28px; height: 28px; border: 1px solid #1a56db; border-radius: 50%; color: #1a56db; font-size: 10px; display: flex; align-items: center; justify-content: center; }
+    .title { font-weight: 600; font-size: 16px; }
+    .note { margin: 0 16px 8px; padding: 4px 8px; border-left: 3px solid #999; color: #666; font-size: 12px; background: #f4f4f4; }
+    /* Barra superior e bottom nav */
+    .appbar { border-bottom: 1px solid #ccc; }
+    .search { margin: 12px 16px; border: 1px solid #999; border-radius: 4px; padding: 10px; color: #888; }
+    .banner { margin: 0 16px; height: 140px; display: grid; grid-template-columns: 1fr 120px; border: 1px solid #999; }
+    .banner div:first-child { padding: 12px; }
+    .chips { display: flex; gap: 8px; overflow: hidden; padding: 16px; }
+    .chip { border: 1px solid #1a56db; color: #1a56db; border-radius: 99px; padding: 6px 12px; white-space: nowrap; font-size: 12px; }
+    .chip.on { background: #1a56db; color: #fff; }
+    .rail { display: flex; gap: 12px; overflow: hidden; padding: 0 16px 16px; }
+    .card { flex: 0 0 120px; }
+    .card .box { height: 150px; position: relative; }
+    .card .box span { position: absolute; top: 4px; font-size: 10px; }
+    .card .tl { left: 4px; } .card .tr { right: 4px; color: #1a56db; }
+    .card p { margin: 4px 0 0; font-size: 12px; }
+    .cats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 0 16px 16px; }
+    .cat { display: grid; grid-template-columns: 1fr 56px; height: 64px; border: 1px solid #1a56db; }
+    .cat span { padding: 8px; color: #1a56db; }
+    .bottomnav { display: grid; grid-template-columns: repeat(5, 1fr); border-top: 1px solid #ccc; padding: 8px 0; text-align: center; font-size: 11px; color: #1a56db; }
+    .bottomnav .on { font-weight: 700; }
+    /* Propostas: borda tracejada e etiqueta com a origem. */
+    .prop { margin: 8px 16px 16px; padding: 8px; border: 2px dashed #888; }
+    .tag { display: inline-block; margin-bottom: 6px; padding: 2px 6px; background: #444; color: #fff; font-size: 11px; font-weight: 600; }
+    .benefits { display: flex; gap: 8px; overflow: hidden; }
+    .benefit { flex: 0 0 130px; display: flex; gap: 6px; align-items: center; font-size: 12px; }
+    .benefit .box { flex: 0 0 24px; height: 24px; border-radius: 50%; }
+    .field { border: 1px solid #999; border-radius: 4px; padding: 8px; color: #888; margin: 6px 0; }
+    .acc { border-bottom: 1px solid #ccc; padding: 8px 0; display: flex; justify-content: space-between; color: #1a56db; }
+    .skip { max-width: 360px; margin: 16px auto 0; color: #555; }
+    .skip li { margin-bottom: 6px; }
+  </style>
+</head>
+<body>
+  <p class="intro"><strong>Wireframe da home, fase 2: propostas.</strong> A estrutura aprovada continua igual. As caixas tracejadas são propostas, numeradas, com a origem na etiqueta. Nada entra sem a sua decisão; responda, por exemplo, “1 sim, 2 não”.</p>
+
+  <div class="phone">
+
+    <!-- 1. Barra superior -->
+    <div class="appbar pad row">
+      <span class="icon">logo</span>
+      <span class="title">Tramma</span>
+      <span class="icon">notif.</span>
+    </div>
+
+    <!-- 2. Busca -->
+    <div class="search">Buscar camisetas…</div>
+
+    <div class="prop"><span class="tag">1 · Proposta · Especificação</span><div class="title">Olá, Ana</div><div style="font-size:12px;color:#666">Só com a pessoa logada.</div></div>
+    <!-- 3. Banner promocional -->
+    <div class="banner">
+      <div>
+        <div class="title">Título da oferta</div>
+        <div>Subtítulo</div>
+        <div style="font-size:12px;color:#666">Texto curto com a condição da oferta</div>
+      </div>
+      <div class="box">imagem</div>
+    </div>
+
+    <div class="prop"><span class="tag">2 · Proposta · Insider</span><div class="benefits"><div class="benefit"><div class="box"></div>Frete grátis acima de R$ 299</div><div class="benefit"><div class="box"></div>Até 6x sem juros</div><div class="benefit"><div class="box"></div>1ª troca grátis</div></div><div style="font-size:12px;color:#666;margin-top:6px">Faixa de benefícios, com as regras da especificação. Rola para o lado.</div></div>
+    <!-- 4. Chips de categoria -->
+    <div class="chips">
+      <span class="chip on">Descobrir</span><span class="chip">Gola careca</span><span class="chip">Gola V</span><span class="chip">Henley</span><span class="chip">Manga longa</span>
+    </div>
+
+    <!-- 5. Produtos do chip escolhido -->
+    <div class="rail">
+      <div class="card"><div class="box">imagem<span class="tl">★ 4,8</span><span class="tr">♡</span></div><p>Nome do produto</p><p>R$ 149,00</p></div>
+      <div class="card"><div class="box">imagem<span class="tl">★ 4,6</span><span class="tr">♡</span></div><p>Nome do produto</p><p>R$ 119,00</p></div>
+      <div class="card"><div class="box">imagem<span class="tl">★ 4,7</span><span class="tr">♡</span></div><p>Nome do produto</p><p>R$ 189,00</p></div>
+    </div>
+
+    <!-- 6. Grade de categorias -->
+    <div class="cats">
+      <div class="cat"><span>Gola careca</span><div class="box">img</div></div>
+      <div class="cat"><span>Gola V</span><div class="box">img</div></div>
+      <div class="cat"><span>Henley</span><div class="box">img</div></div>
+      <div class="cat"><span>Manga longa</span><div class="box">img</div></div>
+      <div class="cat"><span>Oversized</span><div class="box">img</div></div>
+      <div class="cat"><span>Todas</span><div class="box">img</div></div>
+    </div>
+    <p class="note">O Trendify tem 10 categorias. A Tramma tem 5 modelos; a 6ª caixa leva a todos os produtos.</p>
+
+    <!-- 7. Novidades -->
+    <div class="pad row"><span class="title">Novidades</span><span class="link">Ver todos →</span></div>
+    <div class="rail">
+      <div class="card"><div class="box">imagem<span class="tl">★ 4,5</span><span class="tr">♡</span></div><p>Nome do produto</p><p>R$ 219,00</p></div>
+      <div class="card"><div class="box">imagem<span class="tl">★ —</span><span class="tr">♡</span></div><p>Nome do produto</p><p>R$ 129,00</p></div>
+      <div class="card"><div class="box">imagem<span class="tl">★ 4,6</span><span class="tr">♡</span></div><p>Nome do produto</p><p>R$ 249,00</p></div>
+    </div>
+
+    <div class="prop"><span class="tag">3 · Proposta · Aurum (banner de promoção) e Insider</span><div class="box" style="height:120px">imagem</div><div class="title">Título da campanha</div><div>Texto curto</div><span class="btn">Ver a campanha</span></div>
+    <!-- 8. Ofertas da semana -->
+    <div class="pad row"><span class="title">Ofertas da semana</span><span class="link">Ver todos →</span></div>
+    <div class="rail">
+      <div class="card"><div class="box">imagem<span class="tl">★ 4,6</span><span class="tr">♡</span></div><p>Nome do produto</p><p>R$ 119,00</p></div>
+      <div class="card"><div class="box">imagem<span class="tl">★ 4,8</span><span class="tr">♡</span></div><p>Nome do produto</p><p>R$ 199,00</p></div>
+      <div class="card"><div class="box">imagem<span class="tl">★ 4,2</span><span class="tr">♡</span></div><p>Nome do produto</p><p>R$ 169,00</p></div>
+    </div>
+
+    <div class="prop"><span class="tag">4 · Proposta · Aurum (Bestsellers)</span><div class="row"><span class="title">Mais vendidos</span><span class="link">Ver todos →</span></div><div class="rail" style="padding:0"><div class="card"><div class="box">imagem</div><p>Nome do produto</p><p>R$ 149,00</p></div><div class="card"><div class="box">imagem</div><p>Nome do produto</p><p>R$ 189,00</p></div></div></div>
+    <div class="prop"><span class="tag">5 · Proposta · Especificação</span><div class="row"><span class="title">Recomendados para você</span></div><div class="rail" style="padding:0"><div class="card"><div class="box">imagem</div><p>Nome do produto</p><p>R$ 149,00</p></div><div class="card"><div class="box">imagem</div><p>Nome do produto</p><p>R$ 189,00</p></div></div><div style="font-size:12px;color:#666">Só com a pessoa logada.</div></div>
+    <div class="prop"><span class="tag">6 · Proposta · Especificação</span><div class="row"><span class="title">Vistos recentemente</span></div><div class="rail" style="padding:0"><div class="card"><div class="box">imagem</div><p>Nome do produto</p><p>R$ 149,00</p></div><div class="card"><div class="box">imagem</div><p>Nome do produto</p><p>R$ 189,00</p></div></div><div style="font-size:12px;color:#666">Só se a pessoa já viu algum produto.</div></div>
+    <div class="prop"><span class="tag">7 · Proposta · Direção visual “Ficha técnica”</span><div class="box" style="height:100px">imagem do tecido</div><div class="title">O que faz uma camiseta durar</div><div style="font-size:12px">Gramatura · Fio · Costura · Gola</div><span class="link">Conheça nossos tecidos</span></div>
+    <div class="prop"><span class="tag">8 · Proposta · Insider</span><div class="title">Sobre a Tramma</div><div style="font-size:12px;color:#666">Texto curto sobre a marca.</div><span class="link">Conheça a Tramma</span><div class="title" style="margin-top:10px">Perguntas frequentes</div><div class="acc">O que é gramatura? <span>▾</span></div><div class="acc">Como funciona a troca? <span>▾</span></div><span class="link">Ver todas as perguntas</span></div>
+    <div class="prop"><span class="tag">9 · Proposta · Aurum (rodapé) e especificação (newsletter)</span><div class="title">Receba novidades e ofertas</div><div class="field">E-mail</div><span class="btn">Assinar a newsletter</span><div class="acc" style="margin-top:8px">Ajuda <span>▾</span></div><div class="acc">A Tramma <span>▾</span></div><div class="acc">Minha conta <span>▾</span></div><div style="font-size:12px;color:#666;margin-top:6px">Pagamento e entrega · Tramma é uma loja fictícia.</div><div style="font-size:12px;color:#666;margin-top:6px"><strong>Dúvida:</strong> o rodapé existe no site. No app, ele sai, como no Trendify, ou fica, para a estrutura ser igual?</div></div>
+    <!-- 9. Bottom nav -->
+    <nav class="bottomnav">
+      <span class="on">Início</span><span>Favoritos</span><span>Sacola</span><span>Pedidos</span><span>Conta</span>
+    </nav>
+  </div>
+
+  <div class="skip">
+    <strong>Vistos e não propostos, com o motivo:</strong>
+    <ul>
+      <li><strong>Slider no lugar do banner</strong> (Aurum): trocaria um item aprovado. Se quiser, o banner pode virar slider depois, sem mudar a estrutura.</li>
+      <li><strong>Logos de marcas</strong> (Aurum): a Tramma tem uma marca só.</li>
+      <li><strong>4 listas curtas</strong>: destaques, novos, promoção e melhor avaliados (Aurum). Repetem os chips e as listas que já existem.</li>
+      <li><strong>Vitrine com abas</strong> (Insider): faz o mesmo que os chips do Trendify.</li>
+      <li><strong>Galeria “Na vida real”</strong> (Insider): opcional, só fotos. Fica de fora, a menos que você queira.</li>
+      <li><strong>Barra de conta e idioma no topo</strong> (Aurum): é do desktop. Entra no wireframe do desktop.</li>
+    </ul>
+  </div>
+</body>
+</html>

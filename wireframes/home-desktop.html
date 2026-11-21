@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wireframe | Home desktop</title>
+  <!-- Wireframe de baixa fidelidade feito por engenharia reversa do site pronto
+       (site/index.html, a partir de 992px), já com os ajustes decididos.
+       Sem fotos, sem interação. Cinza para tudo; azul só no que é clicável.
+       Alinhamentos, botões e links seguem o layout do site. -->
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; padding: 32px 16px; font: 14px/1.4 system-ui, sans-serif; color: #222; background: #e9e9e9; }
+    .screen { width: 1200px; margin: 0 auto; background: #fff; border: 1px solid #999; }
+    .wrap { padding: 0 40px; }
+    .row { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .box { background: #d6d6d6; display: flex; align-items: center; justify-content: center; color: #666; font-size: 12px; }
+    .link { color: #1a56db; text-decoration: underline; }
+    /* Dois tipos de botão, como no site: primário (cheio) e contorno. */
+    .btn { color: #1a56db; border: 1px solid #1a56db; border-radius: 4px; padding: 10px 18px; font-size: 13px; white-space: nowrap; display: inline-block; background: #fff; }
+    .btn.primary { background: #1a56db; color: #fff; }
+    .ico { color: #1a56db; display: inline-flex; align-items: center; gap: 6px; }
+    .title { font-weight: 600; font-size: 26px; }
+    .eyebrow { font-size: 12px; color: #666; text-transform: uppercase; letter-spacing: .05em; }
+    .small { font-size: 12px; color: #666; }
+    section.wrap { padding: 56px 40px; border-top: 1px solid #ddd; }
+    .head-center { text-align: center; display: grid; gap: 4px; justify-items: center; }
+    .foot-center { text-align: center; margin-top: 28px; }
+    /* Faixa de aviso e cabeçalho */
+    .announce { background: #444; color: #fff; padding: 8px 40px; font-size: 12px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; }
+    .announce > span:first-child { grid-column: 2; }
+    .announce .lang { justify-self: end; }
+    .announce .lang span { color: #cfe0ff; text-decoration: underline; margin-left: 12px; }
+    .header { padding: 16px 40px; border-bottom: 1px solid #ccc; }
+    .logo { font-weight: 700; font-size: 20px; letter-spacing: .08em; color: #1a56db; }
+    .search { flex: 0 1 420px; border: 1px solid #999; border-radius: 4px; padding: 10px; color: #888; display: flex; align-items: center; justify-content: space-between; }
+    .nav { padding: 12px 40px; border-bottom: 1px solid #ccc; display: flex; justify-content: center; gap: 36px; color: #1a56db; }
+    .mega { margin: 0 40px; border: 1px dashed #999; border-top: 0; padding: 16px; display: grid; grid-template-columns: repeat(3, 200px); gap: 24px; justify-content: center; }
+    .mega strong { display: block; margin-bottom: 6px; }
+    .mega span { display: block; color: #1a56db; font-size: 13px; margin-bottom: 4px; }
+    /* Slider e campanha: imagem na largura toda, texto por cima, à esquerda */
+    .hero, .campaign { position: relative; background: #d6d6d6; }
+    .hero { height: 520px; } .campaign { height: 440px; }
+    .hero > .box, .campaign > .box { position: absolute; top: 12px; right: 16px; background: none; }
+    .overlay { position: absolute; left: 40px; top: 50%; transform: translateY(-50%); max-width: 420px; display: grid; gap: 12px; justify-items: start; }
+    .overlay .title { font-size: 36px; }
+    .hero-ctrl { position: absolute; left: 40px; right: 40px; bottom: 20px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; }
+    .hero-ctrl .arrows { justify-self: end; display: flex; gap: 8px; }
+    .round { width: 36px; height: 36px; border-radius: 50%; border: 1px solid #1a56db; background: #fff; color: #1a56db; display: inline-flex; align-items: center; justify-content: center; }
+    .dots { display: flex; gap: 8px; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; border: 1px solid #1a56db; background: #fff; }
+    .dot.on { background: #1a56db; width: 24px; border-radius: 5px; }
+    /* Benefícios: faixa escura, ícone, título e texto curto */
+    .benefits { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; padding: 20px 40px; background: #444; color: #fff; }
+    .benefit { display: grid; grid-template-columns: 28px 1fr; gap: 10px; align-items: start; }
+    .benefit .box { height: 28px; background: #777; }
+    .benefit .small { color: #ddd; }
+    /* Vitrine com abas */
+    .tabs { display: flex; gap: 28px; border-bottom: 1px solid #ccc; margin: 24px 0; }
+    .tabs span { padding: 10px 0; color: #1a56db; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; }
+    .tabs .on { border-bottom: 2px solid #222; color: #222; font-weight: 600; }
+    .grid4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+    .card .box { height: 300px; position: relative; }
+    .card .box span { position: absolute; top: 8px; font-size: 11px; }
+    .card .tl { left: 8px; background: #eee; padding: 2px 6px; } .card .tr { right: 8px; color: #1a56db; }
+    .card p { margin: 4px 0 0; }
+    .sw i { display: inline-block; width: 12px; height: 12px; border-radius: 50%; border: 1px solid #888; margin-right: 4px; background: #bbb; }
+    /* Categorias */
+    .cats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 24px; margin-top: 24px; }
+    .cat .box { height: 220px; }
+    .cat span { display: flex; justify-content: space-between; margin-top: 10px; color: #1a56db; }
+    .cat b { font-weight: 400; }
+    /* Sobre, perguntas e newsletter: duas colunas */
+    .two { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
+    .two > div { display: grid; gap: 8px; justify-items: start; }
+    .acc { width: 100%; display: flex; justify-content: space-between; border-bottom: 1px solid #ccc; padding: 12px 0; color: #1a56db; }
+    .field { width: 100%; border: 1px solid #999; border-radius: 4px; padding: 10px; color: #888; }
+    /* Rodapé */
+    /* Rodapé preto: fundo escuro, texto claro; links sublinhados. */
+    .footer { background: #1f1f1f; color: #fff; padding: 40px; }
+    .footer .cols { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 32px; }
+    .footer strong { display: block; margin-bottom: 8px; }
+    .footer .cols span { display: block; color: #fff; font-size: 13px; margin-bottom: 6px; text-decoration: underline; }
+    .footer .logo { color: #fff; }
+    .footer .small { color: #ccc; }
+    .social { display: inline-flex; gap: 16px; color: #fff; }
+    section.wrap.gray { background: #ececec; }
+    section.wrap.white { background: #fff; }
+    .notes { max-width: 1200px; margin: 16px auto 0; color: #555; }
+    .notes ul { padding-left: 20px; margin: 8px 0 0; } .notes li { margin-bottom: 6px; }
+    /* ---------- Escala REAL do site (site/css/tokens.css) ----------
+       Texto 16 e 14 · títulos de seção 40 · slider 64 · campanha 40 ·
+       saudação 24 · pesos 400 e 600 · alvos de 48px. Vem por último para
+       valer sobre as regras acima. */
+    body { font-size: 16px; line-height: 1.5; }
+    .title { font-size: 40px; line-height: 1.2; font-weight: 600; }
+    .hero .overlay .title { font-size: 64px; }
+    .campaign .overlay .title { font-size: 40px; }
+    .overlay { max-width: 520px; }
+    .eyebrow { font-size: 14px; font-weight: 600; letter-spacing: .08em; }
+    .small { font-size: 14px; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 24px; font-size: 16px; font-weight: 600; }
+    .announce { font-size: 14px; }
+    .logo { font-weight: 600; }
+    .search { height: 48px; padding: 0 12px; }
+    .nav { padding: 0; border: 0; gap: 32px; font-weight: 600; }
+    .searchopen { border-top: 1px dashed #999; } .nav span { min-height: 48px; display: inline-flex; align-items: center; }
+    .tabs span { font-size: 14px; font-weight: 600; letter-spacing: .08em; min-height: 48px; display: inline-flex; align-items: center; padding: 0; }
+    .card .box { height: 350px; }
+    .card p:first-of-type { font-weight: 600; }
+    .cat .box { height: 256px; }
+    .cat span { min-height: 48px; align-items: center; font-weight: 600; }
+    .acc { min-height: 48px; align-items: center; padding: 0; font-weight: 600; }
+    .field { height: 48px; }
+    .benefit strong { font-size: 16px; }
+    .footer strong { font-size: 16px; }
+    .footer .cols span { font-size: 16px; margin-bottom: 0; min-height: 40px; display: flex; align-items: center; }
+    .social svg { width: 48px; height: 48px; padding: 12px; }
+    .greeting { font-size: 24px; font-weight: 600; }
+    .faq-title { font-size: 20px; font-weight: 600; }
+    .incentive { font-size: 20px; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <div class="screen">
+
+    <!-- Faixa de aviso: texto no centro, idioma à direita -->
+    <div class="announce"><span style="text-decoration:underline">Assine a newsletter e ganhe 10% na primeira compra</span><span class="lang"><span>PT</span><span>EN</span></span></div>
+
+    <!-- Cabeçalho em UMA linha, como no Aurum e na Insider: logo · menu (centro) · busca, conta, favoritos e sacola.
+         "Mais vendidos" saiu do menu: a curadoria já está na home. -->
+    <div class="header row">
+      <span class="logo">tramma</span>
+      <div class="nav"><span>Todos os produtos</span><span>Novidades</span><span>Camisetas ▾</span><span>Sobre a Tramma</span><span>Blog</span></div>
+      <div class="row" style="gap:20px">
+        <span class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/></svg></span>
+        <span class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/></svg>Olá, Ana</span>
+        <span class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"/></svg></span>
+        <span class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8h14l-1 12H6z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg></span>
+      </div>
+    </div>
+
+    <!-- Busca aberta (padrão Insider): ao clicar na lupa, o campo troca a linha inteira do cabeçalho. Desenhada aqui só para mostrar o estado. -->
+    <div class="header row searchopen">
+      <div class="search" style="flex:1;max-width:none">Buscar camisetas <span class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/></svg></span></div>
+      <span class="ico" style="font-size:22px">✕</span>
+    </div>
+
+    <!-- Mega menu de Camisetas, aberto abaixo do cabeçalho -->
+    <div class="mega">
+      <div><strong>Por modelo</strong><span>Gola careca</span><span>Gola V</span><span>Henley</span><span>Manga longa</span><span>Oversized</span></div>
+      <div><strong>Por gramatura</strong><span>Leve, até 160 g/m²</span><span>Média, de 180 a 200 g/m²</span><span>Pesada, 220 g/m² ou mais</span></div>
+      <div><strong>Destaques</strong><span>Mais vendidos</span><span>Em promoção</span><span>Ver todas as camisetas</span></div>
+    </div>
+
+    <!-- Slider principal: foto na largura toda, texto à esquerda, controles na base -->
+    <div class="hero">
+      <div class="box">imagem (largura toda)</div>
+      <div class="overlay">
+        <span class="eyebrow">Chamada curta</span>
+        <span class="title">Título do slide</span>
+        <span class="small">Texto curto do slide.</span>
+        <span class="btn primary">Ação do slide</span>
+      </div>
+      <div class="hero-ctrl">
+        <span class="round">❚❚</span>
+        <span class="dots"><span class="dot on"></span><span class="dot"></span><span class="dot"></span></span>
+        <span class="arrows"><span class="round">‹</span><span class="round">›</span></span>
+      </div>
+    </div>
+
+    <!-- Faixa de benefícios -->
+    <div class="benefits">
+      <div class="benefit"><div class="box"></div><div><strong>Frete grátis</strong><div class="small">Nas compras acima de R$ 299</div></div></div>
+      <div class="benefit"><div class="box"></div><div><strong>Até 6x sem juros</strong><div class="small">Parcela mínima de R$ 30</div></div></div>
+      <div class="benefit"><div class="box"></div><div><strong>Primeira troca grátis</strong><div class="small">Em até 30 dias depois da entrega</div></div></div>
+      <div class="benefit"><div class="box"></div><div><strong>5% off no Pix</strong><div class="small">Desconto no valor dos produtos</div></div></div>
+    </div>
+
+    <!-- Vitrine: título no centro, abas, produtos e botão embaixo, no centro -->
+    <section class="wrap gray">
+      <div class="head-center"><span class="eyebrow">Vitrine</span><span class="title">Escolhidas a dedo</span></div>
+      <div class="tabs"><span class="on">Destaques</span><span>Novidades</span><span>Mais vendidos</span><span>Mais bem avaliados</span><span>Promoções</span></div>
+      <div class="grid4">
+        <div class="card"><div class="box">imagem<span class="tl">selo</span><span class="tr">♡</span></div><p>Nome do produto</p><p class="small">240 g/m² · algodão</p><p class="sw"><i></i><i></i><i></i></p><p class="small">★ 4,8 (214)</p><p><strong>R$ 189,00</strong></p><p class="small">ou 6x de R$ 31,50 sem juros</p></div>
+        <div class="card"><div class="box">imagem<span class="tl">selo</span><span class="tr">♡</span></div><p>Nome do produto</p><p class="small">180 g/m² · algodão</p><p class="sw"><i></i><i></i><i></i></p><p class="small">★ 4,8 (214)</p><p><strong>R$ 149,00</strong></p><p class="small">ou 4x de R$ 37,25 sem juros</p></div>
+        <div class="card"><div class="box">imagem<span class="tl">-17%</span><span class="tr">♡</span></div><p>Nome do produto</p><p class="small">220 g/m² · algodão</p><p class="sw"><i></i><i></i><i></i></p><p class="small">★ 4,8 (214)</p><p class="small"><s>R$ 239,00</s></p><p><strong>R$ 199,00</strong></p><p class="small">ou 6x de R$ 33,17 sem juros</p></div>
+        <div class="card"><div class="box">imagem<span class="tl">selo</span><span class="tr">♡</span></div><p>Nome do produto</p><p class="small">200 g/m² · algodão</p><p class="sw"><i></i><i></i><i></i></p><p class="small">★ 4,8 (214)</p><p><strong>R$ 179,00</strong></p><p class="small">ou 5x de R$ 35,80 sem juros</p></div>
+      </div>
+      <div class="foot-center"><span class="btn">Ver todos os produtos</span></div>
+    </section>
+
+    <!-- Categorias: título à esquerda, link à direita -->
+    <section class="wrap white">
+      <div class="row"><span class="title">Compre por modelo</span><span class="link">Ver todas</span></div>
+      <div class="cats">
+        <div class="cat"><div class="box">imagem</div><span>Gola careca<b>→</b></span></div>
+        <div class="cat"><div class="box">imagem</div><span>Gola V<b>→</b></span></div>
+        <div class="cat"><div class="box">imagem</div><span>Henley<b>→</b></span></div>
+        <div class="cat"><div class="box">imagem</div><span>Manga longa<b>→</b></span></div>
+        <div class="cat"><div class="box">imagem</div><span>Oversized<b>→</b></span></div>
+      </div>
+    </section>
+
+    <!-- Banner de campanha: foto na largura toda, texto à esquerda -->
+    <div class="campaign">
+      <div class="box">imagem (largura toda)</div>
+      <div class="overlay">
+        <span class="eyebrow">Linha Pesada</span>
+        <span class="title">Título da campanha</span>
+        <span class="small">Texto curto da campanha.</span>
+        <span class="btn primary">Ver a campanha</span>
+      </div>
+    </div>
+
+    <!-- Recomendados para você -->
+    <section class="wrap gray">
+      <span class="title">Recomendados para você</span>
+      <div class="grid4" style="margin-top:24px">
+        <div class="card"><div class="box">imagem<span class="tr">♡</span></div><p>Nome do produto</p><p class="small">180 g/m² · algodão</p><p class="sw"><i></i><i></i><i></i></p><p class="small">★ 4,8 (214)</p><p><strong>R$ 149,00</strong></p><p class="small">ou 4x de R$ 37,25 sem juros</p></div>
+        <div class="card"><div class="box">imagem<span class="tr">♡</span></div><p>Nome do produto</p><p class="small">180 g/m² · algodão</p><p class="sw"><i></i><i></i><i></i></p><p class="small">★ 4,8 (214)</p><p><strong>R$ 149,00</strong></p><p class="small">ou 4x de R$ 37,25 sem juros</p></div>
+        <div class="card"><div class="box">imagem<span class="tr">♡</span></div><p>Nome do produto</p><p class="small">180 g/m² · algodão</p><p class="sw"><i></i><i></i><i></i></p><p class="small">★ 4,8 (214)</p><p><strong>R$ 149,00</strong></p><p class="small">ou 4x de R$ 37,25 sem juros</p></div>
+        <div class="card"><div class="box">imagem<span class="tr">♡</span></div><p>Nome do produto</p><p class="small">180 g/m² · algodão</p><p class="sw"><i></i><i></i><i></i></p><p class="small">★ 4,8 (214)</p><p><strong>R$ 149,00</strong></p><p class="small">ou 4x de R$ 37,25 sem juros</p></div>
+      </div>
+    </section>
+
+    <!-- Vistos recentemente -->
+    <section class="wrap white">
+      <span class="title">Vistos recentemente</span>
+      <div class="grid4" style="margin-top:24px">
+        <div class="card"><div class="box">imagem<span class="tr">♡</span></div><p>Nome do produto</p><p class="small">180 g/m² · algodão</p><p class="sw"><i></i><i></i><i></i></p><p class="small">★ 4,8 (214)</p><p><strong>R$ 149,00</strong></p><p class="small">ou 4x de R$ 37,25 sem juros</p></div>
+        <div class="card"><div class="box">imagem<span class="tr">♡</span></div><p>Nome do produto</p><p class="small">180 g/m² · algodão</p><p class="sw"><i></i><i></i><i></i></p><p class="small">★ 4,8 (214)</p><p><strong>R$ 149,00</strong></p><p class="small">ou 4x de R$ 37,25 sem juros</p></div>
+      </div>
+    </section>
+
+    <!-- Newsletter: seção própria, fundo cinza, antes do sobre.
+         Texto e ganhos à esquerda; formulário à direita, direto sobre o fundo. -->
+    <section class="wrap two gray">
+      <div><span class="title">Receba novidades e ofertas</span><strong class="incentive">Assine e ganhe 10% na primeira compra.</strong><span class="small" style="color:#222">✓ Frete grátis na primeira compra</span><span class="small" style="color:#222">✓ Novidades antes de todo mundo</span><span class="small" style="color:#222">✓ Ofertas só para assinantes</span></div>
+      <div><span>E-mail</span><div class="field">voce@email.com</div><span class="btn primary" style="width:100%;text-align:center">Assinar a newsletter</span><span class="small">Sem spam. Você cancela quando quiser.</span></div>
+    </section>
+
+    <!-- Sobre a Tramma e perguntas frequentes -->
+    <section class="wrap two white">
+      <div>
+        <span class="eyebrow">Sobre a Tramma</span>
+        <span class="title">Camiseta básica, levada a sério</span>
+        <span class="small">Texto curto sobre a marca.</span>
+        <span class="link">Conheça a Tramma</span>
+      </div>
+      <div>
+        <span class="faq-title">Perguntas frequentes</span>
+        <div class="acc">O que é gramatura? <span>▾</span></div>
+        <div class="acc">Como escolho o tamanho? <span>▾</span></div>
+        <div class="acc">Qual é o prazo de entrega? <span>▾</span></div>
+        <div class="acc">Como funciona a troca? <span>▾</span></div>
+        <div class="acc">Posso pagar com Pix? <span>▾</span></div>
+        <span class="link">Ver todas as perguntas</span>
+      </div>
+    </section>
+
+    <!-- Rodapé preto: coluna da marca (logo, frase e redes) e 3 colunas de links -->
+    <div class="footer">
+      <div class="cols">
+        <div><span class="logo" style="display:block;margin-bottom:8px">tramma</span><p class="small" style="margin:0 0 12px">Camiseta básica premium: tecido, caimento e durabilidade.</p><span class="social" aria-label="Redes sociais"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Facebook"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="YouTube"><path d="M2.5 17a24 24 0 0 1 0-10 2 2 0 0 1 1.4-1.4 50 50 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24 24 0 0 1 0 10 2 2 0 0 1-1.4 1.4 50 50 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><path d="m10 15 5-3-5-3z"/></svg><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Instagram"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.4A4 4 0 1 1 12.6 8 4 4 0 0 1 16 11.4z"/><path d="M17.5 6.5h.01"/></svg><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="TikTok"><path d="M14 3v12a4 4 0 1 1-4-4"/><path d="M14 3a5 5 0 0 0 5 5"/></svg><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="X"><path d="M4 4l11 16h5L9 4z"/><path d="M4 20l6.5-7M20 4l-6.2 6.6"/></svg><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Pinterest"><circle cx="12" cy="12" r="10"/><path d="M8.5 13.5c-1-3 1-6.5 4.5-6.5 3 0 4.5 2 4.5 4.5 0 3-2 5-4 5-1.2 0-2-.8-2-1.8M12 10l-2.5 11"/></svg></span></div>
+        <div><strong>Ajuda</strong><span>Entrega e prazos</span><span>Trocas e devoluções</span><span>Rastrear pedido</span><span>Perguntas frequentes</span></div>
+        <div><strong>A Tramma</strong><span>Sobre a Tramma</span><span>Blog</span><span>Tabela de medidas</span></div>
+        <div><strong>Minha conta</strong><span>Minha conta</span><span>Meus pedidos</span><span>Favoritos</span><span>Preferências de cookies</span></div>
+      </div>
+      <div style="margin-top:32px;border-top:1px solid #ccc;padding-top:16px;display:grid;gap:10px">
+
+        <span class="small">Pagamento: Pix, boleto ou cartão de crédito em até 6x sem juros.</span>
+        <span class="small">Tramma é uma loja fictícia, criada para aulas de design de interfaces.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="notes">
+    <p><strong>Wireframe da home, desktop.</strong> Engenharia reversa do site pronto (site/index.html, a partir de 992px), com os ajustes já decididos. Alinhamentos, botões e links seguem o layout do site. <a class="link" href="home-web-mobile.html">Ver a versão web mobile</a> · <a class="link" href="home-app.html">Ver a versão app</a></p>
+    <ul>
+      <li><strong>Faixa de aviso:</strong> o texto é um link que rola até a newsletter.</li>
+      <li><strong>Cabeçalho:</strong> duas linhas, faixa de aviso e a linha com logo, menu e ícones, como no Aurum e na Insider. A lupa abre a busca no lugar dessa linha (desenhada abaixo, tracejada, só para mostrar o estado); Esc ou o X fecham.</li>
+      <li><strong>Mega menu:</strong> aparece ao abrir “Camisetas”. Está desenhado aberto só para mostrar o conteúdo.</li>
+      <li><strong>Fundos:</strong> fixos por seção. Vitrine cinza, categorias branco, campanha separa os blocos, recomendados cinza, vistos branco, newsletter cinza, sobre branco.</li>
+      <li><strong>Rodapé:</strong> preto, com a coluna da marca (logo, frase e redes) e 3 colunas de links. A newsletter tem seção própria e não se repete aqui.</li>
+      <li><strong>Saudação:</strong> no desktop, só no cabeçalho (“Olá, Ana” ao lado do ícone de conta). Sem login, mostra “Entrar”.</li>
+      <li><strong>Vitrine:</strong> Destaques, Novidades, Mais vendidos, Mais bem avaliados e Promoções (as 4 listas do Aurum, mais Novidades). Mais vendidos e Mais bem avaliados ficam juntos; Promoções por último. É diferente da grade de categorias, que navega por modelo. O botão embaixo acompanha a aba (ex.: “Ver todos: novidades”).</li>
+      <li><strong>Recomendados para você:</strong> só com a pessoa logada.</li>
+      <li><strong>Vistos recentemente:</strong> só se a pessoa já viu algum produto.</li>
+    </ul>
+  </div>
+</body>
+</html>
